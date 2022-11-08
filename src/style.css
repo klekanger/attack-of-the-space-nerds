@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+}
+
+body {
+  background-color: #191919;
+}
+
+#canvas1 {
+  border: 5px solid black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: black;
+  max-width: 100%;
+  max-height: 100%;
+  
+}
+
+#layer1, #layer2, #player, #playerLeft, #playerRight, #projectile {
+  display: none;
+}
