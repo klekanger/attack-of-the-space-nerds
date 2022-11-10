@@ -51,7 +51,6 @@ export class Game {
     context.restore();
 
     this.ui.draw(context);
-
     this.player.draw(context);
   }
 }
