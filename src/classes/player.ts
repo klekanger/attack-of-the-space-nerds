@@ -14,6 +14,8 @@ export class Player {
   imageRight: HTMLImageElement;*/
   imageToDraw: HTMLImageElement;
   projectiles: Projectile[];
+  shootTimer: number;
+  shotsPerSecond: number;
 
   constructor(game: Game) {
     this.game = game;
@@ -30,6 +32,8 @@ export class Player {
     ];
     this.imageToDraw = this.playerImages[1];
     this.projectiles = [];
+    this.shootTimer = 0;
+    this.shotsPerSecond = 4;
   }
 
   update(delta: number) {
@@ -48,7 +52,17 @@ export class Player {
 
     this.x += this.speedX;
 
-    // Shoot
+    // Handle player shooting
+    if (delta) this.shootTimer += delta;
+
+    if (
+      this.game.keys.includes(' ') &&
+      this.shootTimer > 1000 / this.shotsPerSecond
+    ) {
+      this.game.player.shoot();
+      this.shootTimer = 0;
+    }
+
     this.projectiles.forEach((projectile) => {
       projectile.update();
     });
@@ -63,17 +77,20 @@ export class Player {
   }
 
   draw(context: CanvasRenderingContext2D) {
-    context.drawImage(this.imageToDraw, this.x, this.y);
-
     this.projectiles.forEach((projectile) => {
       projectile.draw(context);
     });
+    context.drawImage(this.imageToDraw, this.x, this.y);
   }
 
   shoot() {
     if (this.game.ammo > 0) {
       this.projectiles.push(
-        new Projectile(this.game, this.x + this.width / 2, this.y + this.height)
+        new Projectile(
+          this.game,
+          this.x - 5 + this.width / 2,
+          this.y + this.height
+        )
       );
     }
   }

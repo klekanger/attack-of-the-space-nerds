@@ -16,7 +16,7 @@ export class Projectile {
     this.y = this.game.height - this.game.player.height;
     this.width = 10;
     this.height = 3;
-    this.speed = 30;
+    this.speed = 20;
     this.markedForDeletion = false;
     this.image = document.getElementById('projectile') as HTMLImageElement;
   }
@@ -24,7 +24,7 @@ export class Projectile {
   update() {
     this.y -= this.speed;
 
-    if (this.y < this.game.height * 0.1) this.markedForDeletion = true;
+    if (this.y < 0) this.markedForDeletion = true;
   }
 
   draw(context) {
