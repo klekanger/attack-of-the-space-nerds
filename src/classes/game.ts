@@ -2,6 +2,7 @@ import { Background } from './background';
 import { UI } from './ui';
 import { Player } from './player';
 import { InputHandler } from './inputHandler';
+import { Enemy, ScaryGeek } from './enemies';
 
 export class Game {
   gameMode: 'idle' | 'playing';
@@ -12,6 +13,9 @@ export class Game {
   inputHandler: InputHandler;
   ui: UI;
   keys: string[];
+  enemyWave: Enemy[];
+  enemyTimer: number;
+  enemyInterval: number;
   speed: number;
   ammo: number;
   maxAmmo: number;
@@ -19,6 +23,7 @@ export class Game {
   ammoInterval: number;
   gameOver: boolean;
   score: number;
+  debug: boolean;
 
   constructor(width: number, height: number) {
     this.gameMode = 'playing';
@@ -29,6 +34,10 @@ export class Game {
     this.inputHandler = new InputHandler(this);
     this.ui = new UI(this);
     this.keys = [];
+    this.enemyWave = [];
+    this.debug = true;
+    this.enemyTimer = 0;
+    this.enemyInterval = 2000;
     this.speed = 10;
     this.ammo = 20;
     this.maxAmmo = 50;
@@ -43,6 +52,14 @@ export class Game {
     this.background.layer1.update();
     this.background.layer2.update();
     this.player.update(delta);
+    if (this.debug === true) {
+      this.addEnemyWave();
+      this.debug = false;
+    }
+
+    this.enemyWave.forEach((enemy) => {
+      enemy.update();
+    });
   }
 
   draw(context: CanvasRenderingContext2D) {
@@ -52,7 +69,18 @@ export class Game {
     this.background.layer2.draw(context); // foreground star field
     context.restore();
 
-    this.ui.draw(context);
     this.player.draw(context);
+
+    this.enemyWave.forEach((enemy) => {
+      enemy.draw(context);
+    });
+
+    this.ui.draw(context);
+  }
+
+  addEnemyWave() {
+    for (let i = 0; i < 5; i++) {
+      this.enemyWave.push(new ScaryGeek(this));
+    }
   }
 }
