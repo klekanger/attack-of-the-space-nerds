@@ -1,17 +1,19 @@
 import { Game } from './game';
 import { Projectile } from './projectile';
+import playerImageLeft from '../artwork/playerLeft.png';
+import playerImage from '../artwork/player.png';
+import playerImageRight from '../artwork/playerRight.png';
 
 export class Player {
   game: Game;
   width: number;
   height: number;
+  xOffset: number;
   x: number;
   y: number;
   speedX: number;
   maxSpeed: number;
   playerImages: HTMLImageElement[];
-  /* imageLeft: HTMLImageElement;
-  imageRight: HTMLImageElement;*/
   imageToDraw: HTMLImageElement;
   projectiles: Projectile[];
   shootTimer: number;
@@ -21,15 +23,15 @@ export class Player {
     this.game = game;
     this.width = 99;
     this.height = 75;
+    this.xOffset = 4.5;
     this.x = game.width / 2 - this.width / 2;
     this.y = game.height - 100;
     this.speedX = 0;
     this.maxSpeed = 8;
-    this.playerImages = [
-      document.getElementById('playerLeft') as HTMLImageElement,
-      document.getElementById('player') as HTMLImageElement,
-      document.getElementById('playerRight') as HTMLImageElement,
-    ];
+    this.playerImages = [new Image(), new Image(), new Image()];
+    this.playerImages[0].src = playerImageLeft;
+    this.playerImages[1].src = playerImage;
+    this.playerImages[2].src = playerImageRight;
     this.imageToDraw = this.playerImages[1];
     this.projectiles = [];
     this.shootTimer = 0;
@@ -41,11 +43,18 @@ export class Player {
     if (this.game.keys.includes('ArrowLeft')) {
       this.speedX = -this.maxSpeed;
       this.imageToDraw = this.playerImages[0];
+      this.width = 90;
+      this.height = 77;
+      this.xOffset = 4.5;
     } else if (this.game.keys.includes('ArrowRight')) {
       this.speedX = this.maxSpeed;
       this.imageToDraw = this.playerImages[2];
+      this.width = 90;
+      this.height = 77;
+      this.xOffset = 4.5;
     } else {
       this.speedX = 0;
+      this.xOffset = 0;
 
       this.imageToDraw = this.playerImages[1];
     }
@@ -80,17 +89,13 @@ export class Player {
     this.projectiles.forEach((projectile) => {
       projectile.draw(context);
     });
-    context.drawImage(this.imageToDraw, this.x, this.y);
+    context.drawImage(this.imageToDraw, this.x + this.xOffset, this.y);
   }
 
   shoot() {
     if (this.game.ammo > 0) {
       this.projectiles.push(
-        new Projectile(
-          this.game,
-          this.x - 5 + this.width / 2,
-          this.y + this.height
-        )
+        new Projectile(this.game, this.x - 5 + this.width / 2)
       );
     }
   }

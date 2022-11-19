@@ -21,6 +21,33 @@ body {
   
 }
 
-#layer1, #layer2, #player, #playerLeft, #playerRight, #projectile {
+#layer1, #layer2, #player, #playerLeft, #playerRight, #projectile, #splash {
   display: none;
+}
+
+
+.play-container {
+  height: 100vh;
+  display: grid;
+  justify-items: center;
+  align-items: end;
+
+}
+
+.btn-play {
+  font-family: 'Rubik Bubbles';
+  font-size: 2.2rem;
+  border-radius: 8px;
+  background-color:rgba(29, 44, 52, 0.7);
+  color: #75d47d;
+  border: 1px solid #1c135c;
+  padding: 10px 20px 10px 20px;
+  z-index: 10;
+  margin-bottom: 2rem;
+  transition: .3s;
+}
+
+.btn-play:hover {
+  color: #e0aa67;
+  transform: scale(1.05);
 }

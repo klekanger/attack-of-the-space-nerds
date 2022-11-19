@@ -1,4 +1,5 @@
 import { Game } from './classes/game';
+import { SplashScreen } from './classes/splashScreen';
 
 window.addEventListener('load', function () {
   // Set up main game canvas
@@ -11,6 +12,7 @@ window.addEventListener('load', function () {
   canvas.height = 1600;
  */
   const game = new Game(canvas.width, canvas.height);
+  const splashScreen = new SplashScreen(canvas.width, canvas.height);
 
   // *******************
   // Game animation loop
@@ -18,10 +20,14 @@ window.addEventListener('load', function () {
   let previousTimeStamp: number;
 
   function gameLoop(timestamp: number) {
+    if (game.gameMode === 'idle' && context !== null) {
+      context?.clearRect(0, 0, canvas.width, canvas.height);
+      splashScreen.draw(context);
+      return;
+    }
+
     const delta = timestamp - previousTimeStamp;
-
     previousTimeStamp = timestamp;
-
     context?.clearRect(0, 0, canvas.width, canvas.height);
     game.update(delta);
     if (context !== null) game.draw(context);

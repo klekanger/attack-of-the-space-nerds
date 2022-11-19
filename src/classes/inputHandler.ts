@@ -7,7 +7,6 @@ export class InputHandler {
     this.game = game;
 
     window.addEventListener('keydown', (e) => {
-      console.log('keys: ', this.game.keys);
       if (
         (e.key === 'ArrowLeft' || e.key === 'ArrowRight') &&
         this.game.keys.indexOf(e.key) === -1

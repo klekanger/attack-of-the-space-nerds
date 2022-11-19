@@ -1,4 +1,5 @@
 import { Game } from './game';
+import projectileImage from '../artwork/laserGreen.png';
 
 export class Projectile {
   game: Game;
@@ -10,7 +11,7 @@ export class Projectile {
   markedForDeletion: boolean;
   image: HTMLImageElement;
 
-  constructor(game: Game, x: number, y: number) {
+  constructor(game: Game, x: number) {
     this.game = game;
     this.x = x;
     this.y = this.game.height - this.game.player.height;
@@ -18,7 +19,8 @@ export class Projectile {
     this.height = 3;
     this.speed = 20;
     this.markedForDeletion = false;
-    this.image = document.getElementById('projectile') as HTMLImageElement;
+    this.image = new Image();
+    this.image.src = projectileImage;
   }
 
   update() {
@@ -27,7 +29,7 @@ export class Projectile {
     if (this.y < 0) this.markedForDeletion = true;
   }
 
-  draw(context) {
+  draw(context: CanvasRenderingContext2D) {
     context.drawImage(this.image, this.x, this.y);
   }
 }

@@ -4,6 +4,7 @@ import { Player } from './player';
 import { InputHandler } from './inputHandler';
 
 export class Game {
+  gameMode: 'idle' | 'playing';
   width: number;
   height: number;
   background: Background;
@@ -20,6 +21,7 @@ export class Game {
   score: number;
 
   constructor(width: number, height: number) {
+    this.gameMode = 'playing';
     this.width = width;
     this.height = height;
     this.background = new Background(this);
