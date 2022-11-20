@@ -25,7 +25,6 @@ export class Projectile {
 
   update() {
     this.y -= this.speed;
-
     if (this.y < 0) this.markedForDeletion = true;
   }
 

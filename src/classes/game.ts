@@ -3,6 +3,7 @@ import { UI } from './ui';
 import { Player } from './player';
 import { InputHandler } from './inputHandler';
 import { Enemy, ScaryGeek } from './enemies';
+import { Projectile } from './projectile';
 
 export class Game {
   gameMode: 'idle' | 'playing';
@@ -17,10 +18,6 @@ export class Game {
   enemyTimer: number;
   enemyInterval: number;
   speed: number;
-  ammo: number;
-  maxAmmo: number;
-  ammoTimer: number;
-  ammoInterval: number;
   gameOver: boolean;
   score: number;
   debug: boolean;
@@ -39,10 +36,6 @@ export class Game {
     this.enemyTimer = 0;
     this.enemyInterval = 2000;
     this.speed = 10;
-    this.ammo = 20;
-    this.maxAmmo = 50;
-    this.ammoTimer = 0;
-    this.ammoInterval = 350;
     this.gameOver = false;
     this.score = 0;
   }
@@ -52,14 +45,25 @@ export class Game {
     this.background.layer1.update();
     this.background.layer2.update();
     this.player.update(delta);
-    if (this.debug === true) {
-      this.addEnemyWave();
-      this.debug = false;
-    }
 
+    // Add enemies to the game and detect collisions
+    if (this.enemyWave.length === 0) this.addEnemyWave();
     this.enemyWave.forEach((enemy) => {
       enemy.update();
+      if (this.detectCollision(this.player, enemy)) {
+        enemy.markedForDeletion = true;
+      }
+
+      // Detect projectile hits
+      this.player.projectiles.forEach((projectile) => {
+        if (this.detectCollision(projectile, enemy)) {
+          enemy.markedForDeletion = true;
+        }
+      });
     });
+
+    // Remove enemies that have been killed
+    this.enemyWave = this.enemyWave.filter((enemy) => !enemy.markedForDeletion);
   }
 
   draw(context: CanvasRenderingContext2D) {
@@ -79,8 +83,19 @@ export class Game {
   }
 
   addEnemyWave() {
-    for (let i = 0; i < 5; i++) {
+    const enemyCount = Math.floor(Math.random() * 10) + 1; // random number of enemies
+
+    for (let i = 0; i < enemyCount; i++) {
       this.enemyWave.push(new ScaryGeek(this));
     }
+  }
+
+  detectCollision(rect1: Player | Projectile, rect2: Enemy): boolean {
+    return (
+      rect1.x < rect2.x + rect2.width &&
+      rect1.x + rect1.width > rect2.x &&
+      rect1.y < rect2.y + rect2.height &&
+      rect1.height + rect1.y > rect2.y
+    );
   }
 }

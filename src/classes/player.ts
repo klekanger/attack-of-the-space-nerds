@@ -35,7 +35,7 @@ export class Player {
     this.imageToDraw = this.playerImages[1];
     this.projectiles = [];
     this.shootTimer = 0;
-    this.shotsPerSecond = 4;
+    this.shotsPerSecond = 2;
   }
 
   update(delta: number) {
@@ -55,7 +55,6 @@ export class Player {
     } else {
       this.speedX = 0;
       this.xOffset = 0;
-
       this.imageToDraw = this.playerImages[1];
     }
 
@@ -69,6 +68,7 @@ export class Player {
       this.shootTimer > 1000 / this.shotsPerSecond
     ) {
       this.game.player.shoot();
+
       this.shootTimer = 0;
     }
 
@@ -93,10 +93,8 @@ export class Player {
   }
 
   shoot() {
-    if (this.game.ammo > 0) {
-      this.projectiles.push(
-        new Projectile(this.game, this.x - 5 + this.width / 2)
-      );
-    }
+    this.projectiles.push(
+      new Projectile(this.game, this.x - 5 + this.width / 2)
+    );
   }
 }
