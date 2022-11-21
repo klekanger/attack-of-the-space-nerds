@@ -1,5 +1,6 @@
 import { Game } from './game';
 import projectileImage from '../artwork/laserGreen.png';
+import enemyShotImage from '../artwork/laserGreenShot.png';
 
 export class Projectile {
   game: Game;
@@ -8,6 +9,10 @@ export class Projectile {
   width: number;
   height: number;
   speed: number;
+  direction!: 'up' | 'down';
+  selectDirection: {
+    [key: string]: number;
+  };
   markedForDeletion: boolean;
   image: HTMLImageElement;
 
@@ -18,17 +23,40 @@ export class Projectile {
     this.width = 10;
     this.height = 3;
     this.speed = 20;
-    this.markedForDeletion = false;
     this.image = new Image();
-    this.image.src = projectileImage;
+    this.markedForDeletion = false;
+    this.selectDirection = {
+      up: 1,
+      down: -1,
+    };
   }
 
   update() {
-    this.y -= this.speed;
+    const changeDirection = this.selectDirection[this.direction];
+
+    this.y -= this.speed * changeDirection;
     if (this.y < 0) this.markedForDeletion = true;
   }
 
   draw(context: CanvasRenderingContext2D) {
     context.drawImage(this.image, this.x, this.y);
+  }
+}
+
+export class PlayerProjectile extends Projectile {
+  constructor(game: Game, x: number) {
+    super(game, x);
+    this.direction = 'up';
+    this.image.src = projectileImage;
+  }
+}
+
+export class EnemyProjectile extends Projectile {
+  constructor(game: Game, x: number, y: number) {
+    super(game, x);
+    this.y = y;
+    this.direction = 'down';
+    this.image.src = enemyShotImage;
+    this.speed = 5;
   }
 }
