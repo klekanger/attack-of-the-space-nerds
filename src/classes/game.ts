@@ -14,13 +14,14 @@ export class Game {
   inputHandler: InputHandler;
   ui: UI;
   keys: string[];
-  enemyWave: Enemy[];
+  enemyWave: ScaryGeek[];
   enemyTimer: number;
   enemyInterval: number;
   speed: number;
   gameOver: boolean;
   score: number;
   debug: boolean;
+  lives: number;
 
   constructor(width: number, height: number) {
     this.gameMode = 'playing';
@@ -38,6 +39,7 @@ export class Game {
     this.speed = 10;
     this.gameOver = false;
     this.score = 0;
+    this.lives = 3;
   }
 
   update(delta: number) {
@@ -52,12 +54,26 @@ export class Game {
       enemy.update();
       if (this.detectCollision(this.player, enemy)) {
         enemy.markedForDeletion = true;
+        this.lives--;
+
+        if (this.lives < 1) {
+          this.lives = 0;
+          this.gameOver = true;
+          this.player.sfxPlayerExplosion.play();
+        }
       }
 
       // Detect projectile hits
       this.player.projectiles.forEach((projectile) => {
         if (this.detectCollision(projectile, enemy)) {
-          enemy.markedForDeletion = true;
+          enemy.playHitSound();
+          this.score += enemy.lives;
+          enemy.lives--;
+          if (enemy.lives < 1) {
+            enemy.markedForDeletion = true;
+            enemy.playExplosionSound();
+          }
+          projectile.markedForDeletion = true;
         }
       });
     });

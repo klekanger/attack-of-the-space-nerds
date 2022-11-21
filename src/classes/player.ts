@@ -1,8 +1,9 @@
 import { Game } from './game';
-import { Projectile } from './projectile';
+import { PlayerProjectile } from './projectile';
 import playerImageLeft from '../artwork/playerLeft.png';
 import playerImage from '../artwork/player.png';
 import playerImageRight from '../artwork/playerRight.png';
+import { PlayerExplosion, Shoot } from './sfx';
 
 export class Player {
   game: Game;
@@ -15,9 +16,11 @@ export class Player {
   maxSpeed: number;
   playerImages: HTMLImageElement[];
   imageToDraw: HTMLImageElement;
-  projectiles: Projectile[];
+  projectiles: PlayerProjectile[];
   shootTimer: number;
   shotsPerSecond: number;
+  sfxShoot: Shoot;
+  sfxPlayerExplosion: PlayerExplosion;
 
   constructor(game: Game) {
     this.game = game;
@@ -35,18 +38,23 @@ export class Player {
     this.imageToDraw = this.playerImages[1];
     this.projectiles = [];
     this.shootTimer = 0;
-    this.shotsPerSecond = 2;
+    this.shotsPerSecond = 4;
+    this.sfxShoot = new Shoot();
+    this.sfxPlayerExplosion = new PlayerExplosion();
   }
 
   update(delta: number) {
     // Handle horizontal spaceship movement
-    if (this.game.keys.includes('ArrowLeft')) {
+    if (this.game.keys.includes('ArrowLeft') || this.game.keys.includes('a')) {
       this.speedX = -this.maxSpeed;
       this.imageToDraw = this.playerImages[0];
       this.width = 90;
       this.height = 77;
       this.xOffset = 4.5;
-    } else if (this.game.keys.includes('ArrowRight')) {
+    } else if (
+      this.game.keys.includes('ArrowRight') ||
+      this.game.keys.includes('d')
+    ) {
       this.speedX = this.maxSpeed;
       this.imageToDraw = this.playerImages[2];
       this.width = 90;
@@ -94,7 +102,8 @@ export class Player {
 
   shoot() {
     this.projectiles.push(
-      new Projectile(this.game, this.x - 5 + this.width / 2)
+      new PlayerProjectile(this.game, this.x - 5 + this.width / 2)
     );
+    this.sfxShoot.play();
   }
 }
