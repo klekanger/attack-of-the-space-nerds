@@ -17,7 +17,7 @@ window.addEventListener('load', function () {
   // *******************
   // Game animation loop
   // *******************
-  let previousTimeStamp: number;
+  let previousTimeStamp: number = 0;
 
   function gameLoop(timestamp: number) {
     if (game.gameMode === 'idle' && context !== null) {

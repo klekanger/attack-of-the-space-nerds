@@ -22,6 +22,7 @@ export class Game {
   score: number;
   debug: boolean;
   lives: number;
+  gameTime: number;
 
   constructor(width: number, height: number) {
     this.gameMode = 'playing';
@@ -40,9 +41,14 @@ export class Game {
     this.gameOver = false;
     this.score = 0;
     this.lives = 3;
+    this.gameTime = 0;
   }
 
   update(delta: number) {
+    console.log(this.gameTime);
+    if (!this.gameOver) this.gameTime += delta;
+    console.log(this.gameTime);
+
     this.background.update();
     this.background.layer1.update();
     this.background.layer2.update();
@@ -51,7 +57,7 @@ export class Game {
     // Add enemies to the game and detect collisions
     if (this.enemyWave.length === 0) this.addEnemyWave();
     this.enemyWave.forEach((enemy) => {
-      enemy.update();
+      enemy.update(delta, this.gameTime);
       if (this.detectCollision(this.player, enemy)) {
         enemy.markedForDeletion = true;
         this.lives--;
