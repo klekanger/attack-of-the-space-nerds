@@ -94,6 +94,13 @@ export class Player {
   }
 
   draw(context: CanvasRenderingContext2D) {
+    context.fillStyle = 'white';
+    if (this.game.debug) {
+      context.strokeStyle = 'white';
+      console.log('debug');
+      context.strokeRect(this.x, this.y, this.width, this.height);
+    }
+
     this.projectiles.forEach((projectile) => {
       projectile.draw(context);
     });

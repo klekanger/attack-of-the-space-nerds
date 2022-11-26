@@ -14,6 +14,8 @@ export class InputHandler {
         this.game.keys.push(e.key);
       } else if (e.key === ' ' && this.game.keys.indexOf(e.key) === -1) {
         this.game.keys.push(e.key);
+      } else if (e.key === 'd') {
+        this.game.debug = !this.game.debug;
       }
     });
 

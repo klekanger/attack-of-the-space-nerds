@@ -12,6 +12,7 @@ window.addEventListener('load', function () {
   canvas.height = 1600;
  */
   const game = new Game(canvas.width, canvas.height);
+
   const splashScreen = new SplashScreen(canvas.width, canvas.height);
 
   // *******************

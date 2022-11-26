@@ -2,7 +2,7 @@ import { Background } from './background';
 import { UI } from './ui';
 import { Player } from './player';
 import { InputHandler } from './inputHandler';
-import { Enemy, ScaryGeek } from './enemies';
+import { Enemy, ScaryGeek } from './enemy';
 import { Projectile } from './projectile';
 
 export class Game {
@@ -34,7 +34,7 @@ export class Game {
     this.ui = new UI(this);
     this.keys = [];
     this.enemyWave = [];
-    this.debug = true;
+    this.debug = false;
     this.enemyTimer = 0;
     this.enemyInterval = 2000;
     this.speed = 10;
@@ -45,9 +45,11 @@ export class Game {
   }
 
   update(delta: number) {
-    console.log(this.gameTime);
-    if (!this.gameOver) this.gameTime += delta;
-    console.log(this.gameTime);
+    if (!this.gameOver) {
+      this.gameTime += delta;
+    } else {
+      this.gameTime = 0;
+    }
 
     this.background.update();
     this.background.layer1.update();
@@ -55,10 +57,10 @@ export class Game {
     this.player.update(delta);
 
     // Add enemies to the game and detect collisions
-    if (this.enemyWave.length === 0) this.addEnemyWave();
+    if (this.enemyWave.length === 0) this.#addEnemyWave();
     this.enemyWave.forEach((enemy) => {
       enemy.update(delta, this.gameTime);
-      if (this.detectCollision(this.player, enemy)) {
+      if (this.#detectCollision(this.player, enemy)) {
         enemy.markedForDeletion = true;
         this.lives--;
 
@@ -71,7 +73,7 @@ export class Game {
 
       // Detect projectile hits
       this.player.projectiles.forEach((projectile) => {
-        if (this.detectCollision(projectile, enemy)) {
+        if (this.#detectCollision(projectile, enemy)) {
           enemy.playHitSound();
           this.score += enemy.lives;
           enemy.lives--;
@@ -104,7 +106,7 @@ export class Game {
     this.ui.draw(context);
   }
 
-  addEnemyWave() {
+  #addEnemyWave() {
     const enemyCount = Math.floor(Math.random() * 10) + 1; // random number of enemies
 
     for (let i = 0; i < enemyCount; i++) {
@@ -112,7 +114,7 @@ export class Game {
     }
   }
 
-  detectCollision(rect1: Player | Projectile, rect2: Enemy): boolean {
+  #detectCollision(rect1: Player | Projectile, rect2: Enemy): boolean {
     return (
       rect1.x < rect2.x + rect2.width &&
       rect1.x + rect1.width > rect2.x &&
