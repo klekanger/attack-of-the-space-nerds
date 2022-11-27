@@ -19,6 +19,7 @@ window.addEventListener('load', function () {
   // Game animation loop
   // *******************
   let previousTimeStamp: number = 0;
+  let delta: number = 0;
 
   function gameLoop(timestamp: number) {
     if (game.gameMode === 'idle' && context !== null) {
@@ -27,10 +28,13 @@ window.addEventListener('load', function () {
       return;
     }
 
-    const delta = timestamp - previousTimeStamp;
+    // delta = timestamp - previousTimeStamp;
+    delta = (timestamp - previousTimeStamp) / 1000;
     previousTimeStamp = timestamp;
+
     context?.clearRect(0, 0, canvas.width, canvas.height);
     game.update(delta);
+
     if (context !== null) game.draw(context);
     requestAnimationFrame(gameLoop);
   }

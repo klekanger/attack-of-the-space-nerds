@@ -3,7 +3,8 @@ import { UI } from './ui';
 import { Player } from './player';
 import { InputHandler } from './inputHandler';
 import { Enemy, ScaryGeek } from './enemy';
-import { Projectile } from './projectile';
+import { Projectile, EnemyProjectile } from './projectile';
+import { randomBetween } from '../lib/util';
 
 export class Game {
   gameMode: 'idle' | 'playing';
@@ -15,6 +16,7 @@ export class Game {
   ui: UI;
   keys: string[];
   enemyWave: ScaryGeek[];
+  enemyProjectiles: Projectile[];
   enemyTimer: number;
   enemyInterval: number;
   speed: number;
@@ -22,7 +24,9 @@ export class Game {
   score: number;
   debug: boolean;
   lives: number;
+  level: number;
   gameTime: number;
+  fps: number;
 
   constructor(width: number, height: number) {
     this.gameMode = 'playing';
@@ -34,6 +38,7 @@ export class Game {
     this.ui = new UI(this);
     this.keys = [];
     this.enemyWave = [];
+    this.enemyProjectiles = [];
     this.debug = false;
     this.enemyTimer = 0;
     this.enemyInterval = 2000;
@@ -41,10 +46,14 @@ export class Game {
     this.gameOver = false;
     this.score = 0;
     this.lives = 3;
+    this.level = 1;
     this.gameTime = 0;
+    this.fps = 0;
   }
 
   update(delta: number) {
+    if (this.debug) this.fps = 1 / delta;
+
     if (!this.gameOver) {
       this.gameTime += delta;
     } else {
@@ -58,8 +67,9 @@ export class Game {
 
     // Add enemies to the game and detect collisions
     if (this.enemyWave.length === 0) this.#addEnemyWave();
+
     this.enemyWave.forEach((enemy) => {
-      enemy.update(delta, this.gameTime);
+      enemy.update(delta);
       if (this.#detectCollision(this.player, enemy)) {
         enemy.markedForDeletion = true;
         this.lives--;
@@ -84,10 +94,22 @@ export class Game {
           projectile.markedForDeletion = true;
         }
       });
+
+      // Let the enemies shoot
+      this.enemyProjectiles.forEach((enemyProjectile) => {
+        enemyProjectile.update(delta);
+      });
+
+      if (Math.random() * 1000 > 995) this.#enemyShoot(enemy);
     });
 
     // Remove enemies that have been killed
     this.enemyWave = this.enemyWave.filter((enemy) => !enemy.markedForDeletion);
+
+    // Delete enemy projectiles marked when hit or outside screen
+    this.enemyProjectiles = this.enemyProjectiles.filter(
+      (enemyProjectile) => !enemyProjectile.markedForDeletion
+    );
   }
 
   draw(context: CanvasRenderingContext2D) {
@@ -99,6 +121,10 @@ export class Game {
 
     this.player.draw(context);
 
+    this.enemyProjectiles.forEach((enemyProjectile) => {
+      enemyProjectile.draw(context);
+    });
+
     this.enemyWave.forEach((enemy) => {
       enemy.draw(context);
     });
@@ -107,11 +133,15 @@ export class Game {
   }
 
   #addEnemyWave() {
-    const enemyCount = Math.floor(Math.random() * 10) + 1; // random number of enemies
+    const enemyCount = randomBetween(1, this.level * 5); // random number of enemies
 
     for (let i = 0; i < enemyCount; i++) {
       this.enemyWave.push(new ScaryGeek(this));
     }
+  }
+
+  #enemyShoot(enemy: Enemy) {
+    this.enemyProjectiles.push(new EnemyProjectile(this, enemy.x, enemy.y));
   }
 
   #detectCollision(rect1: Player | Projectile, rect2: Enemy): boolean {

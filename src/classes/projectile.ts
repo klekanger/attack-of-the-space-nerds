@@ -22,7 +22,7 @@ export class Projectile {
     this.y = this.game.height - this.game.player.height;
     this.width = 10;
     this.height = 3;
-    this.speed = 20;
+    this.speed = 1000;
     this.image = new Image();
     this.markedForDeletion = false;
     this.selectDirection = {
@@ -31,11 +31,17 @@ export class Projectile {
     };
   }
 
-  update() {
+  update(delta: number) {
     const changeDirection = this.selectDirection[this.direction];
 
-    this.y -= this.speed * changeDirection;
-    if (this.y < 0) this.markedForDeletion = true;
+    this.y -= this.speed * delta * changeDirection;
+
+    if (
+      (changeDirection === 1 && this.y < 0) ||
+      (changeDirection === -1 && this.y > this.game.height)
+    ) {
+      this.markedForDeletion = true;
+    }
   }
 
   draw(context: CanvasRenderingContext2D) {
@@ -57,6 +63,6 @@ export class EnemyProjectile extends Projectile {
     this.y = y;
     this.direction = 'down';
     this.image.src = enemyShotImage;
-    this.speed = 5;
+    this.speed = 50;
   }
 }

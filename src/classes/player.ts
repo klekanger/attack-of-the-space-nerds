@@ -38,7 +38,7 @@ export class Player {
     this.imageToDraw = this.playerImages[1];
     this.projectiles = [];
     this.shootTimer = 0;
-    this.shotsPerSecond = 4;
+    this.shotsPerSecond = 5;
     this.sfxShoot = new Shoot();
     this.sfxPlayerExplosion = new PlayerExplosion();
   }
@@ -69,7 +69,7 @@ export class Player {
     this.x += this.speedX;
 
     // Handle player shooting
-    if (delta) this.shootTimer += delta;
+    if (delta) this.shootTimer += delta * 1000;
 
     if (
       this.game.keys.includes(' ') &&
@@ -81,7 +81,7 @@ export class Player {
     }
 
     this.projectiles.forEach((projectile) => {
-      projectile.update();
+      projectile.update(delta);
     });
     this.projectiles = this.projectiles.filter(
       (projectile) => !projectile.markedForDeletion
@@ -97,7 +97,6 @@ export class Player {
     context.fillStyle = 'white';
     if (this.game.debug) {
       context.strokeStyle = 'white';
-      console.log('debug');
       context.strokeRect(this.x, this.y, this.width, this.height);
     }
 

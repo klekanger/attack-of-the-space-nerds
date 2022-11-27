@@ -2,7 +2,8 @@ import { Game } from './game';
 import alien1Image from '../artwork/nerd1.png';
 import { Explosion1, Hit } from './sfx';
 import { EnemyProjectile } from './projectile';
-import { easeInOutSine } from '../lib';
+// import { easeInOutSine } from '../lib/easing';
+import { randomBetween } from '../lib/util';
 
 // **************************************
 // Main enemy class that all enemies
@@ -29,8 +30,9 @@ export class Enemy {
     this.game = game;
     this.width = 98;
     this.height = 50;
-    this.x = Math.random() * (this.game.width * 0.95 - this.width);
-    this.y = Math.random() * this.height * 4 - this.height * 5;
+
+    this.x = randomBetween(10, this.game.width * 0.9);
+    this.y = randomBetween(-200, -this.height);
     this.multisprite = false;
     this.markedForDeletion = false;
     this.projectiles = [];
@@ -40,21 +42,17 @@ export class Enemy {
   // update method
   // Game logic that runs on every frame
   // ***************************************
-  update(delta: number, gameTime: number) {
+  update(delta: number) {
     if (this.x <= 0 || this.x >= this.game.width - this.width) {
       this.speed = -this.speed;
     }
-    this.x += this.speed * this.speedModifier;
-    this.y += this.verticalSpeed * this.speedModifier;
+    this.x += this.speed * delta * this.speedModifier;
+
+    this.y += this.verticalSpeed * delta * this.speedModifier;
+    /* this.x += this.speed * this.speedModifier * delta;
+    this.y += this.verticalSpeed * this.speedModifier * delta; */
 
     if (this.y > this.game.height) this.markedForDeletion = true;
-
-    // Let the enemies shoot
-    this.projectiles.forEach((projectile) => {
-      projectile.update();
-    });
-
-    if (Math.random() * 1000 > 995) this.shoot();
 
     // Sprite animation
 
@@ -74,8 +72,14 @@ export class Enemy {
       context.font = '20px Helvetica';
       context.strokeStyle = 'white';
       context.fillText(`Lives: ${this.lives.toString()}`, this.x, this.y);
+      context.fillText(
+        `Y Speed: ${Math.floor(this.verticalSpeed).toString()}`,
+        this.x,
+        this.y - 15
+      );
       context.strokeRect(this.x, this.y, this.width, this.height);
     }
+
     this.projectiles.forEach((projectile) => {
       projectile.draw(context);
     });
@@ -94,12 +98,6 @@ export class Enemy {
       );
     else context.drawImage(this.image, this.x, this.y);
   }
-
-  shoot() {
-    this.projectiles.push(
-      new EnemyProjectile(this.game, this.x - 5 + this.width / 2, this.y)
-    );
-  }
 }
 
 // **************************************
@@ -114,8 +112,8 @@ export class ScaryGeek extends Enemy {
 
   constructor(game: Game) {
     super(game);
-    this.speed = Math.random() * -4.5 - 4.5;
-    this.verticalSpeed = Math.random() * 4 + 1;
+    this.speed = randomBetween(100, 1000);
+    this.verticalSpeed = randomBetween(100, 300);
     this.speedModifier = 0.5;
     this.width = 68;
     this.height = 100;
