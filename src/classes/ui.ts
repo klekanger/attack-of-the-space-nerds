@@ -35,11 +35,7 @@ export class UI {
         20,
         140
       );
-      context.fillText(
-        `bomb speed: ${this.game.enemyProjectiles[0]?.speed || 'No bombs'}`,
-        20,
-        170
-      );
+
       context.fillText(
         `shootTimer: ${this.game.player.shootTimer.toFixed(1)}`,
         20,
