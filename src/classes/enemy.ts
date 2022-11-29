@@ -181,7 +181,3 @@ export class EnemyBomb extends Enemy {
     }
   }
 }
-
-// TODO
-// Move playHitSound and playExplosionSound to main Enemy class.
-// Add the relevant sfx to the constructor for each of the child classes and use this as param for playHitSound and playExplosionSound
