@@ -21,7 +21,11 @@ export class UI {
     context.textAlign = 'left';
 
     context.fillText(`Score: ${this.game.score}`, 20, 40);
-    context.fillText(`Lives: ${this.game.lives}`, this.game.width - 220, 40);
+    context.fillText(
+      `Lives: ${Math.ceil(this.game.lives)}`,
+      this.game.width - 220,
+      40
+    );
 
     if (this.game.debug) {
       context.font = `20px 'Arial'`;
