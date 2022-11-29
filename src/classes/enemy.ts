@@ -3,7 +3,7 @@ import alien1Image from '../artwork/nerd1.png';
 import { Explosion1, Hit } from './sfx';
 
 import enemyShotImage from '../artwork/laserGreenShot.png';
-import { randomBetween } from '../lib/util';
+import { randomBetween, makeRandomPositiveOrNegative } from '../lib/util';
 
 // **************************************
 // Main enemy class that all enemies
@@ -26,6 +26,7 @@ export class Enemy {
   lives!: number;
   sfxHit: Hit;
   sfxExplosion: Explosion1;
+  hitDamage: number;
   canShoot: boolean;
 
   constructor(game: Game) {
@@ -38,6 +39,7 @@ export class Enemy {
     this.markedForDeletion = false;
     this.sfxHit = new Hit();
     this.sfxExplosion = new Explosion1();
+    this.hitDamage = 1;
     this.canShoot = true;
   }
 
@@ -117,7 +119,7 @@ export class ScaryGeek extends Enemy {
 
   constructor(game: Game) {
     super(game);
-    this.speed = randomBetween(100, 1000);
+    this.speed = makeRandomPositiveOrNegative(randomBetween(100, 1000));
     this.verticalSpeed = randomBetween(100, 300);
     this.speedModifier = 0.5;
     this.width = 68;
@@ -129,6 +131,7 @@ export class ScaryGeek extends Enemy {
     this.image.src = alien1Image;
     this.lives = 2;
     this.score = this.lives;
+    this.hitDamage = 0.2;
   }
 }
 
