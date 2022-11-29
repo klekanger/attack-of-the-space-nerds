@@ -32,7 +32,7 @@ export class Enemy {
     this.game = game;
     this.width = 98;
     this.height = 50;
-    this.x = randomBetween(10, this.game.width * 0.9);
+    this.x = randomBetween(10, this.game.width * 0.8);
     this.y = randomBetween(-200, -this.height);
     this.multisprite = false;
     this.markedForDeletion = false;
