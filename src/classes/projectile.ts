@@ -58,11 +58,14 @@ export class PlayerProjectile extends Projectile {
 }
 
 export class EnemyProjectile extends Projectile {
+  points: number;
+
   constructor(game: Game, x: number, y: number) {
     super(game, x);
-    this.y = y;
+    this.y = y + 10;
+    this.points = 1;
     this.direction = 'down';
     this.image.src = enemyShotImage;
-    this.speed = 50;
+    this.speed = 500;
   }
 }

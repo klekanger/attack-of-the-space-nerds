@@ -2,8 +2,8 @@ import { Background } from './background';
 import { UI } from './ui';
 import { Player } from './player';
 import { InputHandler } from './inputHandler';
-import { Enemy, ScaryGeek } from './enemy';
-import { Projectile, EnemyProjectile } from './projectile';
+import { Enemy, ScaryGeek, EnemyBomb } from './enemy';
+import { Projectile } from './projectile';
 import { randomBetween } from '../lib/util';
 
 export class Game {
@@ -15,8 +15,7 @@ export class Game {
   inputHandler: InputHandler;
   ui: UI;
   keys: string[];
-  enemyWave: ScaryGeek[];
-  enemyProjectiles: Projectile[];
+  enemyWave: Enemy[];
   enemyTimer: number;
   enemyInterval: number;
   speed: number;
@@ -38,7 +37,6 @@ export class Game {
     this.ui = new UI(this);
     this.keys = [];
     this.enemyWave = [];
-    this.enemyProjectiles = [];
     this.debug = false;
     this.enemyTimer = 0;
     this.enemyInterval = 2000;
@@ -81,7 +79,7 @@ export class Game {
         }
       }
 
-      // Detect projectile hits
+      // Detect projectile hits vs enemies
       this.player.projectiles.forEach((projectile) => {
         if (this.#detectCollision(projectile, enemy)) {
           enemy.playHitSound();
@@ -95,21 +93,12 @@ export class Game {
         }
       });
 
-      // Let the enemies shoot
-      this.enemyProjectiles.forEach((enemyProjectile) => {
-        enemyProjectile.update(delta);
-      });
-
-      if (Math.random() * 1000 > 995) this.#enemyShoot(enemy);
+      // Make the enemies shoot
+      if (Math.random() * 1000 > 995 && enemy.canShoot) this.#enemyShoot(enemy);
     });
 
     // Remove enemies that have been killed
     this.enemyWave = this.enemyWave.filter((enemy) => !enemy.markedForDeletion);
-
-    // Delete enemy projectiles marked when hit or outside screen
-    this.enemyProjectiles = this.enemyProjectiles.filter(
-      (enemyProjectile) => !enemyProjectile.markedForDeletion
-    );
   }
 
   draw(context: CanvasRenderingContext2D) {
@@ -120,10 +109,6 @@ export class Game {
     context.restore();
 
     this.player.draw(context);
-
-    this.enemyProjectiles.forEach((enemyProjectile) => {
-      enemyProjectile.draw(context);
-    });
 
     this.enemyWave.forEach((enemy) => {
       enemy.draw(context);
@@ -141,7 +126,7 @@ export class Game {
   }
 
   #enemyShoot(enemy: Enemy) {
-    this.enemyProjectiles.push(new EnemyProjectile(this, enemy.x, enemy.y));
+    this.enemyWave.push(new EnemyBomb(this, enemy.x, enemy.y));
   }
 
   #detectCollision(rect1: Player | Projectile, rect2: Enemy): boolean {
