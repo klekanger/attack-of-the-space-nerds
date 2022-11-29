@@ -1,7 +1,7 @@
 import { Game } from './game';
 import alien1Image from '../artwork/nerd1.png';
 import { Explosion1, Hit } from './sfx';
-import { EnemyProjectile } from './projectile';
+
 import enemyShotImage from '../artwork/laserGreenShot.png';
 import { randomBetween } from '../lib/util';
 
@@ -22,7 +22,6 @@ export class Enemy {
   speed!: number;
   verticalSpeed!: number;
   speedModifier!: number;
-  projectiles: EnemyProjectile[];
   multisprite!: boolean;
   lives!: number;
   sfxHit: Hit;
@@ -37,7 +36,6 @@ export class Enemy {
     this.y = randomBetween(-200, -this.height);
     this.multisprite = false;
     this.markedForDeletion = false;
-    this.projectiles = [];
     this.sfxHit = new Hit();
     this.sfxExplosion = new Explosion1();
     this.canShoot = true;
@@ -84,10 +82,6 @@ export class Enemy {
       );
       context.strokeRect(this.x, this.y, this.width, this.height);
     }
-
-    this.projectiles.forEach((projectile) => {
-      projectile.draw(context);
-    });
 
     if (this.multisprite)
       context.drawImage(
@@ -151,8 +145,7 @@ export class EnemyBomb extends Enemy {
     super(game);
     this.x = enemyX;
     this.y = enemyY;
-    this.speed = 0;
-    this.verticalSpeed = randomBetween(100, 300);
+    this.verticalSpeed = randomBetween(100, 1500);
     this.speedModifier = 0.5;
     this.width = 56;
     this.height = 54;
@@ -161,7 +154,7 @@ export class EnemyBomb extends Enemy {
     this.multisprite = false;
     this.image = new Image();
     this.image.src = enemyShotImage;
-    this.lives = 2;
+    this.lives = 1;
     this.score = this.lives;
     this.canShoot = false;
   }
