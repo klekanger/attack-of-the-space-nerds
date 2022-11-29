@@ -110,10 +110,15 @@ export class Game {
 
     this.player.draw(context);
 
+    // Draw the bombs before the other enemies, so that the bombs appear underneath the enemies
     this.enemyWave.forEach((enemy) => {
-      enemy.draw(context);
+      if (!enemy.canShoot) enemy.draw(context);
+    });
+    this.enemyWave.forEach((enemy) => {
+      if (enemy.canShoot) enemy.draw(context);
     });
 
+    // Draw score, lives, etc.
     this.ui.draw(context);
   }
 
