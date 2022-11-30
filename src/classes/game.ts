@@ -4,6 +4,8 @@ import { Player } from './player';
 import { InputHandler } from './inputHandler';
 import { Enemy, ScaryGeek, EnemyBomb } from './enemy';
 import { Projectile } from './projectile';
+import { Particle } from './particle';
+
 import { randomBetween } from '../lib/util';
 
 export class Game {
@@ -16,6 +18,7 @@ export class Game {
   ui: UI;
   keys: string[];
   enemyWave: Enemy[];
+  particles: Particle[];
   enemyTimer: number;
   enemyInterval: number;
   speed: number;
@@ -37,6 +40,7 @@ export class Game {
     this.ui = new UI(this);
     this.keys = [];
     this.enemyWave = [];
+    this.particles = [];
     this.debug = false;
     this.enemyTimer = 0;
     this.enemyInterval = 2000;
@@ -63,6 +67,13 @@ export class Game {
     this.background.layer2.update();
     this.player.update(delta);
 
+    // Run update method on all particles, and remove those we don't need anymore
+
+    this.particles.forEach((particle) => particle.update());
+    this.particles = this.particles.filter(
+      (particle) => !particle.markedForDeletion
+    );
+
     // Add enemies to the game and detect collisions
     if (this.enemyWave.length === 0) this.#addEnemyWave();
 
@@ -71,6 +82,8 @@ export class Game {
       if (this.#detectCollision(this.player, enemy)) {
         enemy.markedForDeletion = true;
         this.lives--;
+
+        this.#createParticles(250, enemy); // Player collided with enemy
 
         if (this.lives < 1) {
           this.lives = 0;
@@ -85,6 +98,9 @@ export class Game {
           enemy.playHitSound();
           this.score += enemy.lives;
           enemy.lives--;
+
+          this.#createParticles(enemy.lives * 20, enemy); // Projectile collided with enemy
+
           if (enemy.lives < 1) {
             enemy.markedForDeletion = true;
             enemy.playExplosionSound();
@@ -109,6 +125,7 @@ export class Game {
     context.restore();
 
     this.player.draw(context);
+    this.particles.forEach((particle) => particle.draw(context));
 
     // Draw the bombs before the other enemies, so that the bombs appear underneath the enemies
     this.enemyWave.forEach((enemy) => {
@@ -132,6 +149,19 @@ export class Game {
 
   #enemyShoot(enemy: Enemy) {
     this.enemyWave.push(new EnemyBomb(this, enemy.x, enemy.y));
+  }
+
+  #createParticles(particleCount: number, enemyToBlowUp: Enemy | Player) {
+    console.log('enemyToBlowUp ', enemyToBlowUp);
+    for (let i = 0; i < particleCount; i++) {
+      this.particles.push(
+        new Particle(
+          this,
+          enemyToBlowUp.x + enemyToBlowUp.width * 0.5,
+          enemyToBlowUp.y + enemyToBlowUp.height * 0.5
+        )
+      );
+    }
   }
 
   #detectCollision(rect1: Player | Projectile, rect2: Enemy): boolean {
