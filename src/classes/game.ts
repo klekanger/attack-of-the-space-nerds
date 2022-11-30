@@ -80,26 +80,27 @@ export class Game {
     this.enemyWave.forEach((enemy) => {
       enemy.update(delta);
       if (this.#detectCollision(this.player, enemy)) {
-        enemy.markedForDeletion = true;
-        this.lives--;
-
         this.#createParticles(250, enemy); // Player collided with enemy
+
+        this.lives--;
 
         if (this.lives < 1) {
           this.lives = 0;
           this.gameOver = true;
           this.player.sfxPlayerExplosion.play();
         }
+
+        enemy.markedForDeletion = true;
       }
 
       // Detect projectile hits vs enemies
       this.player.projectiles.forEach((projectile) => {
         if (this.#detectCollision(projectile, enemy)) {
           enemy.playHitSound();
+          this.#createParticles(enemy.lives * 10, enemy); // Projectile collided with enemy
+
           this.score += enemy.lives;
           enemy.lives--;
-
-          this.#createParticles(enemy.lives * 20, enemy); // Projectile collided with enemy
 
           if (enemy.lives < 1) {
             enemy.markedForDeletion = true;
