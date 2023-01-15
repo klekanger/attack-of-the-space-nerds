@@ -21,13 +21,15 @@ export class Enemy {
   maxFrame!: number;
   speed!: number;
   verticalSpeed!: number;
-  speedModifier!: number;
+  // speedModifier!: number;
   multisprite!: boolean;
   lives!: number;
   sfxHit: Hit;
   sfxExplosion: Explosion1;
   hitDamage: number;
   canShoot: boolean;
+  animationTimer: number;
+  animationInterval: number;
 
   constructor(game: Game) {
     this.game = game;
@@ -41,6 +43,8 @@ export class Enemy {
     this.sfxExplosion = new Explosion1();
     this.hitDamage = 1;
     this.canShoot = true;
+    this.animationTimer = 0;
+    this.animationInterval = 1000 / game.fps;
   }
 
   // ***************************************
@@ -51,20 +55,20 @@ export class Enemy {
     if (this.x <= 0 || this.x >= this.game.width - this.width) {
       this.speed = -this.speed;
     }
-    this.x += this.speed * delta * this.speedModifier;
-
-    this.y += this.verticalSpeed * delta * this.speedModifier;
-    /* this.x += this.speed * this.speedModifier * delta;
-    this.y += this.verticalSpeed * this.speedModifier * delta; */
+    //this.x = (this.x + this.speed) * delta;
+    //this.y = (this.y + this.verticalSpeed) * delta;
+    this.x = this.x + this.speed * delta;
+    this.y = this.y + this.verticalSpeed * delta;
 
     if (this.y > this.game.height) this.markedForDeletion = true;
 
-    // Sprite animation
+    // increase frame, take delta into account
 
-    if (this.frame < this.maxFrame) {
-      this.frame++;
+    if (this.animationTimer > this.animationInterval) {
+      this.frame = (this.frame + 1) % this.maxFrame;
+      this.animationTimer = 0;
     } else {
-      this.frame = 0;
+      this.animationTimer = (this.animationTimer + 1) * delta;
     }
 
     // Easing of the enemys X position
@@ -82,6 +86,12 @@ export class Enemy {
         this.x,
         this.y - 15
       );
+      context.fillText(
+        `this.frame: ${Math.floor(this.frame).toString()}`,
+        this.x,
+        this.y - 30
+      );
+
       context.strokeRect(this.x, this.y, this.width, this.height);
     }
 
@@ -119,9 +129,8 @@ export class ScaryGeek extends Enemy {
 
   constructor(game: Game) {
     super(game);
-    this.speed = makeRandomPositiveOrNegative(randomBetween(100, 1000));
-    this.verticalSpeed = randomBetween(100, 300);
-    this.speedModifier = 0.5;
+    this.speed = makeRandomPositiveOrNegative(randomBetween(0.1, 0.3));
+    this.verticalSpeed = randomBetween(0.1, 0.3);
     this.width = 68;
     this.height = 100;
     this.maxFrame = 23;
@@ -148,8 +157,7 @@ export class EnemyBomb extends Enemy {
     super(game);
     this.x = enemyX;
     this.y = enemyY;
-    this.verticalSpeed = randomBetween(100, 1500);
-    this.speedModifier = 0.5;
+    this.verticalSpeed = randomBetween(0.1, 0.4);
     this.width = 56;
     this.height = 54;
     this.maxFrame = 23;
@@ -164,14 +172,14 @@ export class EnemyBomb extends Enemy {
 
   // We'll override the update method for enemy bombs, as they will move and behave differently
   update(delta: number): void {
-    this.y += this.verticalSpeed * delta * this.speedModifier;
+    this.y = this.y + this.verticalSpeed * delta;
 
     if (this.y > this.game.height) this.markedForDeletion = true;
 
     // Sprite animation
 
     if (this.frame < this.maxFrame) {
-      this.frame++;
+      this.frame = (this.frame + 1) * delta;
     } else {
       this.frame = 0;
     }

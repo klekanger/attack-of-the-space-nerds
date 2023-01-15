@@ -30,7 +30,7 @@ export class Player {
     this.x = game.width / 2 - this.width / 2;
     this.y = game.height - 100;
     this.speedX = 0;
-    this.maxSpeed = 8;
+    this.maxSpeed = 0.5;
     this.playerImages = [new Image(), new Image(), new Image()];
     this.playerImages[0].src = playerImageLeft;
     this.playerImages[1].src = playerImage;
@@ -66,10 +66,10 @@ export class Player {
       this.imageToDraw = this.playerImages[1];
     }
 
-    this.x += this.speedX;
+    this.x += this.speedX * delta;
 
     // Handle player shooting
-    if (delta) this.shootTimer += delta * 1000;
+    if (delta) this.shootTimer += delta;
 
     if (
       this.game.keys.includes(' ') &&

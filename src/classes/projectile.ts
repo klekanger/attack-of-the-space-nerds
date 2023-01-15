@@ -21,7 +21,7 @@ export class Projectile {
     this.y = this.game.height - this.game.player.height;
     this.width = 10;
     this.height = 3;
-    this.speed = 1000;
+    this.speed = 1;
     this.image = new Image();
     this.markedForDeletion = false;
     this.selectDirection = {

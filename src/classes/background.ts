@@ -20,11 +20,11 @@ export class Background {
     this.image2 = new Image();
     this.image2.src = backgroundImageLayer2;
     this.layer1 = new Layer(this.game, this.image1, 0.2);
-    this.layer2 = new Layer(this.game, this.image2, 0.25);
+    this.layer2 = new Layer(this.game, this.image2, 0.5);
     this.layers = [this.layer1, this.layer2];
   }
 
-  update() {
-    this.layers.forEach((layer) => layer.update());
+  update(delta: number) {
+    this.layers.forEach((layer) => layer.update(delta));
   }
 }

@@ -19,9 +19,9 @@ export class Layer {
     this.y = 0;
   }
 
-  update() {
+  update(delta: number) {
     if (this.y >= this.height) this.y = 0;
-    this.y += this.game.speed * this.speed;
+    this.y = this.y + this.speed * delta;
   }
 
   draw(context: CanvasRenderingContext2D) {

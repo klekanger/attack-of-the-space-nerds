@@ -29,6 +29,7 @@ export class Game {
   level: number;
   gameTime: number;
   fps: number;
+  delta: number;
 
   constructor(width: number, height: number) {
     this.gameMode = 'playing';
@@ -44,27 +45,28 @@ export class Game {
     this.debug = false;
     this.enemyTimer = 0;
     this.enemyInterval = 2000;
-    this.speed = 10;
+    this.speed = 0.3;
     this.gameOver = false;
     this.score = 0;
     this.lives = 3;
     this.level = 1;
     this.gameTime = 0;
     this.fps = 0;
+    this.delta = 0;
   }
 
   update(delta: number) {
-    if (this.debug) this.fps = 1 / delta;
+    // if (this.debug) this.fps = 1 / delta;
 
     if (!this.gameOver) {
-      this.gameTime += delta;
+      this.gameTime = this.gameTime + 1;
     } else {
       this.gameTime = 0;
     }
 
-    this.background.update();
-    this.background.layer1.update();
-    this.background.layer2.update();
+    this.background.update(delta);
+    this.background.layer1.update(delta);
+    this.background.layer2.update(delta);
     this.player.update(delta);
 
     // Run update method on all particles, and remove those we don't need anymore
@@ -75,6 +77,7 @@ export class Game {
     );
 
     // Add enemies to the game and detect collisions
+
     if (this.enemyWave.length === 0) this.#addEnemyWave();
 
     this.enemyWave.forEach((enemy) => {
@@ -142,7 +145,6 @@ export class Game {
 
   #addEnemyWave() {
     const enemyCount = randomBetween(1, this.level * 5); // random number of enemies
-
     for (let i = 0; i < enemyCount; i++) {
       this.enemyWave.push(new ScaryGeek(this));
     }
@@ -153,7 +155,7 @@ export class Game {
   }
 
   #createParticles(particleCount: number, enemyToBlowUp: Enemy | Player) {
-    console.log('enemyToBlowUp ', enemyToBlowUp);
+    // console.log('enemyToBlowUp ', enemyToBlowUp);
     for (let i = 0; i < particleCount; i++) {
       this.particles.push(
         new Particle(

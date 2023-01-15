@@ -29,10 +29,12 @@ window.addEventListener('load', function () {
     }
 
     // delta = timestamp - previousTimeStamp;
-    delta = (timestamp - previousTimeStamp) / 1000;
+    delta = timestamp - previousTimeStamp;
     previousTimeStamp = timestamp;
 
     context?.clearRect(0, 0, canvas.width, canvas.height);
+    game.delta = delta;
+    game.fps = Math.round(1000 / delta);
     game.update(delta);
 
     if (context !== null) game.draw(context);
