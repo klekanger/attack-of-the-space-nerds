@@ -29,7 +29,6 @@ export class Game {
   level: number;
   gameTime: number;
   fps: number;
-  delta: number;
 
   constructor(width: number, height: number) {
     this.gameMode = 'playing';
@@ -52,32 +51,21 @@ export class Game {
     this.level = 1;
     this.gameTime = 0;
     this.fps = 0;
-    this.delta = 0;
   }
 
   update(delta: number) {
-    // if (this.debug) this.fps = 1 / delta;
-
-    /* if (!this.gameOver) {
-      this.gameTime = this.gameTime + 1;
-    } else {
-      this.gameTime = 0;
-    } */
-
     this.background.update(delta);
     this.background.layer1.update(delta);
     this.background.layer2.update(delta);
     this.player.update(delta);
 
     // Run update method on all particles, and remove those we don't need anymore
-
     this.particles.forEach((particle) => particle.update());
     this.particles = this.particles.filter(
       (particle) => !particle.markedForDeletion
     );
 
     // Add enemies to the game and detect collisions
-
     if (this.enemyWave.length === 0) this.#addEnemyWave();
 
     this.enemyWave.forEach((enemy) => {

@@ -35,7 +35,6 @@ window.addEventListener('load', function () {
     totalTime += delta;
 
     context?.clearRect(0, 0, canvas.width, canvas.height);
-    game.delta = delta;
     game.fps = Math.round(1000 / delta);
     game.gameTime = totalTime / 1000;
     game.update(delta);
