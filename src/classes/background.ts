@@ -19,8 +19,8 @@ export class Background {
     this.image1.src = backgroundImageLayer1;
     this.image2 = new Image();
     this.image2.src = backgroundImageLayer2;
-    this.layer1 = new Layer(this.game, this.image1, 0.2);
-    this.layer2 = new Layer(this.game, this.image2, 0.5);
+    this.layer1 = new Layer(this.game, this.image1, 0.1);
+    this.layer2 = new Layer(this.game, this.image2, 0.15);
     this.layers = [this.layer1, this.layer2];
   }
 
