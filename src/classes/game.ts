@@ -58,11 +58,11 @@ export class Game {
   update(delta: number) {
     // if (this.debug) this.fps = 1 / delta;
 
-    if (!this.gameOver) {
+    /* if (!this.gameOver) {
       this.gameTime = this.gameTime + 1;
     } else {
       this.gameTime = 0;
-    }
+    } */
 
     this.background.update(delta);
     this.background.layer1.update(delta);

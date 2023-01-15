@@ -4,6 +4,7 @@ import { Explosion1, Hit } from './sfx';
 
 import enemyShotImage from '../artwork/laserGreenShot.png';
 import { randomBetween, makeRandomPositiveOrNegative } from '../lib/util';
+import { easeInOutSine, easeInOutElastic } from '../lib/easing';
 
 // **************************************
 // Main enemy class that all enemies
@@ -14,6 +15,7 @@ export class Enemy {
   markedForDeletion: boolean;
   image!: HTMLImageElement;
   x: number;
+  xStart: number;
   y: number;
   width: number;
   height: number;
@@ -35,7 +37,8 @@ export class Enemy {
     this.game = game;
     this.width = 98;
     this.height = 50;
-    this.x = randomBetween(10, this.game.width * 0.8);
+    this.x = randomBetween(0, this.game.width * 0.8);
+    this.xStart = this.x;
     this.y = randomBetween(-200, -this.height);
     this.multisprite = false;
     this.markedForDeletion = false;
@@ -52,12 +55,23 @@ export class Enemy {
   // Game logic that runs on every frame
   // ***************************************
   update(delta: number) {
-    if (this.x <= 0 || this.x >= this.game.width - this.width) {
+    /*  if (this.x <= 0 || this.x >= this.game.width - this.width) {
       this.speed = -this.speed;
-    }
-    //this.x = (this.x + this.speed) * delta;
-    //this.y = (this.y + this.verticalSpeed) * delta;
-    this.x = this.x + this.speed * delta;
+    } */
+    // this.x = this.x + this.speed * delta;
+
+    /*     this.x = easeInOutSine(
+      this.game.gameTime,
+      this.xStart,
+      this.game.width - 300,
+      3
+    ); */
+
+    this.x =
+      (Math.sin(Math.sign(this.speed) * this.game.gameTime * this.speed) *
+        this.game.width) /
+        2 +
+      this.xStart;
     this.y = this.y + this.verticalSpeed * delta;
 
     if (this.y > this.game.height) this.markedForDeletion = true;
@@ -68,12 +82,8 @@ export class Enemy {
       this.frame = (this.frame + 1) % this.maxFrame;
       this.animationTimer = 0;
     } else {
-      this.animationTimer = (this.animationTimer + 1) * delta;
+      this.animationTimer = this.animationTimer + 1;
     }
-
-    // Easing of the enemys X position
-
-    // this.x = easeInOutSine(this.y, 10, this.game.width - 100, 2);
   }
 
   draw(context: CanvasRenderingContext2D) {
@@ -129,7 +139,7 @@ export class ScaryGeek extends Enemy {
 
   constructor(game: Game) {
     super(game);
-    this.speed = makeRandomPositiveOrNegative(randomBetween(0.1, 0.3));
+    this.speed = makeRandomPositiveOrNegative(randomBetween(0.1, 2));
     this.verticalSpeed = randomBetween(0.1, 0.3);
     this.width = 68;
     this.height = 100;

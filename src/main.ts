@@ -20,6 +20,7 @@ window.addEventListener('load', function () {
   // *******************
   let previousTimeStamp: number = 0;
   let delta: number = 0;
+  let totalTime: number = 0;
 
   function gameLoop(timestamp: number) {
     if (game.gameMode === 'idle' && context !== null) {
@@ -31,10 +32,12 @@ window.addEventListener('load', function () {
     // delta = timestamp - previousTimeStamp;
     delta = timestamp - previousTimeStamp;
     previousTimeStamp = timestamp;
+    totalTime += delta;
 
     context?.clearRect(0, 0, canvas.width, canvas.height);
     game.delta = delta;
     game.fps = Math.round(1000 / delta);
+    game.gameTime = totalTime / 1000;
     game.update(delta);
 
     if (context !== null) game.draw(context);
