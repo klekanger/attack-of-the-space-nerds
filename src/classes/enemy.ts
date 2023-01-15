@@ -89,7 +89,8 @@ export class Enemy {
   draw(context: CanvasRenderingContext2D) {
     if (this.game.debug) {
       context.font = '20px Helvetica';
-      context.strokeStyle = 'white';
+
+      context.fillStyle = '#EBF48D';
       context.fillText(`Lives: ${this.lives.toString()}`, this.x, this.y);
       context.fillText(
         `Y Speed: ${Math.floor(this.verticalSpeed).toString()}`,
