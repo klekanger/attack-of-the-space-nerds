@@ -23,6 +23,7 @@ window.addEventListener('load', function () {
   let totalTime: number = 0;
 
   function gameLoop(timestamp: number) {
+    // Return early if game is in IDLE mode
     if (game.getGameMode() === 'IDLE' && context !== null) {
       context?.clearRect(0, 0, canvas.width, canvas.height);
       splashScreen.draw(context);
