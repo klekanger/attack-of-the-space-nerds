@@ -23,7 +23,7 @@ window.addEventListener('load', function () {
   let totalTime: number = 0;
 
   function gameLoop(timestamp: number) {
-    if (game.gameMode === 'idle' && context !== null) {
+    if (game.getCurrentGameMode() === 'IDLE' && context !== null) {
       context?.clearRect(0, 0, canvas.width, canvas.height);
       splashScreen.draw(context);
       return;

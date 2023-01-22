@@ -8,8 +8,14 @@ import { Particle } from './particle';
 
 import { randomBetween } from '../lib/util';
 
+enum GameMode {
+  IDLE = 'IDLE',
+  PLAYING = 'PLAYING',
+  GAMEOVER = 'GAMEOVER',
+}
+
 export class Game {
-  gameMode: 'idle' | 'playing';
+  private gameMode: GameMode;
   width: number;
   height: number;
   background: Background;
@@ -22,7 +28,6 @@ export class Game {
   enemyTimer: number;
   enemyInterval: number;
   speed: number;
-  gameOver: boolean;
   score: number;
   debug: boolean;
   lives: number;
@@ -31,7 +36,7 @@ export class Game {
   fps: number;
 
   constructor(width: number, height: number) {
-    this.gameMode = 'playing';
+    this.gameMode = GameMode.PLAYING;
     this.width = width;
     this.height = height;
     this.background = new Background(this);
@@ -45,7 +50,6 @@ export class Game {
     this.enemyTimer = 0;
     this.enemyInterval = 2000;
     this.speed = 0.3;
-    this.gameOver = false;
     this.score = 0;
     this.lives = 3;
     this.level = 1;
@@ -66,7 +70,8 @@ export class Game {
     );
 
     // Add enemies to the game and detect collisions
-    if (this.enemyWave.length === 0 && !this.gameOver) this.#addEnemyWave();
+    if (this.enemyWave.length === 0 && this.gameMode === 'PLAYING')
+      this.#addEnemyWave();
 
     this.enemyWave.forEach((enemy) => {
       enemy.update(delta);
@@ -77,7 +82,7 @@ export class Game {
 
         if (this.lives < 1) {
           this.lives = 0;
-          this.gameOver = true;
+          this.gameMode = GameMode.GAMEOVER;
           this.player.sfxPlayerExplosion.play();
         }
 
@@ -162,5 +167,8 @@ export class Game {
       rect1.y < rect2.y + rect2.height &&
       rect1.height + rect1.y > rect2.y
     );
+  }
+  getCurrentGameMode(): GameMode {
+    return this.gameMode;
   }
 }
