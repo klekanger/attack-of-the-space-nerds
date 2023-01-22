@@ -41,9 +41,28 @@ export class UI {
       );
 
       context.fillText(
-        `shootTimer: ${this.game.player.shootTimer.toFixed(1)}`,
+        `shootTimer: ${this.game.player.shootTimer.toFixed(0)}`,
         20,
         200
+      );
+    }
+
+    // Draw game over text on canvas
+    if (this.game.gameOver) {
+      context.font = `50px '${this.fontFamily}'`;
+      context.fillStyle = 'rgba(255 255 255 / 0.6)';
+      context.textAlign = 'center';
+      context.fillText(
+        'Game Over',
+        this.game.width / 2,
+        this.game.height / 2 - 60
+      );
+      context.font = `20px '${this.fontFamily}'`;
+      context.fillStyle = 'rgba(156	125	1	/ 0.6)';
+      context.fillText(
+        'Press P to try again',
+        this.game.width / 2,
+        this.game.height / 2
       );
     }
 

@@ -66,7 +66,7 @@ export class Game {
     );
 
     // Add enemies to the game and detect collisions
-    if (this.enemyWave.length === 0) this.#addEnemyWave();
+    if (this.enemyWave.length === 0 && !this.gameOver) this.#addEnemyWave();
 
     this.enemyWave.forEach((enemy) => {
       enemy.update(delta);
