@@ -1,5 +1,6 @@
-import { Game /* GameMode */ } from './classes/game';
+import { Game } from './classes/game';
 import { SplashScreen } from './classes/splashScreen';
+import splashImage from './artwork/attack-of-the-space-nerds-splash-screen.webp';
 
 window.addEventListener('load', function () {
   // Set up main game canvas
@@ -8,12 +9,11 @@ window.addEventListener('load', function () {
 
   canvas.width = 800;
   canvas.height = 900;
-  /* canvas.width = 960;
-  canvas.height = 1600;
- */
+
   const game = new Game(canvas.width, canvas.height);
 
   const splashScreen = new SplashScreen(canvas.width, canvas.height);
+  splashScreen.splashImage.src = splashImage;
 
   // *******************
   // Game animation loop
@@ -21,30 +21,35 @@ window.addEventListener('load', function () {
   let previousTimeStamp: number = 0;
   let delta: number = 0;
   let totalTime: number = 0;
+  let splashHasBeenDrawn: boolean = false;
 
   function gameLoop(timestamp: number) {
-    // Return early if game is in IDLE mode
-    if (game.getGameMode() === 'IDLE' && context !== null) {
-      context?.clearRect(0, 0, canvas.width, canvas.height);
-      splashScreen.draw(context);
-      return;
-    }
-
-    // delta = timestamp - previousTimeStamp;
     delta = timestamp - previousTimeStamp;
     previousTimeStamp = timestamp;
     totalTime += delta;
 
-    context?.clearRect(0, 0, canvas.width, canvas.height);
     game.fps = Math.round(1000 / delta);
     game.gameTime = totalTime / 1000;
-    game.update(delta);
 
-    if (context !== null) game.draw(context);
+    switch (game.getGameMode()) {
+      case 'IDLE':
+        if (context !== null && !splashHasBeenDrawn) {
+          splashHasBeenDrawn = true;
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          splashScreen.splashImage.onload = () => {
+            splashScreen.draw(context);
+          };
+        }
+        splashScreen.update();
+        break;
+
+      default:
+        splashHasBeenDrawn = false;
+        game.update(delta);
+        if (context !== null) game.draw(context);
+    }
+
     requestAnimationFrame(gameLoop);
   }
-
   gameLoop(0);
 });
-
-export {};

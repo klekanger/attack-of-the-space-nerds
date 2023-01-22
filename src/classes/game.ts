@@ -36,7 +36,7 @@ export class Game {
   fps: number;
 
   constructor(width: number, height: number) {
-    this.gameMode = GameMode.PLAYING;
+    this.gameMode = GameMode.IDLE;
     this.width = width;
     this.height = height;
     this.background = new Background(this);
@@ -167,6 +167,18 @@ export class Game {
       rect1.y < rect2.y + rect2.height &&
       rect1.height + rect1.y > rect2.y
     );
+  }
+
+  initGame() {
+    this.score = 0;
+    this.lives = 3;
+    this.level = 1;
+    this.enemyWave = [];
+    this.particles = [];
+    this.player.x = this.width / 2 - this.player.width / 2;
+    this.player.y = this.height - this.player.height - 10;
+    this.player.projectiles = [];
+    this.setGameMode(GameMode.PLAYING);
   }
 
   getGameMode(): GameMode {

@@ -1,4 +1,4 @@
-import { Game } from './game';
+import { Game, GameMode } from './game';
 
 export class InputHandler {
   game: Game;
@@ -8,6 +8,12 @@ export class InputHandler {
 
     window.addEventListener('keydown', (e) => {
       if (
+        (e.key === 'p' && this.game.getGameMode() !== GameMode.PLAYING) ||
+        (e.key === ' ' && this.game.getGameMode() === GameMode.IDLE)
+      ) {
+        // Resets game and changes game mode to PLAYING
+        this.game.initGame();
+      } else if (
         (e.key === 'ArrowLeft' || e.key === 'ArrowRight') &&
         this.game.keys.indexOf(e.key) === -1
       ) {

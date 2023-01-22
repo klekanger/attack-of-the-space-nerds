@@ -61,7 +61,7 @@ export class UI {
       context.font = `20px '${this.fontFamily}'`;
       context.fillStyle = 'rgba(156	125	1	/ 0.6)';
       context.fillText(
-        'Press P to try again',
+        'Press P to play again',
         this.game.width / 2,
         this.game.height / 2
       );

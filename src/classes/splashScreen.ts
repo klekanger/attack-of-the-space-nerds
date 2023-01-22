@@ -6,12 +6,12 @@ export class SplashScreen {
   constructor(width: number, height: number) {
     this.width = width;
     this.height = height;
-    this.splashImage = document.getElementById('splash') as HTMLImageElement;
+    this.splashImage = new Image();
   }
 
   update() {}
 
   draw(context: CanvasRenderingContext2D) {
-    context.drawImage(this.splashImage, 0, 0);
+    context.drawImage(this.splashImage, 0, 0, this.width, this.height);
   }
 }
