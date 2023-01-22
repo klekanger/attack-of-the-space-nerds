@@ -47,7 +47,7 @@ export class Enemy {
     this.hitDamage = 1;
     this.canShoot = true;
     this.animationTimer = 0;
-    this.animationInterval = 1000 / game.fps;
+    this.animationInterval = 100 / game.fps;
   }
 
   // ***************************************
@@ -60,18 +60,6 @@ export class Enemy {
     }
     this.x = this.x + this.speed * delta;
 
-    /*     this.x = easeInOutSine(
-      this.game.gameTime,
-      this.xStart,
-      this.game.width - 300,
-      3
-    ); */
-
-    /*     this.x =
-      (Math.sin(Math.sign(this.speed) * this.game.gameTime * this.speed) *
-        this.game.width) /
-        2 +
-      this.xStart; */
     this.y = this.y + this.verticalSpeed * delta;
 
     if (this.y > this.game.height) this.markedForDeletion = true;
@@ -82,7 +70,7 @@ export class Enemy {
       this.frame = (this.frame + 1) % this.maxFrame;
       this.animationTimer = 0;
     } else {
-      this.animationTimer = this.animationTimer + 1;
+      this.animationTimer++;
     }
   }
 
