@@ -49,7 +49,7 @@ export class UI {
 
     // Draw game over text on canvas
 
-    if (this.game.getCurrentGameMode() === 'GAMEOVER') {
+    if (this.game.getGameMode() === 'GAMEOVER') {
       context.font = `50px '${this.fontFamily}'`;
       context.fillStyle = 'rgba(255 255 255 / 0.6)';
       context.textAlign = 'center';

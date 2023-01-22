@@ -1,4 +1,4 @@
-import { Game } from './classes/game';
+import { Game /* GameMode */ } from './classes/game';
 import { SplashScreen } from './classes/splashScreen';
 
 window.addEventListener('load', function () {
@@ -23,7 +23,7 @@ window.addEventListener('load', function () {
   let totalTime: number = 0;
 
   function gameLoop(timestamp: number) {
-    if (game.getCurrentGameMode() === 'IDLE' && context !== null) {
+    if (game.getGameMode() === 'IDLE' && context !== null) {
       context?.clearRect(0, 0, canvas.width, canvas.height);
       splashScreen.draw(context);
       return;

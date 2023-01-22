@@ -8,7 +8,7 @@ import { Particle } from './particle';
 
 import { randomBetween } from '../lib/util';
 
-enum GameMode {
+export enum GameMode {
   IDLE = 'IDLE',
   PLAYING = 'PLAYING',
   GAMEOVER = 'GAMEOVER',
@@ -82,7 +82,7 @@ export class Game {
 
         if (this.lives < 1) {
           this.lives = 0;
-          this.gameMode = GameMode.GAMEOVER;
+          this.setGameMode(GameMode.GAMEOVER);
           this.player.sfxPlayerExplosion.play();
         }
 
@@ -168,7 +168,12 @@ export class Game {
       rect1.height + rect1.y > rect2.y
     );
   }
-  getCurrentGameMode(): GameMode {
+
+  getGameMode(): GameMode {
     return this.gameMode;
+  }
+
+  setGameMode(newMode: GameMode) {
+    this.gameMode = newMode;
   }
 }
