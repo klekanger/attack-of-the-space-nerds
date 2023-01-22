@@ -4,7 +4,7 @@ import { Explosion1, Hit } from './sfx';
 
 import enemyShotImage from '../artwork/laserGreenShot.png';
 import { randomBetween, makeRandomPositiveOrNegative } from '../lib/util';
-import { easeInOutSine, easeInOutElastic } from '../lib/easing';
+// import { easeInOutSine, easeInOutElastic } from '../lib/easing';
 
 // **************************************
 // Main enemy class that all enemies
@@ -55,10 +55,10 @@ export class Enemy {
   // Game logic that runs on every frame
   // ***************************************
   update(delta: number) {
-    /*  if (this.x <= 0 || this.x >= this.game.width - this.width) {
+    if (this.x <= 0 || this.x >= this.game.width - this.width) {
       this.speed = -this.speed;
-    } */
-    // this.x = this.x + this.speed * delta;
+    }
+    this.x = this.x + this.speed * delta;
 
     /*     this.x = easeInOutSine(
       this.game.gameTime,
@@ -67,11 +67,11 @@ export class Enemy {
       3
     ); */
 
-    this.x =
+    /*     this.x =
       (Math.sin(Math.sign(this.speed) * this.game.gameTime * this.speed) *
         this.game.width) /
         2 +
-      this.xStart;
+      this.xStart; */
     this.y = this.y + this.verticalSpeed * delta;
 
     if (this.y > this.game.height) this.markedForDeletion = true;
@@ -140,7 +140,7 @@ export class ScaryGeek extends Enemy {
 
   constructor(game: Game) {
     super(game);
-    this.speed = makeRandomPositiveOrNegative(randomBetween(0.1, 2));
+    this.speed = makeRandomPositiveOrNegative(randomBetween(0.1, 0.5));
     this.verticalSpeed = randomBetween(0.1, 0.3);
     this.width = 68;
     this.height = 100;
