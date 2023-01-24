@@ -28,6 +28,7 @@ window.addEventListener('load', function () {
     previousTimeStamp = timestamp;
     totalTime += delta;
 
+    // Mostly for debugging purposes
     game.fps = Math.round(1000 / delta);
     game.gameTime = totalTime / 1000;
 
@@ -40,6 +41,7 @@ window.addEventListener('load', function () {
             splashScreen.draw(context);
           };
         }
+        splashScreen.draw(context);
         splashScreen.update();
         break;
 
