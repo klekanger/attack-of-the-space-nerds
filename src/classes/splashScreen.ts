@@ -25,7 +25,7 @@ export class SplashScreen {
     // Zoom slowly in and out
     this.zoom += this.zoomDirection;
 
-    if (this.zoom >= 1.1 || this.zoom <= 0.9) {
+    if (this.zoom >= 1.5 || this.zoom <= 1.0) {
       this.zoomDirection *= -1;
     }
   }
