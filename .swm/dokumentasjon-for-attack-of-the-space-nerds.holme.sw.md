@@ -5,9 +5,7 @@ file_version: 1.1.1
 app_version: 1.0.19
 ---
 
-## Spillet
-
-<br/>
+## Slik fungerer det
 
 <br/>
 
@@ -28,32 +26,34 @@ Her er game-loopen. Den går hit og den går dit, og den går rundt en liten bit
 28         previousTimeStamp = timestamp;
 29         totalTime += delta;
 30     
-31         // Mostly for debugging purposes
-32         game.fps = Math.round(1000 / delta);
-33         game.gameTime = totalTime / 1000;
-34     
-35         switch (game.getGameMode()) {
-36           case 'IDLE':
-37             if (context !== null && !splashHasBeenDrawn) {
-38               splashHasBeenDrawn = true;
-39               context.clearRect(0, 0, canvas.width, canvas.height);
-40               splashScreen.splashImage.onload = () => {
-41                 splashScreen.draw(context);
-42               };
-43             }
-44             splashScreen.draw(context);
-45             splashScreen.update();
-46             break;
-47     
-48           default:
-49             splashHasBeenDrawn = false;
-50             game.update(delta);
-51             if (context !== null) game.draw(context);
-52         }
-53     
-54         requestAnimationFrame(gameLoop);
-55       }
-56       gameLoop(0);
+31         // kommentar
+32     
+33         // Mostly for debugging purposes
+34         game.fps = Math.round(1000 / delta);
+35         game.gameTime = totalTime / 1000;
+36     
+37         switch (game.getGameMode()) {
+38           case 'IDLE':
+39             if (context !== null && !splashHasBeenDrawn) {
+40               splashHasBeenDrawn = true;
+41               context.clearRect(0, 0, canvas.width, canvas.height);
+42               splashScreen.splashImage.onload = () => {
+43                 splashScreen.draw(context);
+44               };
+45             }
+46             splashScreen.draw(context);
+47             splashScreen.update();
+48             break;
+49     
+50           default:
+51             splashHasBeenDrawn = false;
+52             game.update(delta);
+53             if (context !== null) game.draw(context);
+54         }
+55     
+56         requestAnimationFrame(gameLoop);
+57       }
+58       gameLoop(0);
 ```
 
 <br/>
@@ -61,6 +61,10 @@ Her er game-loopen. Den går hit og den går dit, og den går rundt en liten bit
 Alt starter i klassen `Game`<swm-token data-swm-token=":src/classes/game.ts:17:4:4:`export class Game {`"/> som du finner her`📄 src/classes/game.ts`
 
 <br/>
+
+## Fiendene
+
+Fiendene defines i klassen Enemy:
 
 <br/>
 
