@@ -28,6 +28,8 @@ window.addEventListener('load', function () {
     previousTimeStamp = timestamp;
     totalTime += delta;
 
+    // kommentar
+
     // Mostly for debugging purposes
     game.fps = Math.round(1000 / delta);
     game.gameTime = totalTime / 1000;
