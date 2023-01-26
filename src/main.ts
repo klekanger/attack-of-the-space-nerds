@@ -48,6 +48,7 @@ window.addEventListener('load', function () {
         break;
 
       default:
+        // We're not on splash screen anymore, run game logic
         splashHasBeenDrawn = false;
         game.update(delta);
         if (context !== null) game.draw(context);
