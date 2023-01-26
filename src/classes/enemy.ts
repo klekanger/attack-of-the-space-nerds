@@ -64,8 +64,7 @@ export class Enemy {
 
     if (this.y > this.game.height) this.markedForDeletion = true;
 
-    // increase frame, take delta into account
-
+    // increase frame
     if (this.animationTimer > this.animationInterval) {
       this.frame = (this.frame + 1) % this.maxFrame;
       this.animationTimer = 0;
