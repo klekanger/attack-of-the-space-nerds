@@ -2,7 +2,7 @@ import { Background } from './background';
 import { UI } from './ui';
 import { Player } from './player';
 import { InputHandler } from './inputHandler';
-import { Enemy, ScaryGeek, EnemyBomb } from './enemy';
+import { Enemy, ScaryGeek, EnemyBomb, BigEars } from './enemy';
 import { Projectile } from './projectile';
 import { Particle } from './particle';
 
@@ -139,7 +139,12 @@ export class Game {
   #addEnemyWave() {
     const enemyCount = randomBetween(1, this.level * 5); // random number of enemies
     for (let i = 0; i < enemyCount; i++) {
-      this.enemyWave.push(new ScaryGeek(this));
+      // random number of ScaryGFeek and BigEars enemies
+      if (Math.random() * 100 > 50) this.enemyWave.push(new ScaryGeek(this));
+      else this.enemyWave.push(new BigEars(this));
+
+      // this.enemyWave.push(new ScaryGeek(this));
+      //   this.enemyWave.push(new BigEars(this));
     }
   }
 

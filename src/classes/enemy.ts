@@ -1,5 +1,6 @@
 import { Game } from './game';
-import alien1Image from '../artwork/nerd1.png';
+import scaryGeekImage from '../artwork/scaryGeek.png';
+import bigEarsImage from '../artwork/bigEars.png';
 import { Explosion1, Hit } from './sfx';
 
 import enemyShotImage from '../artwork/laserGreenShot.png';
@@ -135,7 +136,32 @@ export class ScaryGeek extends Enemy {
     this.frame = Math.floor(Math.random() * this.maxFrame);
     this.multisprite = true;
     this.image = new Image();
-    this.image.src = alien1Image;
+    this.image.src = scaryGeekImage;
+    this.lives = 2;
+    this.score = this.lives;
+    this.hitDamage = 0.2;
+  }
+}
+
+// **************************************
+// Enemy2 - BigEars
+// **************************************
+export class BigEars extends Enemy {
+  lives: number;
+  score: number;
+  image: HTMLImageElement;
+
+  constructor(game: Game) {
+    super(game);
+    this.speed = makeRandomPositiveOrNegative(randomBetween(0.1, 0.5));
+    this.verticalSpeed = randomBetween(0.1, 0.3);
+    this.width = 68;
+    this.height = 120;
+    this.maxFrame = 23;
+    this.frame = Math.floor(Math.random() * this.maxFrame);
+    this.multisprite = true;
+    this.image = new Image();
+    this.image.src = bigEarsImage;
     this.lives = 2;
     this.score = this.lives;
     this.hitDamage = 0.2;
