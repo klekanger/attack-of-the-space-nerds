@@ -43,7 +43,7 @@ window.addEventListener('load', function () {
             splashScreen.draw(context);
           };
         }
-        splashScreen.draw(context);
+        if (context) splashScreen.draw(context);
         splashScreen.update();
         break;
 
