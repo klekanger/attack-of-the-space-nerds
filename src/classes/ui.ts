@@ -1,16 +1,20 @@
 import { Game } from './game';
+import playerImage from '../artwork/player.png';
 
 export class UI {
   game: Game;
   fontSize: number;
   fontFamily: string;
   textColor: string;
+  playerImage: HTMLImageElement;
 
   constructor(game: Game) {
     this.game = game;
     this.fontSize = 25;
     this.fontFamily = 'Press Start 2P';
     this.textColor = 'rgba(215 225 230 / 1)';
+    this.playerImage = new Image();
+    this.playerImage.src = playerImage;
   }
 
   draw(context: CanvasRenderingContext2D) {
@@ -21,15 +25,19 @@ export class UI {
     context.textAlign = 'left';
 
     context.fillText(`Score: ${this.game.score}`, 20, 40);
+    context.fillText(`Level: ${this.game.level}`, 20, 80);
 
-    context.font = `${Math.floor(this.fontSize * 0.75)}px '${this.fontFamily}'`;
-    context.fillText(
-      `Lives: ${Math.ceil(this.game.lives)}`,
-      this.game.width - 200,
-      40
-    );
-    context.fillText(`Level: ${this.game.level}`, this.game.width - 200, 80);
+    for (let i = 0; i < this.game.lives; i++) {
+      context.drawImage(
+        this.playerImage,
+        this.game.width - i * 50 - 70,
+        30,
+        30,
+        30
+      );
+    }
 
+    // Debug mode
     if (this.game.debug) {
       context.font = `20px 'Arial'`;
       context.fillStyle = '#EBF48D';
