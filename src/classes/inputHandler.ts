@@ -1,4 +1,5 @@
-import { Game, GameMode } from './game';
+import { Game } from './game';
+import { GameMode } from '../types';
 
 export class InputHandler {
   game: Game;
@@ -73,16 +74,5 @@ export class InputHandler {
     const y = (event.clientY - canvasRect.top) * scaleY;
 
     return { x, y };
-  }
-
-  // Getters
-  getMouseX() {
-    return this.mouseX;
-  }
-  getMouseY() {
-    return this.mouseY;
-  }
-  getIsMouseDown() {
-    return this.isMouseDown;
   }
 }

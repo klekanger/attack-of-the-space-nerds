@@ -1,10 +1,5 @@
+import { GameMode } from '../types';
 import { Game } from './game';
-
-interface SplashScreenProps {
-  width: number;
-  height: number;
-  canvas: HTMLCanvasElement;
-}
 
 export class SplashScreen {
   game: Game;
@@ -46,7 +41,7 @@ export class SplashScreen {
     this.textColor2 = 'rgba(95 131 127 / 1)';
     this.textPressToPlay = 'Space to start';
     this.font = '50px "Press Start 2P"';
-    this.context.font = this.font || '';
+    if (this.context) this.context.font = this.font;
     this.pressToPlayTextLength =
       this.context?.measureText(this.textPressToPlay).width || 0;
     this.pressToPlayTextHeight =
@@ -80,8 +75,6 @@ export class SplashScreen {
     this.mouseY = this.game.inputHandler.mouseY;
 
     // Check if cursor is inside textBoundingBox
-    // and set this.isHoveringPressToPlay to true or false
-    // then set text color depending on this.isHoveringPressToPlay
     if (
       this.mouseX <= this.textBoundingBox.x + this.textBoundingBox.width &&
       this.mouseX >= this.textBoundingBox.x &&
@@ -91,6 +84,10 @@ export class SplashScreen {
       this.isHoveringPressToPlay = true;
     } else {
       this.isHoveringPressToPlay = false;
+    }
+
+    if (this.hasPressInsideTextBoundingBox()) {
+      this.game.setGameMode(GameMode.PLAYING);
     }
   }
 
@@ -141,11 +138,7 @@ export class SplashScreen {
   }
 
   // Check if cursor is inside textBoundingBox
-  isInsideTextBoundingBox() {
-    if (this.game.inputHandler.isMouseDown && this.isHoveringPressToPlay) {
-      return true;
-    } else {
-      return false;
-    }
+  hasPressInsideTextBoundingBox() {
+    return this.game.inputHandler.isMouseDown && this.isHoveringPressToPlay;
   }
 }

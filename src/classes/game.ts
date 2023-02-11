@@ -1,3 +1,4 @@
+import { GameMode } from '../types';
 import { Background } from './background';
 import { SplashScreen } from './splashScreen';
 import splashImage from '../artwork/attack-of-the-space-nerds-splash-screen.webp';
@@ -9,14 +10,6 @@ import { Projectile } from './projectile';
 import { Particle } from './particle';
 
 import { randomBetween } from '../lib/util';
-
-export enum GameMode {
-  IDLE = 'IDLE',
-  PLAYING = 'PLAYING',
-  DIETRANSITION = 'DIETRANSITION',
-  LEVELTRANSITION = 'LEVELTRANSITION',
-  GAMEOVER = 'GAMEOVER',
-}
 
 export class Game {
   private gameMode: GameMode;
@@ -42,7 +35,10 @@ export class Game {
   gameTime: number;
   fps: number;
 
-  constructor(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {
+  constructor(
+    canvas: HTMLCanvasElement,
+    context: CanvasRenderingContext2D | null
+  ) {
     this.gameMode = GameMode.IDLE;
     this.canvas = canvas;
     this.context = context;
