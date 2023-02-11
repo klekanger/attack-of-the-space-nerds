@@ -12,7 +12,7 @@ export class InputHandler {
         (e.key === ' ' && this.game.getGameMode() === GameMode.IDLE)
       ) {
         // Resets game and changes game mode to PLAYING
-        this.game.initGame();
+        this.game.initGame(true);
       } else if (
         (e.key === 'ArrowLeft' || e.key === 'ArrowRight') &&
         this.game.keys.indexOf(e.key) === -1

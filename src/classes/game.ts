@@ -11,6 +11,8 @@ import { randomBetween } from '../lib/util';
 export enum GameMode {
   IDLE = 'IDLE',
   PLAYING = 'PLAYING',
+  DIETRANSITION = 'DIETRANSITION',
+  LEVELTRANSITION = 'LEVELTRANSITION',
   GAMEOVER = 'GAMEOVER',
 }
 
@@ -75,15 +77,24 @@ export class Game {
 
     this.enemyWave.forEach((enemy) => {
       enemy.update(delta);
+
       if (this.#detectCollision(this.player, enemy)) {
         this.#createParticles(250, enemy); // Player collided with enemy
-
+        this.explodePlayer();
         this.lives--;
 
         if (this.lives < 1) {
           this.lives = 0;
           this.setGameMode(GameMode.GAMEOVER);
           this.player.sfxPlayerExplosion.play();
+        } else {
+          // set the game mode to die transition for 2 seconds
+          // and then back to playing
+          this.setGameMode(GameMode.DIETRANSITION);
+
+          setTimeout(() => {
+            this.setGameMode(GameMode.PLAYING);
+          }, 2000);
         }
 
         enemy.markedForDeletion = true;
@@ -142,9 +153,6 @@ export class Game {
       // random number of ScaryGFeek and BigEars enemies
       if (Math.random() * 100 > 50) this.enemyWave.push(new ScaryGeek(this));
       else this.enemyWave.push(new BigEars(this));
-
-      // this.enemyWave.push(new ScaryGeek(this));
-      //   this.enemyWave.push(new BigEars(this));
     }
   }
 
@@ -174,16 +182,36 @@ export class Game {
     );
   }
 
-  initGame() {
-    this.score = 0;
-    this.lives = 3;
-    this.level = 1;
+  initGame(fullReset: boolean = false) {
+    if (fullReset) {
+      this.score = 0;
+      this.lives = 3;
+      this.level = 1;
+      this.setGameMode(GameMode.PLAYING);
+    }
+
     this.enemyWave = [];
     this.particles = [];
     this.player.x = this.width / 2 - this.player.width / 2;
     this.player.y = this.height - this.player.height - 10;
     this.player.projectiles = [];
-    this.setGameMode(GameMode.PLAYING);
+  }
+
+  explodeAllEnemies() {
+    this.enemyWave.forEach((enemy) => {
+      enemy.markedForDeletion = true;
+      this.#createParticles(250, enemy);
+    });
+  }
+
+  explodePlayer() {
+    this.#createParticles(250, this.player);
+
+    // Make the player flash fast for 2 seconds
+    this.player.flash = true;
+    setTimeout(() => {
+      this.player.flash = false;
+    }, 2000);
   }
 
   getGameMode(): GameMode {

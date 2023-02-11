@@ -12,8 +12,12 @@ window.addEventListener('load', function () {
 
   const game = new Game(canvas.width, canvas.height);
 
-  const splashScreen = new SplashScreen(canvas.width, canvas.height);
-  splashScreen.splashImage.src = splashImage;
+  const splashScreen = new SplashScreen({
+    width: canvas.width,
+    height: canvas.height,
+    canvas: canvas,
+  });
+  splashScreen.setSplashScreenImage(splashImage);
 
   // *******************
   // Game animation loop
@@ -46,6 +50,9 @@ window.addEventListener('load', function () {
         if (context) splashScreen.draw(context);
         splashScreen.update();
         break;
+
+      case 'DIETRANSITION':
+        game.explodeAllEnemies(); // Clears all enemies and particles
 
       default:
         // We're not on splash screen anymore, run game logic
