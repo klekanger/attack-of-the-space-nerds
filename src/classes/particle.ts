@@ -36,7 +36,7 @@ export class Particle {
       this.x < 0 ||
       this.x > this.game.width ||
       this.y < 0 ||
-      this.y > this.game.width
+      this.y > this.game.height
     ) {
       this.markedForDeletion = true;
     }
