@@ -1,6 +1,4 @@
 import { Game } from './classes/game';
-import { SplashScreen } from './classes/splashScreen';
-import splashImage from './artwork/attack-of-the-space-nerds-splash-screen.webp';
 
 window.addEventListener('load', function () {
   // Set up main game canvas
@@ -10,29 +8,19 @@ window.addEventListener('load', function () {
   canvas.width = 800;
   canvas.height = 900;
 
-  const game = new Game(canvas.width, canvas.height);
+  const game = new Game(canvas, context);
 
-  const splashScreen = new SplashScreen({
-    width: canvas.width,
-    height: canvas.height,
-    canvas: canvas,
-  });
-  splashScreen.setSplashScreenImage(splashImage);
+  let previousTimeStamp: number = 0;
+  let delta: number = 0;
+  let totalTime: number = 0;
 
   // *******************
   // Game animation loop
   // *******************
-  let previousTimeStamp: number = 0;
-  let delta: number = 0;
-  let totalTime: number = 0;
-  let splashHasBeenDrawn: boolean = false;
-
   function gameLoop(timestamp: number) {
     delta = timestamp - previousTimeStamp;
     previousTimeStamp = timestamp;
     totalTime += delta;
-
-    // kommentar
 
     // Mostly for debugging purposes
     game.fps = Math.round(1000 / delta);
@@ -40,23 +28,14 @@ window.addEventListener('load', function () {
 
     switch (game.getGameMode()) {
       case 'IDLE':
-        if (context !== null && !splashHasBeenDrawn) {
-          splashHasBeenDrawn = true;
-          context.clearRect(0, 0, canvas.width, canvas.height);
-          splashScreen.splashImage.onload = () => {
-            splashScreen.draw(context);
-          };
-        }
-        if (context) splashScreen.draw(context);
-        splashScreen.update();
+        if (context) game.splashScreen.draw(context);
+        game.splashScreen.update();
         break;
 
       case 'DIETRANSITION':
         game.explodeAllEnemies(); // Clears all enemies and particles
 
-      default:
-        // We're not on splash screen anymore, run game logic
-        splashHasBeenDrawn = false;
+      default: // PLAYING
         game.update(delta);
         if (context !== null) game.draw(context);
     }

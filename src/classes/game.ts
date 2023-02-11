@@ -1,4 +1,6 @@
 import { Background } from './background';
+import { SplashScreen } from './splashScreen';
+import splashImage from '../artwork/attack-of-the-space-nerds-splash-screen.webp';
 import { UI } from './ui';
 import { Player } from './player';
 import { InputHandler } from './inputHandler';
@@ -18,9 +20,12 @@ export enum GameMode {
 
 export class Game {
   private gameMode: GameMode;
+  canvas: HTMLCanvasElement;
+  context: CanvasRenderingContext2D | null;
   width: number;
   height: number;
   background: Background;
+  splashScreen: SplashScreen;
   player: Player;
   inputHandler: InputHandler;
   ui: UI;
@@ -37,11 +42,14 @@ export class Game {
   gameTime: number;
   fps: number;
 
-  constructor(width: number, height: number) {
+  constructor(canvas: HTMLCanvasElement, context: CanvasRenderingContext2D) {
     this.gameMode = GameMode.IDLE;
-    this.width = width;
-    this.height = height;
+    this.canvas = canvas;
+    this.context = context;
+    this.width = canvas.width;
+    this.height = canvas.height;
     this.background = new Background(this);
+    this.splashScreen = new SplashScreen(this);
     this.player = new Player(this);
     this.inputHandler = new InputHandler(this);
     this.ui = new UI(this);
@@ -57,6 +65,8 @@ export class Game {
     this.level = 1;
     this.gameTime = 0;
     this.fps = 0;
+
+    this.splashScreen.setSplashScreenImage(splashImage);
   }
 
   update(delta: number) {
@@ -125,6 +135,7 @@ export class Game {
     this.enemyWave = this.enemyWave.filter((enemy) => !enemy.markedForDeletion);
   }
 
+  // Draw background, player, enemies, particles, etc.
   draw(context: CanvasRenderingContext2D) {
     this.background.layer1.draw(context); // background stars and galaxies
     context.save();

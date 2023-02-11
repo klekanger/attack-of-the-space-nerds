@@ -1,3 +1,5 @@
+import { Game } from './game';
+
 interface SplashScreenProps {
   width: number;
   height: number;
@@ -5,6 +7,8 @@ interface SplashScreenProps {
 }
 
 export class SplashScreen {
+  game: Game;
+  context: CanvasRenderingContext2D | null;
   width: number;
   height: number;
   zoom: number;
@@ -14,18 +18,26 @@ export class SplashScreen {
   textColor1: string;
   textColor2: string;
   textPressToPlay: string;
-  canvas: HTMLCanvasElement;
-  canvasW: number;
-  canvasH: number;
+  pressToPlayTextLength: number;
+  pressToPlayTextHeight: number;
+  textBoundingBox: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+  font: string;
   highlightText: boolean;
   mouseX: number;
   mouseY: number;
   isMouseDown: boolean;
   isHoveringPressToPlay: boolean;
 
-  constructor({ width, height, canvas }: SplashScreenProps) {
-    this.width = width;
-    this.height = height;
+  constructor(game: Game) {
+    this.game = game;
+    this.context = game.context;
+    this.width = game.width;
+    this.height = game.height;
     this.zoom = 1.0;
     this.zoomDirection = 0.0002;
     this.splashImage = new Image();
@@ -33,11 +45,23 @@ export class SplashScreen {
     this.textColor1 = 'rgba(215 225 230 / 1)';
     this.textColor2 = 'rgba(95 131 127 / 1)';
     this.textPressToPlay = 'Space to start';
-    this.canvas = canvas;
-    this.canvasW = canvas.width;
-    this.canvasH = canvas.height;
+    this.font = '50px "Press Start 2P"';
+    this.context.font = this.font || '';
+    this.pressToPlayTextLength =
+      this.context?.measureText(this.textPressToPlay).width || 0;
+    this.pressToPlayTextHeight =
+      (this.context?.measureText(this.textPressToPlay).fontBoundingBoxAscent ||
+        0) -
+      (this.context?.measureText(this.textPressToPlay).fontBoundingBoxDescent ||
+        0);
+
+    this.textBoundingBox = {
+      x: (this.width - this.pressToPlayTextLength - 40) / 2,
+      y: this.height / 2 + 250,
+      width: this.pressToPlayTextLength + 40,
+      height: this.pressToPlayTextHeight + 40,
+    };
     this.highlightText = false;
-    this.#setEventListeners();
     this.mouseX = 0;
     this.mouseY = 0;
     this.isMouseDown = false;
@@ -51,29 +75,29 @@ export class SplashScreen {
     if (this.zoom >= 1.5 || this.zoom <= 1.0) {
       this.zoomDirection *= -1;
     }
+
+    this.mouseX = this.game.inputHandler.mouseX;
+    this.mouseY = this.game.inputHandler.mouseY;
+
+    // Check if cursor is inside textBoundingBox
+    // and set this.isHoveringPressToPlay to true or false
+    // then set text color depending on this.isHoveringPressToPlay
+    if (
+      this.mouseX <= this.textBoundingBox.x + this.textBoundingBox.width &&
+      this.mouseX >= this.textBoundingBox.x &&
+      this.mouseY >= this.textBoundingBox.y &&
+      this.mouseY <= this.textBoundingBox.y + this.textBoundingBox.height
+    ) {
+      this.isHoveringPressToPlay = true;
+    } else {
+      this.isHoveringPressToPlay = false;
+    }
   }
 
   draw(context: CanvasRenderingContext2D) {
     context.save();
     context.clearRect(0, 0, this.width, this.height);
-
-    context.font = `50px 'Press Start 2P'`;
-
-    const PressToPlayTextLength = context.measureText(
-      this.textPressToPlay
-    ).width;
-
-    const PressToPlayTextHeight =
-      context.measureText(this.textPressToPlay).fontBoundingBoxAscent -
-      context.measureText(this.textPressToPlay).fontBoundingBoxDescent;
-
-    // Calculate the bounding box for the text
-    const textBoundingBox = {
-      x: (this.width - PressToPlayTextLength - 40) / 2,
-      y: this.height / 2 + 250,
-      width: PressToPlayTextLength + 40,
-      height: PressToPlayTextHeight + 40,
-    };
+    context.font = this.font;
 
     // Draw the splash image
     context.drawImage(
@@ -96,25 +120,11 @@ export class SplashScreen {
     // Draw a rectangle with the text "Press space to start"
     context.fillStyle = this.backgroundColor;
     context.fillRect(
-      textBoundingBox.x,
-      textBoundingBox.y,
-      textBoundingBox.width,
-      textBoundingBox.height
+      this.textBoundingBox.x,
+      this.textBoundingBox.y,
+      this.textBoundingBox.width,
+      this.textBoundingBox.height
     );
-
-    // Check if cursor is inside textBoundingBox
-    // and set this.isHoveringPressToPlay to true or false
-    // then set text color depending on this.isHoveringPressToPlay
-    if (
-      this.mouseX <= textBoundingBox.x + textBoundingBox.width &&
-      this.mouseX >= textBoundingBox.x &&
-      this.mouseY >= textBoundingBox.y &&
-      this.mouseY <= textBoundingBox.y + textBoundingBox.height
-    ) {
-      this.isHoveringPressToPlay = true;
-    } else {
-      this.isHoveringPressToPlay = false;
-    }
 
     this.isHoveringPressToPlay
       ? (context.fillStyle = this.textColor2)
@@ -130,32 +140,12 @@ export class SplashScreen {
     this.splashImage.src = image;
   }
 
-  // Add event listener for mouse movements on canvas
-  #setEventListeners() {
-    this.canvas.addEventListener('mousemove', (e) => {
-      const { x, y } = this.#getMousePosition(e, this.canvas);
-      this.mouseX = x;
-      this.mouseY = y;
-    });
-
-    // set this.clicked to true when mouse button is pressed
-    this.canvas.addEventListener('mousedown', () => {
-      this.isMouseDown = true;
-    });
-    // set this.clicked to false when mouse button is released
-    this.canvas.addEventListener('mouseup', () => {
-      this.isMouseDown = false;
-    });
-  }
-
-  #getMousePosition(event: MouseEvent, canvas: HTMLCanvasElement) {
-    const canvasRect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / canvasRect.width;
-    const scaleY = canvas.height / canvasRect.height;
-
-    const x = (event.clientX - canvasRect.left) * scaleX;
-    const y = (event.clientY - canvasRect.top) * scaleY;
-
-    return { x, y };
+  // Check if cursor is inside textBoundingBox
+  isInsideTextBoundingBox() {
+    if (this.game.inputHandler.isMouseDown && this.isHoveringPressToPlay) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
