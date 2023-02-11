@@ -12,6 +12,7 @@ export class SplashScreen {
   backgroundColor: string;
   textColor1: string;
   textColor2: string;
+  textColor3: string;
   textPressToPlay: string;
   pressToPlayTextLength: number;
   pressToPlayTextHeight: number;
@@ -39,6 +40,7 @@ export class SplashScreen {
     this.backgroundColor = 'rgba(0 0 0 / 0.7)';
     this.textColor1 = 'rgba(215 225 230 / 1)';
     this.textColor2 = 'rgba(95 131 127 / 1)';
+    this.textColor3 = 'rgba(251 235 78 / 1)';
     this.textPressToPlay = 'Space to start';
     this.font = '50px "Press Start 2P"';
     if (this.context) this.context.font = this.font;
@@ -109,7 +111,7 @@ export class SplashScreen {
     context.fillStyle = this.backgroundColor;
     context.fillRect(this.width / 2 - 350, this.height / 2 + 30, 700, 160);
 
-    context.fillStyle = this.textColor1;
+    context.fillStyle = this.textColor3;
     context.textAlign = 'center';
     context.fillText('Attack of the', this.width / 2, this.height / 2 + 100);
     context.fillText('Space Nerds', this.width / 2, this.height / 2 + 170);
