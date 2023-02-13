@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/artwork/player.png" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Attack of the Space Nerds</title>
     <meta
@@ -18,7 +18,17 @@
     <link rel="stylesheet" href="src/style.css" />
   </head>
   <body>
-    <canvas id="canvas1"></canvas>
+    <div class="container">
+      <canvas id="canvas1"></canvas>
+
+      <div class="spacer"></div>
+
+      <div class="title hide-during-play">
+        <div class="title-text">Attack of the</div>
+        <div class="title-text">Space Nerds</div>
+      </div>
+      <button class="hide-during-play" id="btn-play">Space to start</button>
+    </div>
 
     <!-- Main game script-->
     <script type="module" src="/src/main.ts"></script>

@@ -44,19 +44,13 @@ export class SplashScreen {
     this.textPressToPlay = 'Space to start';
     this.font = '50px "Press Start 2P"';
     if (this.context) this.context.font = this.font;
-    this.pressToPlayTextLength =
-      this.context?.measureText(this.textPressToPlay).width || 0;
-    this.pressToPlayTextHeight =
-      (this.context?.measureText(this.textPressToPlay).fontBoundingBoxAscent ||
-        0) -
-      (this.context?.measureText(this.textPressToPlay).fontBoundingBoxDescent ||
-        0);
-
+    this.pressToPlayTextLength = this.width;
+    this.pressToPlayTextHeight = 50;
     this.textBoundingBox = {
-      x: (this.width - this.pressToPlayTextLength - 40) / 2,
+      x: 0,
       y: this.height / 2 + 250,
-      width: this.pressToPlayTextLength + 40,
-      height: this.pressToPlayTextHeight + 40,
+      width: this.pressToPlayTextLength,
+      height: this.pressToPlayTextHeight + 30,
     };
     this.highlightText = false;
     this.mouseX = 0;
@@ -106,30 +100,6 @@ export class SplashScreen {
       this.width * this.zoom,
       this.height * this.zoom
     );
-
-    // Draw the title text
-    context.fillStyle = this.backgroundColor;
-    context.fillRect(this.width / 2 - 350, this.height / 2 + 30, 700, 160);
-
-    context.fillStyle = this.textColor3;
-    context.textAlign = 'center';
-    context.fillText('Attack of the', this.width / 2, this.height / 2 + 100);
-    context.fillText('Space Nerds', this.width / 2, this.height / 2 + 170);
-
-    // Draw a rectangle with the text "Press space to start"
-    context.fillStyle = this.backgroundColor;
-    context.fillRect(
-      this.textBoundingBox.x,
-      this.textBoundingBox.y,
-      this.textBoundingBox.width,
-      this.textBoundingBox.height
-    );
-
-    this.isHoveringPressToPlay
-      ? (context.fillStyle = this.textColor2)
-      : (context.fillStyle = this.textColor1);
-    context.textAlign = 'center';
-    context.fillText('Space to start', this.width / 2, this.height / 2 + 320);
 
     context.restore();
   }

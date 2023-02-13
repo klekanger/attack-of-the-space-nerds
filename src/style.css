@@ -1,53 +1,84 @@
+:root {
+  --canvas-width: 800px;
+  --canvas-height: 900px;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
 }
 
 body {
   background-color: #191919;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  background-color: rgb(15, 15, 15);
+  aspect-ratio: 8/9;
+  width: 800px;
+
+  margin: auto;
+  position: relative;
 }
 
 #canvas1 {
-  border: 5px solid black;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: black;
-  max-width: 100%;
-  max-height: 100%;
-  
+  height: 100%;
+  opacity: 0.8;
 }
 
-#layer1, #layer2, #player, #playerLeft, #playerRight, #projectile, #splash {
-  display: none;
+.spacer {
+  flex: 2;
+  z-index: 10;
 }
 
-
-.play-container {
-  height: 100vh;
-  display: grid;
-  justify-items: center;
-  align-items: end;
-
-}
-
-.btn-play {
-  font-family: 'Rubik Bubbles';
-  font-size: 2.2rem;
+.title {
+  flex: 1;
+  align-self: center;
+  font-family: 'Press Start 2P';
+  font-size: 100%;
+  font-size: 50px;
+  text-align: center;
+  height: 100%;
+  color: rgba(251 235 78 / 1);
   border-radius: 8px;
-  background-color:rgba(29, 44, 52, 0.7);
+  z-index: 10;
+  margin: auto;
+}
+
+.title-text {
+  background-color: rgba(10 10 10 / 0.5);
+  padding: 1rem;
+}
+
+#btn-play {
+  font-family: 'Press Start 2P';
+  font-size: 30px;
+  border-radius: 8px;
+  background-color: rgba(10 10 10 / 0.7);
   color: #75d47d;
   border: 1px solid #1c135c;
   padding: 10px 20px 10px 20px;
   z-index: 10;
-  margin-bottom: 2rem;
-  transition: .3s;
+  transition: 0.3s;
+  margin: auto;
+  margin-bottom: 20%;
 }
 
-.btn-play:hover {
+#btn-play:hover {
   color: #e0aa67;
   transform: scale(1.05);
+}
+
+.hidden {
+  display: none;
 }
