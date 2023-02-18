@@ -1,3 +1,5 @@
+/* eslint-disable no-sparse-arrays */
+
 import { zzfx } from 'zzfx';
 
 export class Shoot {
