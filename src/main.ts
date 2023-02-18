@@ -23,15 +23,14 @@ window.addEventListener('load', function () {
   const playButton = document.getElementById('btn-play') as HTMLButtonElement;
 
   playButton.addEventListener('click', () => {
-    console.log('clicked');
     game.setGameMode(GameMode.PLAYING);
   });
 
   let isStartTextVisible = true;
 
-  let previousTimeStamp: number = 0;
-  let delta: number = 0;
-  let totalTime: number = 0;
+  let previousTimeStamp = 0;
+  let delta = 0;
+  let totalTime = 0;
 
   // *******************
   // Game animation loop
@@ -45,30 +44,32 @@ window.addEventListener('load', function () {
     game.fps = Math.round(1000 / delta);
     game.gameTime = totalTime / 1000;
 
-    switch (game.getGameMode()) {
-      case 'IDLE':
-        if (context) game.splashScreen.draw(context);
-        // Hide splash screen text
-        if (!isStartTextVisible) {
-          console.log('shwoing');
-          showAllElements(htmlToHideDuringPlay);
-          isStartTextVisible = true;
-        }
+    const gameMode = game.getGameMode();
 
-        game.splashScreen.update();
-        break;
+    if (gameMode === 'IDLE' && context) {
+      game.splashScreen.draw(context);
+      if (!isStartTextVisible) {
+        showAllElements(htmlToHideDuringPlay);
+        isStartTextVisible = true;
+      }
+    }
 
-      case 'DIETRANSITION':
-        game.explodeAllEnemies(); // Clears all enemies and particles
+    if (gameMode === 'DIETRANSITION' || gameMode === 'GAMEOVER') {
+      // Clears all enemies and particles
+      game.enemyWave.length !== 0 ? game.explodeAllEnemies() : null;
+    }
 
-      default: // PLAYING
-        game.update(delta);
-        if (context !== null) game.draw(context);
-        if (isStartTextVisible) {
-          console.log('hiding');
-          hideAllElements(htmlToHideDuringPlay);
-          isStartTextVisible = false;
-        }
+    if (
+      gameMode === 'PLAYING' ||
+      gameMode === 'DIETRANSITION' ||
+      gameMode === 'GAMEOVER'
+    ) {
+      game.update(delta);
+      if (context) game.draw(context);
+      if (isStartTextVisible) {
+        hideAllElements(htmlToHideDuringPlay);
+        isStartTextVisible = false;
+      }
     }
 
     requestAnimationFrame(gameLoop);
@@ -78,12 +79,12 @@ window.addEventListener('load', function () {
 
 function hideAllElements(element: NodeListOf<HTMLElement>) {
   element.forEach((e) => {
-    e.classList.add('hidden');
+    e.style.display = 'none';
   });
 }
 
 function showAllElements(element: NodeListOf<HTMLElement>) {
   element.forEach((e) => {
-    e.classList.remove('hidden');
+    e.style.display = 'block';
   });
 }
