@@ -47,7 +47,9 @@ window.addEventListener('load', function () {
     const gameMode = game.getGameMode();
 
     if (gameMode === 'IDLE' && context) {
+      game.splashScreen.update(delta);
       game.splashScreen.draw(context);
+
       if (!isStartTextVisible) {
         showAllElements(htmlToHideDuringPlay);
         isStartTextVisible = true;

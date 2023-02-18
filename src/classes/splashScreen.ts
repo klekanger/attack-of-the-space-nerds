@@ -34,8 +34,8 @@ export class SplashScreen {
     this.context = game.context;
     this.width = game.width;
     this.height = game.height;
-    this.zoom = 1.0;
-    this.zoomDirection = 0.0002;
+    this.zoom = 1.1;
+    this.zoomDirection = 0.00001;
     this.splashImage = new Image();
     this.backgroundColor = 'rgba(0 0 0 / 0.7)';
     this.textColor1 = 'rgba(215 225 230 / 1)';
@@ -59,11 +59,14 @@ export class SplashScreen {
     this.isHoveringPressToPlay = false;
   }
 
-  update() {
-    // Zoom slowly in and out
-    this.zoom += this.zoomDirection;
+  update(delta: number) {
+    // Zoom slowly in and out, take delta into account
+    this.zoom += this.zoomDirection * delta;
+    console.log(this.zoom);
 
-    if (this.zoom >= 1.5 || this.zoom <= 1.0) {
+    //this.zoom += this.zoomDirection;
+
+    if (this.zoom >= 1.5 || this.zoom <= 1) {
       this.zoomDirection *= -1;
     }
 
