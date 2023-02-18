@@ -17,11 +17,9 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-
-  background-color: rgb(15, 15, 15);
+  background-color: rgb(15 15 15 / 100%);
   aspect-ratio: 8/9;
   width: 800px;
-
   margin: auto;
   position: relative;
 }
@@ -44,30 +42,59 @@ body {
 .title {
   flex: 1;
   align-self: center;
-  font-family: 'Press Start 2P';
+  font-family: 'Press Start 2P', cursive;
   font-size: 100%;
   font-size: 50px;
   text-align: center;
   height: 100%;
-  color: rgba(251 235 78 / 1);
+  color: rgba(251 235 78 / 100%);
   border-radius: 8px;
   z-index: 10;
   margin: auto;
+
+  /* cycle through colors */
+  animation: color-change 10s infinite; 
+
+
+
+}
+
+@keyframes color-change {
+  0% {
+    color: #da971b;
+  }
+
+  25% {
+    color: #0fd58d;
+  }
+
+  50% {
+    color: #A407D9;
+  }
+
+  75% {
+    color: #e7ca25;
+  }
+
+  100% {
+    color: #da971b;
+  }
+
 }
 
 .title-text {
-  background-color: rgba(10 10 10 / 0.5);
+  background-color: rgba(10 10 10 / 50%);
   padding: 1rem;
 }
 
 #btn-play {
-  font-family: 'Press Start 2P';
+  font-family: 'Press Start 2P', cursive;
   font-size: 30px;
   border-radius: 8px;
-  background-color: rgba(10 10 10 / 0.7);
+  background-color: rgba(10 10 10 / 70%);
   color: #75d47d;
   border: 1px solid #1c135c;
-  padding: 10px 20px 10px 20px;
+  padding: 10px 20px;
   z-index: 10;
   transition: 0.3s;
   margin: auto;
@@ -80,6 +107,5 @@ body {
   cursor: pointer;
 }
 
-.hidden {
-  display: none;
-}
+
+
