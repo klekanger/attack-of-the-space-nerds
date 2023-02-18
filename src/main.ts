@@ -50,6 +50,10 @@ window.addEventListener('load', function () {
       game.splashScreen.update(delta);
       game.splashScreen.draw(context);
 
+      if (introMusic.paused) {
+        introMusic.play();
+      }
+
       if (!isStartTextVisible) {
         showAllElements(htmlToHideDuringPlay);
         isStartTextVisible = true;
@@ -66,7 +70,12 @@ window.addEventListener('load', function () {
       gameMode === 'DIETRANSITION' ||
       gameMode === 'GAMEOVER'
     ) {
+      if (!introMusic.paused) {
+        introMusic.pause();
+      }
+
       game.update(delta);
+
       if (context) game.draw(context);
       if (isStartTextVisible) {
         hideAllElements(htmlToHideDuringPlay);

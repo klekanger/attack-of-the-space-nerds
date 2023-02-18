@@ -93,6 +93,10 @@ export class Game {
           this.lives = 0;
           this.setGameMode(GameMode.GAMEOVER);
           this.player.sfxPlayerExplosion.play();
+
+          setTimeout(() => {
+            this.setGameMode(GameMode.IDLE);
+          }, 20000);
         } else {
           // set the game mode to die transition for 2 seconds
           // and then back to playing
