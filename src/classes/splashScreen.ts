@@ -60,11 +60,7 @@ export class SplashScreen {
   }
 
   update(delta: number) {
-    // Zoom slowly in and out, take delta into account
     this.zoom += this.zoomDirection * delta;
-    console.log(this.zoom);
-
-    //this.zoom += this.zoomDirection;
 
     if (this.zoom >= 1.5 || this.zoom <= 1) {
       this.zoomDirection *= -1;
