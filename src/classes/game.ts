@@ -168,7 +168,6 @@ export class Game {
   }
 
   #createParticles(particleCount: number, enemyToBlowUp: Enemy | Player) {
-    // console.log('enemyToBlowUp ', enemyToBlowUp);
     for (let i = 0; i < particleCount; i++) {
       this.particles.push(
         new Particle(
@@ -189,7 +188,7 @@ export class Game {
     );
   }
 
-  initGame(fullReset: boolean = false) {
+  initGame(fullReset = false) {
     if (fullReset) {
       this.score = 0;
       this.lives = 3;
