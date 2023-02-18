@@ -44,7 +44,8 @@ export class Particle {
   }
 
   #updateParticleModel(particle: Particle) {
-    let angle = 180 - (this.direction + 90);
+    const angle = 180 - (this.direction + 90);
+
     particle.direction > 0 && particle.direction < 180
       ? (particle.x +=
           (particle.speed * Math.sin(particle.direction)) /
@@ -65,16 +66,11 @@ export class Particle {
     return particle;
   }
 
-  #colorVariation(
-    color: { r: number; g: number; b: number },
-    variation: number = 50
-  ) {
-    let r, g, b, a;
-
-    r = Math.round(Math.random() * variation - variation / 2 + color.r);
-    g = Math.round(Math.random() * variation - variation / 2 + color.g);
-    b = Math.round(Math.random() * variation - variation / 2 + color.b);
-    a = randomBetween(0.3, 1);
+  #colorVariation(color: { r: number; g: number; b: number }, variation = 50) {
+    const r = Math.round(Math.random() * variation - variation / 2 + color.r);
+    const g = Math.round(Math.random() * variation - variation / 2 + color.g);
+    const b = Math.round(Math.random() * variation - variation / 2 + color.b);
+    const a = randomBetween(0.3, 1);
 
     return `rgb(${r}, ${g}, ${b}, ${a})`;
   }
