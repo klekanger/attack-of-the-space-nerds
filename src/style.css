@@ -104,6 +104,22 @@ body {
   cursor: pointer;
 }
 
+.credit-text,
+.credit-text > a {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  color: #ccf851;
+  opacity: 0.7;
+  z-index: 10;
+  margin: auto;
+  padding-bottom: 10px;
+  text-decoration: none;
+}
+
+.credit-text > a:visited {
+  text-decoration: none;
+}
+
 @media (max-width: 480px) {
   .title {
     font-size: 25px;

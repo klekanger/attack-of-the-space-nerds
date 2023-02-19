@@ -1,15 +1,16 @@
-import { Game } from './classes/game';
 import startScreenMusic from './audio/Raining Bits.ogg';
+import { Game } from './classes/game';
+import { hideAllElements, isMobile, showAllElements } from './lib/util';
 import { GameMode } from './types';
-import { isMobile } from './lib/util';
 
 window.addEventListener('load', function () {
   // If mobile device, replace button text with "Tap to Play"
-  if (isMobile()) {
-    const playButton = document.getElementById('btn-play') as HTMLButtonElement;
-    playButton.innerText = 'Tap to Play';
-  }
+  const playButton = document.getElementById('btn-play') as HTMLButtonElement;
+  isMobile()
+    ? (playButton.innerText = 'Tap to Play')
+    : (playButton.innerText = 'Space to Play');
 
+  // Select elements to hide during game play
   const htmlToHideDuringPlay: NodeListOf<HTMLElement> =
     document.querySelectorAll('.hide-during-play');
 
@@ -27,14 +28,11 @@ window.addEventListener('load', function () {
 
   const game = new Game(canvas, context);
 
-  const playButton = document.getElementById('btn-play') as HTMLButtonElement;
-
   playButton.addEventListener('click', () => {
     game.setGameMode(GameMode.PLAYING);
   });
 
   let isStartTextVisible = true;
-
   let previousTimeStamp = 0;
   let delta = 0;
   let totalTime = 0;
@@ -94,15 +92,3 @@ window.addEventListener('load', function () {
   }
   gameLoop(0);
 });
-
-function hideAllElements(element: NodeListOf<HTMLElement>) {
-  element.forEach((e) => {
-    e.style.display = 'none';
-  });
-}
-
-function showAllElements(element: NodeListOf<HTMLElement>) {
-  element.forEach((e) => {
-    e.style.display = 'block';
-  });
-}
