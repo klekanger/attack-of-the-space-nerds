@@ -1,8 +1,15 @@
 import { Game } from './classes/game';
 import startScreenMusic from './audio/Raining Bits.ogg';
 import { GameMode } from './types';
+import { isMobile } from './lib/util';
 
 window.addEventListener('load', function () {
+  // If mobile device, replace button text with "Tap to Play"
+  if (isMobile()) {
+    const playButton = document.getElementById('btn-play') as HTMLButtonElement;
+    playButton.innerText = 'Tap to Play';
+  }
+
   const htmlToHideDuringPlay: NodeListOf<HTMLElement> =
     document.querySelectorAll('.hide-during-play');
 

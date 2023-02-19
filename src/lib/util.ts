@@ -22,3 +22,16 @@ export function randomBetween(min: number, max: number): number {
 export function makeRandomPositiveOrNegative(num: number): number {
   return num * (Math.round(Math.random()) * 2 - 1);
 }
+
+/**
+ * Check if user is on a mobile device
+ *
+ * @returns {boolean} true if user is on a mobile device
+ *
+ */
+
+export function isMobile(): boolean {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+}
