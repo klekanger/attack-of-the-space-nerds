@@ -21,8 +21,6 @@ export class Player {
   shotsPerSecond: number;
   sfxShoot: Shoot;
   sfxPlayerExplosion: PlayerExplosion;
-  flash: boolean;
-  playerAlpha: number;
 
   constructor(game: Game) {
     this.game = game;
@@ -43,8 +41,6 @@ export class Player {
     this.shotsPerSecond = 5;
     this.sfxShoot = new Shoot();
     this.sfxPlayerExplosion = new PlayerExplosion();
-    this.flash = false;
-    this.playerAlpha = 1;
   }
 
   update(delta: number) {
@@ -108,17 +104,7 @@ export class Player {
       projectile.draw(context);
     });
 
-    if (this.playerAlpha > 0 && this.game.getGameMode() === 'DIETRANSITION') {
-      this.playerAlpha = this.playerAlpha - 0.05;
-      context.globalAlpha = this.playerAlpha;
-    }
-    if (this.game.getGameMode() === 'PLAYING') {
-      context.globalAlpha = 1;
-      this.playerAlpha = 1;
-    }
-
     context.drawImage(this.imageToDraw, this.x + this.xOffset, this.y);
-    context.globalAlpha = 1;
   }
 
   shoot() {
