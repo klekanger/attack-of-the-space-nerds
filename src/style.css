@@ -42,16 +42,15 @@ body {
 
 .title {
   flex: 1;
-  align-self: center;
   font-family: 'Press Start 2P', cursive;
   font-size: 100%;
   font-size: 50px;
   text-align: center;
   height: 100%;
   color: rgba(251 235 78 / 100%);
-  border-radius: 8px;
   z-index: 10;
   margin: auto;
+  padding-bottom: 8rem;
 
   /* cycle through colors */
   animation: color-change 10s infinite;
@@ -82,6 +81,7 @@ body {
 .title-text {
   background-color: rgba(10 10 10 / 50%);
   padding: 1rem;
+  border-radius: 8px;
 }
 
 #btn-play {
@@ -107,22 +107,49 @@ body {
 .credit-text,
 .credit-text > a {
   font-family: 'Press Start 2P', cursive;
-  font-size: 10px;
   color: #ccf851;
   opacity: 0.7;
   z-index: 10;
   margin: auto;
-  padding-bottom: 10px;
+  font-size: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
   text-decoration: none;
 }
 
-.credit-text > a:visited {
+.credit-text-large > a {
+  padding: 0;
+}
+
+.credit-text-large,
+.credit-text-large > a {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 15px;
+  color: #f8f8f8;
+  opacity: 0.7;
+  z-index: 10;
+  margin: auto;
+  margin-bottom: 10px;
+  text-decoration: none;
+  background-color: rgba(10 10 10 / 50%);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.credit-text > a:visited,
+.credit-text-large > a:visited {
   text-decoration: none;
 }
 
 @media (max-width: 480px) {
   .title {
     font-size: 25px;
+    padding-bottom: 0;
+  }
+
+  .credit-text-large,
+  .credit-text-large > a {
+    font-size: 10px;
   }
 
   #btn-play {
