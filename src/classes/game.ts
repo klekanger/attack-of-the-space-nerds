@@ -61,7 +61,6 @@ export class Game {
     this.level = 1;
     this.gameTime = 0;
     this.fps = 0;
-
     this.splashScreen.setSplashScreenImage(splashImage);
   }
 
@@ -86,7 +85,7 @@ export class Game {
 
       if (this.#detectCollision(this.player, enemy)) {
         this.#createParticles(250, enemy); // Player collided with enemy
-        this.explodePlayer();
+        this.#explodePlayer();
         this.lives--;
 
         if (this.lives < 1) {
@@ -214,13 +213,21 @@ export class Game {
     });
   }
 
-  explodePlayer() {
+  #explodePlayer() {
     this.#createParticles(250, this.player);
 
-    // Make the player flash fast for 2 seconds
-    this.player.flash = true;
+    this.player.canShoot = false;
+
+    // Move the player off screen
+    this.player.x = -100;
+    this.player.y = -100;
+
+    // move the player back to the center of the screen after 2 seconds
     setTimeout(() => {
-      this.player.flash = false;
+      this.player.x = this.width / 2 - this.player.width / 2;
+      this.player.y = this.height - this.player.height - 10;
+
+      this.player.canShoot = true;
     }, 2000);
   }
 

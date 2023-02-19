@@ -18,6 +18,7 @@ export class Player {
   imageToDraw: HTMLImageElement;
   projectiles: PlayerProjectile[];
   shootTimer: number;
+  canShoot: boolean;
   shotsPerSecond: number;
   sfxShoot: Shoot;
   sfxPlayerExplosion: PlayerExplosion;
@@ -38,6 +39,7 @@ export class Player {
     this.imageToDraw = this.playerImages[1];
     this.projectiles = [];
     this.shootTimer = 0;
+    this.canShoot = true;
     this.shotsPerSecond = 5;
     this.sfxShoot = new Shoot();
     this.sfxPlayerExplosion = new PlayerExplosion();
@@ -108,6 +110,8 @@ export class Player {
   }
 
   shoot() {
+    if (!this.canShoot) return;
+
     this.projectiles.push(
       new PlayerProjectile(this.game, this.x - 5 + this.width / 2)
     );
