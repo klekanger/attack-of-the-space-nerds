@@ -35,3 +35,27 @@ export function isMobile(): boolean {
     navigator.userAgent
   );
 }
+
+/**
+ * Hides all elements in a  NodeList of HTMLElements
+ *
+ * @param element A NodeList of HTMLElements
+ */
+
+export function hideAllElements(element: NodeListOf<HTMLElement>) {
+  element.forEach((e) => {
+    e.style.display = 'none';
+  });
+}
+
+/**
+ * Shows all elements in a NodeList of HTMLElements
+ *
+ * @param element A NodeList of HTMLElements
+ */
+
+export function showAllElements(element: NodeListOf<HTMLElement>) {
+  element.forEach((e) => {
+    e.style.display = 'block';
+  });
+}

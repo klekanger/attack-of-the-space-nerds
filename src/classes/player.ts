@@ -1,8 +1,8 @@
+import playerImage from '../artwork/player.png';
+import playerImageLeft from '../artwork/playerLeft.png';
+import playerImageRight from '../artwork/playerRight.png';
 import { Game } from './game';
 import { PlayerProjectile } from './projectile';
-import playerImageLeft from '../artwork/playerLeft.png';
-import playerImage from '../artwork/player.png';
-import playerImageRight from '../artwork/playerRight.png';
 import { PlayerExplosion, Shoot } from './sfx';
 
 export class Player {

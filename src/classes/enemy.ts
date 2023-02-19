@@ -1,10 +1,10 @@
-import { Game } from './game';
-import scaryGeekImage from '../artwork/scaryGeek.png';
 import bigEarsImage from '../artwork/bigEars.png';
+import scaryGeekImage from '../artwork/scaryGeek.png';
+import { Game } from './game';
 import { Explosion1, Hit } from './sfx';
 
 import enemyShotImage from '../artwork/laserGreenShot.png';
-import { randomBetween, makeRandomPositiveOrNegative } from '../lib/util';
+import { makeRandomPositiveOrNegative, randomBetween } from '../lib/util';
 // import { easeInOutSine, easeInOutElastic } from '../lib/easing';
 
 // **************************************

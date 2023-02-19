@@ -1,5 +1,5 @@
-import { Game } from './game';
 import { GameMode } from '../types';
+import { Game } from './game';
 
 export class InputHandler {
   game: Game;

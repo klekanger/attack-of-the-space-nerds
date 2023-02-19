@@ -1,13 +1,13 @@
+import splashImage from '../artwork/attack-of-the-space-nerds-splash-screen.webp';
 import { GameMode } from '../types';
 import { Background } from './background';
-import { SplashScreen } from './splashScreen';
-import splashImage from '../artwork/attack-of-the-space-nerds-splash-screen.webp';
-import { UI } from './ui';
-import { Player } from './player';
+import { BigEars, Enemy, EnemyBomb, ScaryGeek } from './enemy';
 import { InputHandler } from './inputHandler';
-import { Enemy, ScaryGeek, EnemyBomb, BigEars } from './enemy';
-import { Projectile } from './projectile';
 import { Particle } from './particle';
+import { Player } from './player';
+import { Projectile } from './projectile';
+import { SplashScreen } from './splashScreen';
+import { UI } from './ui';
 
 import { randomBetween } from '../lib/util';
 

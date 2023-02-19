@@ -1,5 +1,5 @@
-import { Game } from './game';
 import { randomBetween } from '../lib/util';
+import { Game } from './game';
 
 export class Particle {
   game: Game;

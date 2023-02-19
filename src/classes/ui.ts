@@ -1,5 +1,5 @@
-import { Game } from './game';
 import playerImage from '../artwork/player.png';
+import { Game } from './game';
 
 export class UI {
   game: Game;

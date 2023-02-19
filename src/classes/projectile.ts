@@ -1,5 +1,5 @@
-import { Game } from './game';
 import projectileImage from '../artwork/laserGreen.png';
+import { Game } from './game';
 
 export class Projectile {
   game: Game;

@@ -1,8 +1,8 @@
 import { Game } from './game';
 import { Layer } from './layer';
 
-import backgroundImageLayer1 from '../artwork/GalaxyUno.webp';
 import backgroundImageLayer2 from '../artwork/foreground-stars.webp';
+import backgroundImageLayer1 from '../artwork/GalaxyUno.webp';
 
 export class Background {
   game: Game;
