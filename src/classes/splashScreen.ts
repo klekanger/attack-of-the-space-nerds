@@ -66,6 +66,13 @@ export class SplashScreen {
       this.zoomDirection *= -1;
     }
 
+    // double check that this.zoom is between 1 and 1.5
+    if (this.zoom > 1.5) {
+      this.zoom = 1.5;
+    } else if (this.zoom < 1) {
+      this.zoom = 1;
+    }
+
     this.mouseX = this.game.inputHandler.mouseX;
     this.mouseY = this.game.inputHandler.mouseY;
 
