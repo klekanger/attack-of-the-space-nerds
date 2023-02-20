@@ -1,11 +1,15 @@
-import bigEarsImage from '../artwork/bigEars.png';
-import scaryGeekImage from '../artwork/scaryGeek.png';
-import { Game } from './game';
-import { Explosion1, Hit } from './sfx';
+import bigEarsImage from "../artwork/bigEars.png";
+import scaryGeekImage from "../artwork/scaryGeek.png";
+import { Game } from "./game";
+import { Explosion1, Hit } from "./sfx";
 
-import enemyShotImage from '../artwork/laserGreenShot.png';
-import { makeRandomPositiveOrNegative, randomBetween } from '../lib/util';
-// import { easeInOutSine, easeInOutElastic } from '../lib/easing';
+import enemyShotImage from "../artwork/laserGreenShot.png";
+import {
+  calculateSinusXPosition,
+  easeInOutElastic,
+  easeInOutSine,
+} from "../lib/easing";
+import { makeRandomPositiveOrNegative, randomBetween } from "../lib/util";
 
 // **************************************
 // Main enemy class that all enemies
@@ -24,7 +28,6 @@ export class Enemy {
   maxFrame!: number;
   speed!: number;
   verticalSpeed!: number;
-  // speedModifier!: number;
   multisprite!: boolean;
   lives!: number;
   sfxHit: Hit;
@@ -59,7 +62,13 @@ export class Enemy {
     if (this.x <= 0 || this.x >= this.game.width - this.width) {
       this.speed = -this.speed;
     }
-    this.x = this.x + this.speed * delta;
+    // this.x = this.x + this.speed * delta;
+
+    this.x = calculateSinusXPosition(
+      this.game.gameTime + this.xStart,
+      this.speed / 4,
+      this.xStart
+    );
 
     this.y = this.y + this.verticalSpeed * delta;
 
@@ -76,15 +85,11 @@ export class Enemy {
 
   draw(context: CanvasRenderingContext2D) {
     if (this.game.debug) {
-      context.font = '20px Helvetica';
+      context.font = "20px Helvetica";
 
-      context.fillStyle = '#EBF48D';
+      context.fillStyle = "#EBF48D";
       context.fillText(`Lives: ${this.lives.toString()}`, this.x, this.y);
-      context.fillText(
-        `Y Speed: ${Math.floor(this.verticalSpeed).toString()}`,
-        this.x,
-        this.y - 15
-      );
+
       context.fillText(
         `this.frame: ${Math.floor(this.frame).toString()}`,
         this.x,
@@ -128,7 +133,7 @@ export class ScaryGeek extends Enemy {
 
   constructor(game: Game) {
     super(game);
-    this.speed = makeRandomPositiveOrNegative(randomBetween(0.1, 0.5));
+    this.speed = randomBetween(0.1, 0.5);
     this.verticalSpeed = randomBetween(0.1, 0.3);
     this.width = 68;
     this.height = 100;
@@ -153,7 +158,7 @@ export class BigEars extends Enemy {
 
   constructor(game: Game) {
     super(game);
-    this.speed = makeRandomPositiveOrNegative(randomBetween(0.1, 0.5));
+    this.speed = randomBetween(0.1, 0.5);
     this.verticalSpeed = randomBetween(0.1, 0.3);
     this.width = 68;
     this.height = 120;

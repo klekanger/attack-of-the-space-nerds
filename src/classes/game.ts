@@ -1,15 +1,15 @@
-import splashImage from '../artwork/attack-of-the-space-nerds-splash-screen.webp';
-import { GameMode } from '../types';
-import { Background } from './background';
-import { BigEars, Enemy, EnemyBomb, ScaryGeek } from './enemy';
-import { InputHandler } from './inputHandler';
-import { Particle } from './particle';
-import { Player } from './player';
-import { Projectile } from './projectile';
-import { SplashScreen } from './splashScreen';
-import { UI } from './ui';
+import splashImage from "../artwork/attack-of-the-space-nerds-splash-screen.webp";
+import { GameMode } from "../types";
+import { Background } from "./background";
+import { BigEars, Enemy, EnemyBomb, ScaryGeek } from "./enemy";
+import { InputHandler } from "./inputHandler";
+import { Particle } from "./particle";
+import { Player } from "./player";
+import { Projectile } from "./projectile";
+import { SplashScreen } from "./splashScreen";
+import { UI } from "./ui";
 
-import { randomBetween } from '../lib/util';
+import { randomBetween } from "../lib/util";
 
 export class Game {
   private gameMode: GameMode;
@@ -40,15 +40,20 @@ export class Game {
     context: CanvasRenderingContext2D | null
   ) {
     this.gameMode = GameMode.IDLE;
+
     this.canvas = canvas;
     this.context = context;
     this.width = canvas.width;
     this.height = canvas.height;
+
     this.background = new Background(this);
     this.splashScreen = new SplashScreen(this);
+    this.splashScreen.setSplashScreenImage(splashImage);
+    this.ui = new UI(this);
+
     this.player = new Player(this);
     this.inputHandler = new InputHandler(this);
-    this.ui = new UI(this);
+
     this.keys = [];
     this.enemyWave = [];
     this.particles = [];
@@ -61,7 +66,6 @@ export class Game {
     this.level = 1;
     this.gameTime = 0;
     this.fps = 0;
-    this.splashScreen.setSplashScreenImage(splashImage);
   }
 
   update(delta: number) {
@@ -77,7 +81,7 @@ export class Game {
     );
 
     // Add enemies to the game and detect collisions
-    if (this.enemyWave.length === 0 && this.gameMode === 'PLAYING')
+    if (this.enemyWave.length === 0 && this.gameMode === "PLAYING")
       this.#addEnemyWave();
 
     this.enemyWave.forEach((enemy) => {
@@ -135,7 +139,7 @@ export class Game {
   }
 
   // Draw background, player, enemies, particles, etc.
-  draw(context: CanvasRenderingContext2D) {
+  render(context: CanvasRenderingContext2D) {
     this.background.layer1.draw(context); // background stars and galaxies
     context.save();
     context.globalAlpha = 0.4;
@@ -236,6 +240,7 @@ export class Game {
   }
 
   setGameMode(newMode: GameMode) {
+    console.log(`Current game mode: ${this.gameMode} – changing to ${newMode}`);
     this.gameMode = newMode;
   }
 }

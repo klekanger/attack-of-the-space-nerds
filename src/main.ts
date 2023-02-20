@@ -113,11 +113,11 @@ window.addEventListener("load", function () {
         introMusic.pause();
       }
 
-      // Always run game.update and game.draw methods,
+      // Always run game.update and game.renderw methods,
       // except when IDLE (gameMode === 'IDLE')
       // Then we should run the splash screen update and draw methods instead
       game.update(delta);
-      if (context) game.draw(context);
+      if (context) game.render(context);
 
       if (isStartTextVisible) {
         hideAllElements(htmlToHideDuringPlay);
