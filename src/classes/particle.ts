@@ -1,8 +1,8 @@
-import { randomBetween } from '../lib/util';
-import { Game } from './game';
+import { randomBetween } from "../lib/util";
+import { IGame, IParticle } from "../types";
 
-export class Particle {
-  game: Game;
+export class Particle implements IParticle {
+  game: IGame;
   x: number;
   y: number;
   radius: number;
@@ -13,7 +13,7 @@ export class Particle {
   colorPalette: { r: number; g: number; b: number }[];
   currentAlpha: number;
 
-  constructor(game: Game, x: number, y: number) {
+  constructor(game: IGame, x: number, y: number) {
     this.game = game;
     this.x = x || Math.round(Math.random() * game.width);
     this.y = y || Math.round(Math.random() * game.height);
@@ -27,7 +27,7 @@ export class Particle {
       { r: 252, g: 178, b: 96 }, // solorFlare
       { r: 253, g: 238, b: 152 }, // totesASun
     ];
-    this.color = this.#colorVariation(this.#randomColor());
+    this.color = this.colorVariation(this.randomColor());
     this.currentAlpha = 1;
   }
 
@@ -40,10 +40,10 @@ export class Particle {
     ) {
       this.markedForDeletion = true;
     }
-    this.#updateParticleModel(this);
+    this.updateParticleModel(this);
   }
 
-  #updateParticleModel(particle: Particle) {
+  updateParticleModel(particle: IParticle) {
     const angle = 180 - (this.direction + 90);
 
     particle.direction > 0 && particle.direction < 180
@@ -66,7 +66,7 @@ export class Particle {
     return particle;
   }
 
-  #colorVariation(color: { r: number; g: number; b: number }, variation = 50) {
+  colorVariation(color: { r: number; g: number; b: number }, variation = 50) {
     const r = Math.round(Math.random() * variation - variation / 2 + color.r);
     const g = Math.round(Math.random() * variation - variation / 2 + color.g);
     const b = Math.round(Math.random() * variation - variation / 2 + color.b);
@@ -75,7 +75,7 @@ export class Particle {
     return `rgb(${r}, ${g}, ${b}, ${a})`;
   }
 
-  #randomColor() {
+  randomColor() {
     return this.colorPalette[
       Math.floor(Math.random() * this.colorPalette.length)
     ];

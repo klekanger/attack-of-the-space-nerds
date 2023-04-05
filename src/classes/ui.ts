@@ -1,18 +1,18 @@
-import playerImage from '../artwork/player.png';
-import { Game } from './game';
+import playerImage from "../artwork/player.png";
+import { IGame, IUI } from "../types";
 
-export class UI {
-  game: Game;
+export class UI implements IUI {
+  game: IGame;
   fontSize: number;
   fontFamily: string;
   textColor: string;
   playerImage: HTMLImageElement;
 
-  constructor(game: Game) {
+  constructor(game: IGame) {
     this.game = game;
     this.fontSize = 25;
-    this.fontFamily = 'Press Start 2P';
-    this.textColor = 'rgba(215 225 230 / 1)';
+    this.fontFamily = "Press Start 2P";
+    this.textColor = "rgba(215 225 230 / 1)";
     this.playerImage = new Image();
     this.playerImage.src = playerImage;
   }
@@ -22,7 +22,7 @@ export class UI {
 
     context.fillStyle = this.textColor;
     context.font = `${this.fontSize}px '${this.fontFamily}'`;
-    context.textAlign = 'left';
+    context.textAlign = "left";
 
     context.fillText(`Score: ${this.game.score}`, 20, 40);
     context.fillText(`Level: ${this.game.level}`, 20, 80);
@@ -40,7 +40,7 @@ export class UI {
     // Debug mode
     if (this.game.debug) {
       context.font = `20px 'Arial'`;
-      context.fillStyle = '#EBF48D';
+      context.fillStyle = "#EBF48D";
       context.fillText(`gameTime: ${this.game.gameTime.toFixed(1)}`, 20, 80);
       context.fillText(`fps: ${this.game.fps.toFixed(1)}`, 20, 110);
 
@@ -50,29 +50,33 @@ export class UI {
         20,
         140
       );
-
       context.fillText(
         `shootTimer: ${this.game.player.shootTimer.toFixed(0)}`,
         20,
-        200
+        160
+      );
+      context.fillText(
+        `enemyWaveCounter: ${this.game.enemyWaveCounter.toFixed(0)}`,
+        20,
+        180
       );
     }
 
     // Draw game over text on canvas
 
-    if (this.game.getGameMode() === 'GAMEOVER') {
+    if (this.game.getGameMode() === "GAMEOVER") {
       context.font = `50px '${this.fontFamily}'`;
-      context.fillStyle = 'rgba(255 255 255 / 0.6)';
-      context.textAlign = 'center';
+      context.fillStyle = "rgba(255 255 255 / 0.6)";
+      context.textAlign = "center";
       context.fillText(
-        'Game Over',
+        "Game Over",
         this.game.width / 2,
         this.game.height / 2 - 60
       );
       context.font = `20px '${this.fontFamily}'`;
-      context.fillStyle = 'rgba(156	125	1	/ 0.6)';
+      context.fillStyle = "rgba(156	125	1	/ 0.6)";
       context.fillText(
-        'Press P to play again',
+        "Press P to play again",
         this.game.width / 2,
         this.game.height / 2
       );
@@ -81,18 +85,18 @@ export class UI {
     // Draw transition text when changing levels
 
     // Dra transition text when life is lost
-    if (this.game.getGameMode() === 'DIETRANSITION') {
+    if (this.game.getGameMode() === "DIETRANSITION") {
       context.font = `50px '${this.fontFamily}'`;
-      context.fillStyle = 'rgba(255 255 255 / 0.6)';
-      context.textAlign = 'center';
+      context.fillStyle = "rgba(255 255 255 / 0.6)";
+      context.textAlign = "center";
       context.fillText(
-        'Life lost',
+        "Life lost",
         this.game.width / 2,
         this.game.height / 2 - 60
       );
       context.font = `20px '${this.fontFamily}'`;
-      context.fillStyle = 'rgba(156	125	1	/ 0.6)';
-      context.fillText('Try again', this.game.width / 2, this.game.height / 2);
+      context.fillStyle = "rgba(156	125	1	/ 0.6)";
+      context.fillText("Try again", this.game.width / 2, this.game.height / 2);
     }
 
     context.restore();

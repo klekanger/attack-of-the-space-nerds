@@ -1,21 +1,21 @@
-import projectileImage from '../artwork/laserGreen.png';
-import { Game } from './game';
+import projectileImage from "../artwork/laserGreen.png";
+import { IGame, IProjectile } from "../types";
 
-export class Projectile {
-  game: Game;
+export class Projectile implements IProjectile {
+  game: IGame;
   x: number;
   y: number;
   width: number;
   height: number;
   speed: number;
-  direction!: 'up' | 'down';
+  direction!: "up" | "down";
   selectDirection: {
     [key: string]: number;
   };
   markedForDeletion: boolean;
   image: HTMLImageElement;
 
-  constructor(game: Game, x: number) {
+  constructor(game: IGame, x: number) {
     this.game = game;
     this.x = x;
     this.y = this.game.height - this.game.player.height;
@@ -49,9 +49,9 @@ export class Projectile {
 }
 
 export class PlayerProjectile extends Projectile {
-  constructor(game: Game, x: number) {
+  constructor(game: IGame, x: number) {
     super(game, x);
-    this.direction = 'up';
+    this.direction = "up";
     this.image.src = projectileImage;
   }
 }

@@ -1,8 +1,7 @@
-import { GameMode } from '../types';
-import { Game } from './game';
+import { GameMode, IGame, ISplashScreen } from "../types";
 
-export class SplashScreen {
-  game: Game;
+export class SplashScreen implements ISplashScreen {
+  game: IGame;
   context: CanvasRenderingContext2D | null;
   width: number;
   height: number;
@@ -29,7 +28,7 @@ export class SplashScreen {
   isMouseDown: boolean;
   isHoveringPressToPlay: boolean;
 
-  constructor(game: Game) {
+  constructor(game: IGame) {
     this.game = game;
     this.context = game.context;
     this.width = game.width;
@@ -37,11 +36,11 @@ export class SplashScreen {
     this.zoom = 1.1;
     this.zoomDirection = 0.00001;
     this.splashImage = new Image();
-    this.backgroundColor = 'rgba(0 0 0 / 0.7)';
-    this.textColor1 = 'rgba(215 225 230 / 1)';
-    this.textColor2 = 'rgba(95 131 127 / 1)';
-    this.textColor3 = 'rgba(251 235 78 / 1)';
-    this.textPressToPlay = 'Space to start';
+    this.backgroundColor = "rgba(0 0 0 / 0.7)";
+    this.textColor1 = "rgba(215 225 230 / 1)";
+    this.textColor2 = "rgba(95 131 127 / 1)";
+    this.textColor3 = "rgba(251 235 78 / 1)";
+    this.textPressToPlay = "Space to start";
     this.font = '50px "Press Start 2P"';
     if (this.context) this.context.font = this.font;
     this.pressToPlayTextLength = this.width;

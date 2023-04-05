@@ -7,6 +7,8 @@ import {
   showAllElements,
 } from "./lib/util";
 import { GameMode } from "./types";
+
+// eslint-disable-next-line import/no-unresolved
 import startScreenMusic from "/audio/Raining Bits.ogg";
 
 const FA_AUDIO_OFF = `<i class="fa-solid fa-volume-xmark"></i>`;
@@ -113,11 +115,11 @@ window.addEventListener("load", function () {
         introMusic.pause();
       }
 
-      // Always run game.update and game.draw methods,
+      // Always run game.update and game.renderw methods,
       // except when IDLE (gameMode === 'IDLE')
       // Then we should run the splash screen update and draw methods instead
       game.update(delta);
-      if (context) game.draw(context);
+      if (context) game.render(context);
 
       if (isStartTextVisible) {
         hideAllElements(htmlToHideDuringPlay);

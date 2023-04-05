@@ -1,7 +1,16 @@
-# attack-of-the-space-nerds
+# Attack of the Space Nerds
+
 2D space shooter made in vanilla JS/TypeScript and HTML canvas. Parallax scrolling.
 
-Work in progress...
+TypeScript is maybe overkill here, but I'm making this just to learn some new concepts and to practice my coding skills.
+
+_Work in progress..._
+
+---
+
+**You can try current version of the game by pressing [this link](https://attack-of-the-space-nerds.netlify.app/)**
+
+---
 
 Graphics from opengameart.org
 
