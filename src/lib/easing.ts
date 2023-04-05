@@ -54,11 +54,7 @@ export function easeInOutElastic(t: number, b: number, c: number, d: number) {
  * @returns
  */
 
-export function calculateSinusXPosition(
-  time: number,
-  speed: number = 0.1,
-  shift: number = 0
-) {
+export function calculateSinusXPosition(time: number, speed = 0.1, shift = 0) {
   const amplitude = 400; // half the width of the range
   const frequency = speed; // how many cycles per unit of time
   const phaseShift = shift; // horizontal shift of the sine wave
