@@ -1,7 +1,7 @@
-import { Game } from './game';
+import { IGame } from "../types";
 
 export class Layer {
-  game: Game;
+  game: IGame;
   image: HTMLImageElement;
   speed: number;
   width: number;
@@ -9,7 +9,7 @@ export class Layer {
   x: number;
   y: number;
 
-  constructor(game: Game, image: HTMLImageElement, speed: number) {
+  constructor(game: IGame, image: HTMLImageElement, speed: number) {
     this.game = game;
     this.image = image;
     this.speed = speed;

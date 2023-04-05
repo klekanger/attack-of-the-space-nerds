@@ -1,8 +1,8 @@
-import { randomBetween } from '../lib/util';
-import { Game } from './game';
+import { randomBetween } from "../lib/util";
+import { IGame } from "../types";
 
 export class Particle {
-  game: Game;
+  game: IGame;
   x: number;
   y: number;
   radius: number;
@@ -13,7 +13,7 @@ export class Particle {
   colorPalette: { r: number; g: number; b: number }[];
   currentAlpha: number;
 
-  constructor(game: Game, x: number, y: number) {
+  constructor(game: IGame, x: number, y: number) {
     this.game = game;
     this.x = x || Math.round(Math.random() * game.width);
     this.y = y || Math.round(Math.random() * game.height);

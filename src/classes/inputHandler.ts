@@ -1,16 +1,15 @@
-import { GameMode } from '../types';
-import { Game } from './game';
+import { GameMode, IGame } from "../types";
 
 export class InputHandler {
-  game: Game;
+  game: IGame;
   canvas: HTMLCanvasElement;
   mouseX: number;
   mouseY: number;
   isMouseDown: boolean;
 
-  constructor(game: Game) {
+  constructor(game: IGame) {
     this.game = game;
-    this.canvas = document.getElementById('canvas1') as HTMLCanvasElement;
+    this.canvas = document.getElementById("canvas1") as HTMLCanvasElement;
     this.mouseX = 0;
     this.mouseY = 0;
     this.isMouseDown = false;
@@ -21,26 +20,26 @@ export class InputHandler {
 
   // Add keyboard event listeners
   #setKeyboardEventListeners() {
-    window.addEventListener('keydown', (e) => {
+    window.addEventListener("keydown", (e) => {
       if (
-        (e.key === 'p' && this.game.getGameMode() !== GameMode.PLAYING) ||
-        (e.key === ' ' && this.game.getGameMode() === GameMode.IDLE)
+        (e.key === "p" && this.game.getGameMode() !== GameMode.PLAYING) ||
+        (e.key === " " && this.game.getGameMode() === GameMode.IDLE)
       ) {
         // Resets game and changes game mode to PLAYING
         this.game.initGame(true);
       } else if (
-        (e.key === 'ArrowLeft' || e.key === 'ArrowRight') &&
+        (e.key === "ArrowLeft" || e.key === "ArrowRight") &&
         this.game.keys.indexOf(e.key) === -1
       ) {
         this.game.keys.push(e.key);
-      } else if (e.key === ' ' && this.game.keys.indexOf(e.key) === -1) {
+      } else if (e.key === " " && this.game.keys.indexOf(e.key) === -1) {
         this.game.keys.push(e.key);
-      } else if (e.key === 'd') {
+      } else if (e.key === "d") {
         this.game.debug = !this.game.debug;
       }
     });
 
-    window.addEventListener('keyup', (e) => {
+    window.addEventListener("keyup", (e) => {
       if (this.game.keys.indexOf(e.key) > -1) {
         this.game.keys.splice(this.game.keys.indexOf(e.key), 1);
       }
@@ -49,18 +48,18 @@ export class InputHandler {
 
   // Add event listener for mouse movements on canvas
   #setMouseEventListeners() {
-    this.canvas.addEventListener('mousemove', (e) => {
+    this.canvas.addEventListener("mousemove", (e) => {
       const { x, y } = this.#getMousePosition(e, this.canvas);
       this.mouseX = x;
       this.mouseY = y;
     });
 
     // set this.clicked to true when mouse button is pressed
-    this.canvas.addEventListener('mousedown', () => {
+    this.canvas.addEventListener("mousedown", () => {
       this.isMouseDown = true;
     });
     // set this.clicked to false when mouse button is released
-    this.canvas.addEventListener('mouseup', () => {
+    this.canvas.addEventListener("mouseup", () => {
       this.isMouseDown = false;
     });
   }

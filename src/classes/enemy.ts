@@ -1,6 +1,6 @@
 import bigEarsImage from "../artwork/bigEars.png";
 import scaryGeekImage from "../artwork/scaryGeek.png";
-import { Game } from "./game";
+import { IEnemy, IGame } from "../types";
 import { Explosion1, Hit } from "./sfx";
 
 import enemyShotImage from "../artwork/laserGreenShot.png";
@@ -15,8 +15,8 @@ import { makeRandomPositiveOrNegative, randomBetween } from "../lib/util";
 // Main enemy class that all enemies
 // are based on
 // **************************************
-export class Enemy {
-  game: Game;
+export class Enemy implements IEnemy {
+  game: IGame;
   markedForDeletion: boolean;
   image!: HTMLImageElement;
   x: number;
@@ -37,7 +37,7 @@ export class Enemy {
   animationTimer: number;
   animationInterval: number;
 
-  constructor(game: Game) {
+  constructor(game: IGame) {
     this.game = game;
     this.width = 98;
     this.height = 50;

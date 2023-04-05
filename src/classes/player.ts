@@ -1,12 +1,12 @@
-import playerImage from '../artwork/player.png';
-import playerImageLeft from '../artwork/playerLeft.png';
-import playerImageRight from '../artwork/playerRight.png';
-import { Game } from './game';
-import { PlayerProjectile } from './projectile';
-import { PlayerExplosion, Shoot } from './sfx';
+import playerImage from "../artwork/player.png";
+import playerImageLeft from "../artwork/playerLeft.png";
+import playerImageRight from "../artwork/playerRight.png";
+import { IGame } from "../types";
+import { PlayerProjectile } from "./projectile";
+import { PlayerExplosion, Shoot } from "./sfx";
 
 export class Player {
-  game: Game;
+  game: IGame;
   width: number;
   height: number;
   xOffset: number;
@@ -23,7 +23,7 @@ export class Player {
   sfxShoot: Shoot;
   sfxPlayerExplosion: PlayerExplosion;
 
-  constructor(game: Game) {
+  constructor(game: IGame) {
     this.game = game;
     this.width = 99;
     this.height = 75;
@@ -47,15 +47,15 @@ export class Player {
 
   update(delta: number) {
     // Handle horizontal spaceship movement
-    if (this.game.keys.includes('ArrowLeft') || this.game.keys.includes('a')) {
+    if (this.game.keys.includes("ArrowLeft") || this.game.keys.includes("a")) {
       this.speedX = -this.maxSpeed;
       this.imageToDraw = this.playerImages[0];
       this.width = 90;
       this.height = 77;
       this.xOffset = 4.5;
     } else if (
-      this.game.keys.includes('ArrowRight') ||
-      this.game.keys.includes('d')
+      this.game.keys.includes("ArrowRight") ||
+      this.game.keys.includes("d")
     ) {
       this.speedX = this.maxSpeed;
       this.imageToDraw = this.playerImages[2];
@@ -74,7 +74,7 @@ export class Player {
     if (delta) this.shootTimer += delta;
 
     if (
-      this.game.keys.includes(' ') &&
+      this.game.keys.includes(" ") &&
       this.shootTimer > 1000 / this.shotsPerSecond
     ) {
       this.game.player.shoot();
@@ -96,9 +96,9 @@ export class Player {
   }
 
   draw(context: CanvasRenderingContext2D) {
-    context.fillStyle = 'white';
+    context.fillStyle = "white";
     if (this.game.debug) {
-      context.strokeStyle = 'white';
+      context.strokeStyle = "white";
       context.strokeRect(this.x, this.y, this.width, this.height);
     }
 

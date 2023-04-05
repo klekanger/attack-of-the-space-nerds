@@ -1,18 +1,18 @@
-import { Game } from './game';
-import { Layer } from './layer';
+import { IGame } from "../types";
+import { Layer } from "./layer";
 
-import backgroundImageLayer2 from '../artwork/foreground-stars.webp';
-import backgroundImageLayer1 from '../artwork/GalaxyUno.webp';
+import backgroundImageLayer2 from "../artwork/foreground-stars.webp";
+import backgroundImageLayer1 from "../artwork/GalaxyUno.webp";
 
 export class Background {
-  game: Game;
+  game: IGame;
   layer1: Layer;
   layer2: Layer;
   image1: HTMLImageElement;
   image2: HTMLImageElement;
   layers: Layer[];
 
-  constructor(game: Game) {
+  constructor(game: IGame) {
     this.game = game;
 
     this.image1 = new Image();
