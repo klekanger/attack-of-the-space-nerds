@@ -7,6 +7,8 @@ import {
   showAllElements,
 } from "./lib/util";
 import { GameMode } from "./types";
+
+// eslint-disable-next-line import/no-unresolved
 import startScreenMusic from "/audio/Raining Bits.ogg";
 
 const FA_AUDIO_OFF = `<i class="fa-solid fa-volume-xmark"></i>`;
