@@ -1,5 +1,5 @@
 import splashImage from "../artwork/attack-of-the-space-nerds-splash-screen.webp";
-import { GameMode } from "../types";
+import { GameMode, IGame } from "../types";
 import { Background } from "./background";
 import { BigEars, Enemy, EnemyBomb, ScaryGeek } from "./enemy";
 import { InputHandler } from "./inputHandler";
@@ -11,7 +11,9 @@ import { UI } from "./ui";
 
 import { randomBetween } from "../lib/util";
 
-export class Game {
+const NUM_OF_ENEMY_WAVES = 5;
+
+export class Game implements IGame {
   private gameMode: GameMode;
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D | null;
@@ -24,6 +26,7 @@ export class Game {
   ui: UI;
   keys: string[];
   enemyWave: Enemy[];
+  enemyWaveCounter: number;
   particles: Particle[];
   enemyTimer: number;
   enemyInterval: number;
@@ -56,6 +59,7 @@ export class Game {
 
     this.keys = [];
     this.enemyWave = [];
+    this.enemyWaveCounter = NUM_OF_ENEMY_WAVES;
     this.particles = [];
     this.debug = false;
     this.enemyTimer = 0;
@@ -81,16 +85,26 @@ export class Game {
     );
 
     // Add enemies to the game and detect collisions
-    if (this.enemyWave.length === 0 && this.gameMode === "PLAYING")
-      this.#addEnemyWave();
+    if (this.enemyWave.length === 0 && this.gameMode === "PLAYING") {
+      if (this.enemyWaveCounter > 0) {
+        this.addEnemyWave();
+        console.log("Enemy wave added", this.enemyWave);
+        this.enemyWaveCounter--;
+      } else {
+        this.enemyWaveCounter = NUM_OF_ENEMY_WAVES;
+        this.level++;
+        this.speed += 0.8;
+      }
+    }
 
     this.enemyWave.forEach((enemy) => {
       enemy.update(delta);
 
-      if (this.#detectCollision(this.player, enemy)) {
-        this.#createParticles(250, enemy); // Player collided with enemy
-        this.#explodePlayer();
+      if (this.detectCollision(this.player, enemy)) {
+        this.createParticles(250, enemy); // Player collided with enemy
+        this.explodePlayer();
         this.lives--;
+        this.enemyWaveCounter += 1;
 
         if (this.lives < 1) {
           this.lives = 0;
@@ -98,6 +112,7 @@ export class Game {
           this.player.sfxPlayerExplosion.play();
 
           setTimeout(() => {
+            console.log("setting game mode to idle");
             this.setGameMode(GameMode.IDLE);
           }, 20000);
         } else {
@@ -115,9 +130,9 @@ export class Game {
 
       // Detect projectile hits vs enemies
       this.player.projectiles.forEach((projectile) => {
-        if (this.#detectCollision(projectile, enemy)) {
+        if (this.detectCollision(projectile, enemy)) {
           enemy.playHitSound();
-          this.#createParticles(enemy.lives * 10, enemy); // Projectile collided with enemy
+          this.createParticles(enemy.lives * 10, enemy); // Projectile collided with enemy
 
           this.score += enemy.lives;
           enemy.lives--;
@@ -131,7 +146,7 @@ export class Game {
       });
 
       // Make the enemies shoot
-      if (Math.random() * 1000 > 995 && enemy.canShoot) this.#enemyShoot(enemy);
+      if (Math.random() * 1000 > 995 && enemy.canShoot) this.enemyShoot(enemy);
     });
 
     // Remove enemies that have been killed
@@ -161,8 +176,8 @@ export class Game {
     this.ui.draw(context);
   }
 
-  #addEnemyWave() {
-    const enemyCount = randomBetween(1, this.level * 5); // random number of enemies
+  addEnemyWave() {
+    const enemyCount = randomBetween(1, this.level + 5); // random number of enemies
     for (let i = 0; i < enemyCount; i++) {
       // random number of ScaryGFeek and BigEars enemies
       if (Math.random() * 100 > 50) this.enemyWave.push(new ScaryGeek(this));
@@ -170,11 +185,11 @@ export class Game {
     }
   }
 
-  #enemyShoot(enemy: Enemy) {
+  enemyShoot(enemy: Enemy) {
     this.enemyWave.push(new EnemyBomb(this, enemy.x, enemy.y));
   }
 
-  #createParticles(particleCount: number, enemyToBlowUp: Enemy | Player) {
+  createParticles(particleCount: number, enemyToBlowUp: Enemy | Player) {
     for (let i = 0; i < particleCount; i++) {
       this.particles.push(
         new Particle(
@@ -186,7 +201,7 @@ export class Game {
     }
   }
 
-  #detectCollision(rect1: Player | Projectile, rect2: Enemy): boolean {
+  detectCollision(rect1: Player | Projectile, rect2: Enemy): boolean {
     return (
       rect1.x < rect2.x + rect2.width &&
       rect1.x + rect1.width > rect2.x &&
@@ -213,12 +228,12 @@ export class Game {
   explodeAllEnemies() {
     this.enemyWave.forEach((enemy) => {
       enemy.markedForDeletion = true;
-      this.#createParticles(250, enemy);
+      this.createParticles(250, enemy);
     });
   }
 
-  #explodePlayer() {
-    this.#createParticles(250, this.player);
+  explodePlayer() {
+    this.createParticles(250, this.player);
 
     this.player.canShoot = false;
 
