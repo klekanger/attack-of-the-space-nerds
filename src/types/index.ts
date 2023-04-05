@@ -6,21 +6,167 @@ export enum GameMode {
   GAMEOVER = "GAMEOVER",
 }
 
+export interface IBackground {
+  game: IGame;
+  layer1: ILayer;
+  layer2: ILayer;
+  image1: HTMLImageElement;
+  image2: HTMLImageElement;
+  layers: ILayer[];
+
+  update(delta: number): void;
+}
+
+export interface ILayer {
+  game: IGame;
+  image: HTMLImageElement;
+  speed: number;
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+
+  update(delta: number): void;
+  draw(context: CanvasRenderingContext2D): void;
+}
+
+export interface ISplashScreen {
+  game: IGame;
+  context: CanvasRenderingContext2D | null;
+  width: number;
+  height: number;
+  zoom: number;
+  zoomDirection: number;
+  splashImage: HTMLImageElement;
+  backgroundColor: string;
+  textColor1: string;
+  textColor2: string;
+  textColor3: string;
+  textPressToPlay: string;
+  pressToPlayTextLength: number;
+  pressToPlayTextHeight: number;
+  textBoundingBox: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+  font: string;
+  highlightText: boolean;
+  mouseX: number;
+  mouseY: number;
+  isMouseDown: boolean;
+  isHoveringPressToPlay: boolean;
+
+  update(delta: number): void;
+  draw(context: CanvasRenderingContext2D): void;
+  setSplashScreenImage(image: string): void;
+  hasPressInsideTextBoundingBox(): boolean;
+}
+
+export interface IPlayer {
+  game: IGame;
+  width: number;
+  height: number;
+  xOffset: number;
+  x: number;
+  y: number;
+  speedX: number;
+  maxSpeed: number;
+  playerImages: HTMLImageElement[];
+  imageToDraw: HTMLImageElement;
+  projectiles: Required<IProjectile>[];
+  shootTimer: number;
+  canShoot: boolean;
+  shotsPerSecond: number;
+  sfxShoot: IShoot;
+  sfxPlayerExplosion: IPlayerExplosion;
+
+  update(delta: number): void;
+  draw(context: CanvasRenderingContext2D): void;
+  shoot(): void;
+}
+
+export interface IProjectile {
+  game: IGame;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  speed: number;
+  direction: "up" | "down";
+  selectDirection: {
+    [key: string]: number;
+  };
+  markedForDeletion: boolean;
+  image: HTMLImageElement;
+
+  update(delta: number): void;
+  draw(context: CanvasRenderingContext2D): void;
+}
+
+export interface IParticle {
+  game: IGame;
+  x: number;
+  y: number;
+  radius: number;
+  speed: number;
+  direction: number;
+  markedForDeletion: boolean;
+  color: string;
+  colorPalette: { r: number; g: number; b: number }[];
+  currentAlpha: number;
+
+  update(): void;
+  updateParticleModel(particle: IParticle): IParticle;
+  colorVariation(
+    color: { r: number; g: number; b: number },
+    variation: number
+  ): string;
+  randomColor(): { r: number; g: number; b: number };
+  draw(context: CanvasRenderingContext2D): void;
+}
+
+export interface IInputHandler {
+  game: IGame;
+  canvas: HTMLCanvasElement;
+  mouseX: number;
+  mouseY: number;
+  isMouseDown: boolean;
+
+  setKeyboardEventListeners(): void;
+  setMouseEventListeners(): void;
+  getMousePosition(
+    event: MouseEvent,
+    canvas: HTMLCanvasElement
+  ): { x: number; y: number };
+}
+
+export interface IUI {
+  game: IGame;
+  fontSize: number;
+  fontFamily: string;
+  textColor: string;
+  playerImage: HTMLImageElement;
+
+  draw(context: CanvasRenderingContext2D): void;
+}
+
 export interface IGame {
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D | null;
   width: number;
   height: number;
-  background: Background;
-  splashScreen: SplashScreen;
-  player: Player;
-  inputHandler: InputHandler;
-  ui: UI;
+  background: IBackground;
+  splashScreen: ISplashScreen;
+  player: IPlayer;
+  inputHandler: IInputHandler;
+  ui: IUI;
   keys: string[];
-  enemyWave: Enemy[];
-  particles: Particle[];
+  enemyWave: IEnemy[];
+  enemyWaveCounter: number;
+  particles: IParticle[];
   enemyTimer: number;
-  enemyInterval: number;
   speed: number;
   score: number;
   debug: boolean;
@@ -63,6 +209,11 @@ export interface IEnemy {
   canShoot: boolean;
   animationTimer: number;
   animationInterval: number;
+
+  update(delta: number): void;
+  draw(context: CanvasRenderingContext2D): void;
+  playHitSound(): void;
+  playExplosionSound(): void;
 }
 
 // interfaces for all sfxtypes

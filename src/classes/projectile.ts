@@ -1,7 +1,7 @@
 import projectileImage from "../artwork/laserGreen.png";
-import { IGame } from "../types";
+import { IGame, IProjectile } from "../types";
 
-export class Projectile {
+export class Projectile implements IProjectile {
   game: IGame;
   x: number;
   y: number;

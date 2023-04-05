@@ -1,6 +1,6 @@
-import { IGame } from "../types";
+import { IGame, ILayer } from "../types";
 
-export class Layer {
+export class Layer implements ILayer {
   game: IGame;
   image: HTMLImageElement;
   speed: number;

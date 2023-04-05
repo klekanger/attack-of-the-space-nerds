@@ -4,12 +4,8 @@ import { IEnemy, IGame } from "../types";
 import { Explosion1, Hit } from "./sfx";
 
 import enemyShotImage from "../artwork/laserGreenShot.png";
-import {
-  calculateSinusXPosition,
-  easeInOutElastic,
-  easeInOutSine,
-} from "../lib/easing";
-import { makeRandomPositiveOrNegative, randomBetween } from "../lib/util";
+import { calculateSinusXPosition } from "../lib/easing";
+import { randomBetween } from "../lib/util";
 
 // **************************************
 // Main enemy class that all enemies
@@ -131,7 +127,7 @@ export class ScaryGeek extends Enemy {
   score: number;
   image: HTMLImageElement;
 
-  constructor(game: Game) {
+  constructor(game: IGame) {
     super(game);
     this.speed = randomBetween(0.1, 0.5);
     this.verticalSpeed = randomBetween(0.1, 0.3);
@@ -156,7 +152,7 @@ export class BigEars extends Enemy {
   score: number;
   image: HTMLImageElement;
 
-  constructor(game: Game) {
+  constructor(game: IGame) {
     super(game);
     this.speed = randomBetween(0.1, 0.5);
     this.verticalSpeed = randomBetween(0.1, 0.3);
@@ -182,7 +178,7 @@ export class EnemyBomb extends Enemy {
   score: number;
   image: HTMLImageElement;
 
-  constructor(game: Game, enemyX: number, enemyY: number) {
+  constructor(game: IGame, enemyX: number, enemyY: number) {
     super(game);
     this.x = enemyX;
     this.y = enemyY;
@@ -214,3 +210,6 @@ export class EnemyBomb extends Enemy {
     }
   }
 }
+
+// TODO
+// Need better sinus waves for the enemies, or other movement patterns

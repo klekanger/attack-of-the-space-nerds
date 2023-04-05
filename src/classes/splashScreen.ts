@@ -1,6 +1,6 @@
-import { GameMode, IGame } from "../types";
+import { GameMode, IGame, ISplashScreen } from "../types";
 
-export class SplashScreen {
+export class SplashScreen implements ISplashScreen {
   game: IGame;
   context: CanvasRenderingContext2D | null;
   width: number;

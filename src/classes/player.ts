@@ -1,11 +1,11 @@
 import playerImage from "../artwork/player.png";
 import playerImageLeft from "../artwork/playerLeft.png";
 import playerImageRight from "../artwork/playerRight.png";
-import { IGame } from "../types";
+import { IGame, IPlayer } from "../types";
 import { PlayerProjectile } from "./projectile";
 import { PlayerExplosion, Shoot } from "./sfx";
 
-export class Player {
+export class Player implements IPlayer {
   game: IGame;
   width: number;
   height: number;

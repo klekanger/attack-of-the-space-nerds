@@ -1,7 +1,7 @@
 import playerImage from "../artwork/player.png";
-import { IGame } from "../types";
+import { IGame, IUI } from "../types";
 
-export class UI {
+export class UI implements IUI {
   game: IGame;
   fontSize: number;
   fontFamily: string;

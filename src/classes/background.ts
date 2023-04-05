@@ -1,10 +1,10 @@
-import { IGame } from "../types";
+import { IBackground, IGame } from "../types";
 import { Layer } from "./layer";
 
 import backgroundImageLayer2 from "../artwork/foreground-stars.webp";
 import backgroundImageLayer1 from "../artwork/GalaxyUno.webp";
 
-export class Background {
+export class Background implements IBackground {
   game: IGame;
   layer1: Layer;
   layer2: Layer;

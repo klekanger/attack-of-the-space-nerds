@@ -12,6 +12,8 @@ import { UI } from "./ui";
 import { randomBetween } from "../lib/util";
 
 const NUM_OF_ENEMY_WAVES = 5;
+const SECONDS_BEFORE_IDLE = 20 * 1000;
+const SECONDS_DIE_TRANSITION = 2 * 1000;
 
 export class Game implements IGame {
   private gameMode: GameMode;
@@ -29,7 +31,6 @@ export class Game implements IGame {
   enemyWaveCounter: number;
   particles: Particle[];
   enemyTimer: number;
-  enemyInterval: number;
   speed: number;
   score: number;
   debug: boolean;
@@ -63,7 +64,6 @@ export class Game implements IGame {
     this.particles = [];
     this.debug = false;
     this.enemyTimer = 0;
-    this.enemyInterval = 2000;
     this.speed = 0.3;
     this.score = 0;
     this.lives = 3;
@@ -114,7 +114,7 @@ export class Game implements IGame {
           setTimeout(() => {
             console.log("setting game mode to idle");
             this.setGameMode(GameMode.IDLE);
-          }, 20000);
+          }, SECONDS_BEFORE_IDLE);
         } else {
           // set the game mode to die transition for 2 seconds
           // and then back to playing
@@ -122,7 +122,7 @@ export class Game implements IGame {
 
           setTimeout(() => {
             this.setGameMode(GameMode.PLAYING);
-          }, 2000);
+          }, SECONDS_DIE_TRANSITION);
         }
 
         enemy.markedForDeletion = true;
@@ -177,7 +177,8 @@ export class Game implements IGame {
   }
 
   addEnemyWave() {
-    const enemyCount = randomBetween(1, this.level + 5); // random number of enemies
+    const enemyCount = Math.floor(randomBetween(1, this.level + 5)); // random number of enemies
+    console.log("enemyCount :", enemyCount);
     for (let i = 0; i < enemyCount; i++) {
       // random number of ScaryGFeek and BigEars enemies
       if (Math.random() * 100 > 50) this.enemyWave.push(new ScaryGeek(this));

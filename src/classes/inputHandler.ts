@@ -1,6 +1,6 @@
-import { GameMode, IGame } from "../types";
+import { GameMode, IGame, IInputHandler } from "../types";
 
-export class InputHandler {
+export class InputHandler implements IInputHandler {
   game: IGame;
   canvas: HTMLCanvasElement;
   mouseX: number;
@@ -14,12 +14,12 @@ export class InputHandler {
     this.mouseY = 0;
     this.isMouseDown = false;
 
-    this.#setKeyboardEventListeners();
-    this.#setMouseEventListeners();
+    this.setKeyboardEventListeners();
+    this.setMouseEventListeners();
   }
 
   // Add keyboard event listeners
-  #setKeyboardEventListeners() {
+  setKeyboardEventListeners() {
     window.addEventListener("keydown", (e) => {
       if (
         (e.key === "p" && this.game.getGameMode() !== GameMode.PLAYING) ||
@@ -47,9 +47,9 @@ export class InputHandler {
   }
 
   // Add event listener for mouse movements on canvas
-  #setMouseEventListeners() {
+  setMouseEventListeners() {
     this.canvas.addEventListener("mousemove", (e) => {
-      const { x, y } = this.#getMousePosition(e, this.canvas);
+      const { x, y } = this.getMousePosition(e, this.canvas);
       this.mouseX = x;
       this.mouseY = y;
     });
@@ -64,7 +64,7 @@ export class InputHandler {
     });
   }
 
-  #getMousePosition(event: MouseEvent, canvas: HTMLCanvasElement) {
+  getMousePosition(event: MouseEvent, canvas: HTMLCanvasElement) {
     const canvasRect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / canvasRect.width;
     const scaleY = canvas.height / canvasRect.height;
