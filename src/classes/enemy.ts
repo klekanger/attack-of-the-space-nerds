@@ -4,7 +4,7 @@ import { IEnemy, IGame } from "../types";
 import { Explosion1, Hit } from "./sfx";
 
 import enemyShotImage from "../artwork/laserGreenShot.png";
-import { calculateSinusXPosition } from "../lib/easing";
+import { calculateSineWave } from "../lib/easing";
 import { randomBetween } from "../lib/util";
 
 // **************************************
@@ -58,15 +58,10 @@ export class Enemy implements IEnemy {
     if (this.x <= 0 || this.x >= this.game.width - this.width) {
       this.speed = -this.speed;
     }
-    // this.x = this.x + this.speed * delta;
-
-    this.x = calculateSinusXPosition(
-      this.game.gameTime + this.xStart,
-      this.speed / 4,
-      this.xStart
-    );
 
     this.y = this.y + this.verticalSpeed * delta;
+
+    this.x = calculateSineWave(this.y, this.xStart, this.game.width - 100);
 
     if (this.y > this.game.height) this.markedForDeletion = true;
 
@@ -130,7 +125,7 @@ export class ScaryGeek extends Enemy {
   constructor(game: IGame) {
     super(game);
     this.speed = randomBetween(0.1, 0.5);
-    this.verticalSpeed = randomBetween(0.1, 0.3);
+    this.verticalSpeed = randomBetween(0.1, 0.3) + this.game.level / 20;
     this.width = 68;
     this.height = 100;
     this.maxFrame = 23;
@@ -155,7 +150,7 @@ export class BigEars extends Enemy {
   constructor(game: IGame) {
     super(game);
     this.speed = randomBetween(0.1, 0.5);
-    this.verticalSpeed = randomBetween(0.1, 0.3);
+    this.verticalSpeed = randomBetween(0.1, 0.3) + this.game.level / 20;
     this.width = 68;
     this.height = 120;
     this.maxFrame = 23;
