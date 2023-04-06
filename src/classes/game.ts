@@ -74,8 +74,6 @@ export class Game implements IGame {
 
   update(delta: number) {
     this.background.update(delta);
-    this.background.layer1.update(delta);
-    this.background.layer2.update(delta);
     this.player.update(delta);
 
     // Run update method on all particles, and remove those we don't need anymore
