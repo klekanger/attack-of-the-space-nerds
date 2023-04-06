@@ -186,7 +186,7 @@ export class Game implements IGame {
   }
 
   enemyShoot(enemy: Enemy) {
-    // this.enemyWave.push(new EnemyBomb(this, enemy.x, enemy.y));
+    this.enemyWave.push(new EnemyBomb(this, enemy.x, enemy.y));
   }
 
   createParticles(particleCount: number, enemyToBlowUp: Enemy | Player) {
