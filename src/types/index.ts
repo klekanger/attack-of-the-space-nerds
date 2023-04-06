@@ -167,7 +167,7 @@ export interface IGame {
   enemyWaveCounter: number;
   particles: IParticle[];
   enemyTimer: number;
-  speed: number;
+  gameSpeed: number;
   score: number;
   debug: boolean;
   lives: number;
