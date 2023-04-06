@@ -14,6 +14,7 @@ import { randomBetween } from "../lib/util";
 const NUM_OF_ENEMY_WAVES = 5;
 const SECONDS_BEFORE_IDLE = 20 * 1000;
 const SECONDS_DIE_TRANSITION = 2 * 1000;
+const GAMESPEED_INCREASE = 0.005;
 
 export class Game implements IGame {
   private gameMode: GameMode;
@@ -31,7 +32,7 @@ export class Game implements IGame {
   enemyWaveCounter: number;
   particles: Particle[];
   enemyTimer: number;
-  speed: number;
+  gameSpeed: number;
   score: number;
   debug: boolean;
   lives: number;
@@ -64,7 +65,7 @@ export class Game implements IGame {
     this.particles = [];
     this.debug = false;
     this.enemyTimer = 0;
-    this.speed = 0.3;
+    this.gameSpeed = 0.01;
     this.score = 0;
     this.lives = 3;
     this.level = 1;
@@ -74,8 +75,6 @@ export class Game implements IGame {
 
   update(delta: number) {
     this.background.update(delta);
-    this.background.layer1.update(delta);
-    this.background.layer2.update(delta);
     this.player.update(delta);
 
     // Run update method on all particles, and remove those we don't need anymore
@@ -88,12 +87,11 @@ export class Game implements IGame {
     if (this.enemyWave.length === 0 && this.gameMode === "PLAYING") {
       if (this.enemyWaveCounter > 0) {
         this.addEnemyWave();
-        console.log("Enemy wave added", this.enemyWave);
         this.enemyWaveCounter--;
       } else {
         this.enemyWaveCounter = NUM_OF_ENEMY_WAVES;
         this.level++;
-        this.speed += 0.8;
+        this.gameSpeed += GAMESPEED_INCREASE;
       }
     }
 
@@ -106,6 +104,7 @@ export class Game implements IGame {
         this.lives--;
         this.enemyWaveCounter += 1;
 
+        console.log("live count: ", this.lives);
         if (this.lives < 1) {
           this.lives = 0;
           this.setGameMode(GameMode.GAMEOVER);
@@ -146,7 +145,7 @@ export class Game implements IGame {
       });
 
       // Make the enemies shoot
-      if (Math.random() * 1000 > 995 && enemy.canShoot) this.enemyShoot(enemy);
+      if (Math.random() * 100 > 99.5 && enemy.canShoot) this.enemyShoot(enemy);
     });
 
     // Remove enemies that have been killed
@@ -178,7 +177,7 @@ export class Game implements IGame {
 
   addEnemyWave() {
     const enemyCount = Math.floor(randomBetween(1, this.level + 5)); // random number of enemies
-    console.log("enemyCount :", enemyCount);
+
     for (let i = 0; i < enemyCount; i++) {
       // random number of ScaryGFeek and BigEars enemies
       if (Math.random() * 100 > 50) this.enemyWave.push(new ScaryGeek(this));
@@ -187,7 +186,7 @@ export class Game implements IGame {
   }
 
   enemyShoot(enemy: Enemy) {
-    this.enemyWave.push(new EnemyBomb(this, enemy.x, enemy.y));
+    // this.enemyWave.push(new EnemyBomb(this, enemy.x, enemy.y));
   }
 
   createParticles(particleCount: number, enemyToBlowUp: Enemy | Player) {
