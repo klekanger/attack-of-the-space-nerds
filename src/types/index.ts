@@ -173,6 +173,8 @@ export interface IGame {
   lives: number;
   level: number;
   gameTime: number;
+  levelTransitionTimer: number;
+  levelTransitionReset: number;
   fps: number;
 
   update(delta: number): void;
@@ -186,6 +188,7 @@ export interface IGame {
   explodePlayer(): void;
   getGameMode(): GameMode;
   setGameMode(newMode: GameMode): void;
+  levelTransition(delta: number): void;
 }
 
 export interface IEnemy {

@@ -35,7 +35,7 @@ export function chaseMovement({
   enemyY,
   speed,
   delta,
-  xMultiply = 1,
+  xMultiply = 4,
   yMultiply = 1,
 }: IChaseMovement) {
   // Calculate the distance between the player and enemy spaceships
