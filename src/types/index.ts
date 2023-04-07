@@ -232,3 +232,14 @@ export interface IExplosion1 {
 export interface IPlayerExplosion {
   play(): void;
 }
+
+export interface IChaseMovement {
+  playerX: number;
+  playerY: number;
+  enemyX: number;
+  enemyY: number;
+  speed: number;
+  delta: number;
+  xMultiply?: number;
+  yMultiply?: number;
+}
