@@ -4,7 +4,7 @@ import { IEnemy, IGame } from "../types";
 import { Explosion1, Hit } from "./sfx";
 
 import enemyShotImage from "../artwork/laserGreenShot.png";
-import { calculateSineWave } from "../lib/movements";
+import { calculateSineWave, chaseMovement } from "../lib/movements";
 import { randomBetween } from "../lib/util";
 
 // **************************************
@@ -59,13 +59,36 @@ export class Enemy implements IEnemy {
       this.speed = -this.speed;
     }
 
-    this.y = this.y + (this.verticalSpeed + this.game.gameSpeed) * delta;
+    // ***************************************
+    // Different movement for different enemies
+    // ***************************************
+    if (this instanceof ScaryGeek) {
+      const { x, y } = chaseMovement({
+        playerX: this.game.player.x,
+        playerY: this.game.player.y,
+        enemyX: this.x,
+        enemyY: this.y,
+        speed: 2,
+        delta: delta / 10,
+        yMultiply: 0.5,
+      });
+      this.x = x;
+      this.y = y;
+    }
 
-    this.x = calculateSineWave(this.y, this.xStart, this.game.width - 100);
+    if (this instanceof BigEars) {
+      this.y = this.y + (this.verticalSpeed + this.game.gameSpeed) * delta;
+      this.x = calculateSineWave({
+        yPosition: this.y,
+        xStart: this.xStart,
+        viewportWidth: this.game.width - 100,
+      });
+    }
 
+    // Out of bounds, mark for deletion
     if (this.y > this.game.height) this.markedForDeletion = true;
 
-    // increase frame
+    // increase frame to animate the enemies
     if (this.animationTimer > this.animationInterval) {
       this.frame = (this.frame + 1) % this.maxFrame;
       this.animationTimer = 0;
