@@ -30,6 +30,8 @@ export class Enemy implements IEnemy {
   sfxExplosion: Explosion1;
   hitDamage: number;
   canShoot: boolean;
+  shootTimer: number;
+  shootInterval: number;
   animationTimer: number;
   animationInterval: number;
 
@@ -46,6 +48,8 @@ export class Enemy implements IEnemy {
     this.sfxExplosion = new Explosion1();
     this.hitDamage = 1;
     this.canShoot = true;
+    this.shootTimer = randomBetween(1000, 5000);
+    this.shootInterval = this.shootTimer;
     this.animationTimer = 0;
     this.animationInterval = 100 / game.fps;
   }
@@ -184,6 +188,7 @@ export class BigEars extends Enemy {
     this.lives = 2;
     this.score = this.lives;
     this.hitDamage = 0.2;
+    this.canShoot = false;
   }
 }
 

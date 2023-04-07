@@ -144,8 +144,18 @@ export class Game implements IGame {
         }
       });
 
+      if (enemy.canShoot) {
+        // check enemy.shootTimer and if it's time to shoot, then shoot
+        if (enemy.shootTimer > 0) {
+          enemy.shootTimer -= delta;
+        } else {
+          enemy.shootTimer = enemy.shootInterval;
+          this.enemyShoot(enemy);
+        }
+      }
+
       // Make the enemies shoot
-      if (Math.random() * 100 > 99.5 && enemy.canShoot) this.enemyShoot(enemy);
+      // if (Math.random() * 100 > 99.5 && enemy.canShoot) this.enemyShoot(enemy);
     });
 
     // Remove enemies that have been killed

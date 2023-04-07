@@ -207,6 +207,8 @@ export interface IEnemy {
   sfxExplosion: IExplosion1;
   hitDamage: number;
   canShoot: boolean;
+  shootTimer: number;
+  shootInterval: number;
   animationTimer: number;
   animationInterval: number;
 
