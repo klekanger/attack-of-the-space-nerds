@@ -11,7 +11,7 @@ import { UI } from "./ui";
 
 import { randomBetween } from "../lib/util";
 
-const NUM_OF_ENEMY_WAVES = 5;
+const NUM_OF_ENEMY_WAVES = 1;
 const SECONDS_BEFORE_IDLE = 20 * 1000;
 const SECONDS_DIE_TRANSITION = 2 * 1000;
 const GAMESPEED_INCREASE = 0.002;
@@ -38,6 +38,8 @@ export class Game implements IGame {
   lives: number;
   level: number;
   gameTime: number;
+  levelTransitionTimer: number;
+  levelTransitionReset: number;
   fps: number;
 
   constructor(
@@ -70,6 +72,8 @@ export class Game implements IGame {
     this.lives = 3;
     this.level = 1;
     this.gameTime = 0;
+    this.levelTransitionTimer = 2000;
+    this.levelTransitionReset = this.levelTransitionTimer;
     this.fps = 0;
   }
 
@@ -89,9 +93,16 @@ export class Game implements IGame {
         this.addEnemyWave();
         this.enemyWaveCounter--;
       } else {
-        this.enemyWaveCounter = NUM_OF_ENEMY_WAVES;
         this.level++;
+        this.enemyWaveCounter = NUM_OF_ENEMY_WAVES;
         this.gameSpeed += GAMESPEED_INCREASE;
+
+        // set gameMode to level transition for 2 seconds
+        // and then back to playing
+        this.setGameMode(GameMode.LEVELTRANSITION);
+        setTimeout(() => {
+          this.setGameMode(GameMode.PLAYING);
+        }, 2000);
       }
     }
 
@@ -256,6 +267,29 @@ export class Game implements IGame {
 
       this.player.canShoot = true;
     }, 2000);
+  }
+
+  // Show the level transition text
+  levelTransition(delta: number) {
+    if (!this.context) return;
+
+    this.levelTransitionTimer -= delta;
+
+    const alpha = this.levelTransitionTimer / 2000;
+    const yPos = this.height - (this.levelTransitionTimer / 2000) * this.height;
+
+    if (this.levelTransitionTimer > 0) {
+      this.context.save();
+
+      this.context.fillStyle = `rgba(215 171 65 / ${alpha})`;
+      this.context.font = "30px Press Start 2P";
+      this.context.textAlign = "center";
+      this.context.fillText(`Level ${this.level}`, this.width / 2, yPos);
+
+      this.context.restore();
+    } else {
+      this.levelTransitionTimer = this.levelTransitionReset;
+    }
   }
 
   getGameMode(): GameMode {

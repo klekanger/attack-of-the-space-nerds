@@ -74,7 +74,8 @@ export class Enemy implements IEnemy {
         enemyY: this.y,
         speed: 2,
         delta: delta / 10,
-        yMultiply: 0.5,
+        xMultiply: 1 + this.game.level,
+        yMultiply: 0.5 + this.game.level / 10,
       });
       this.x = x;
       this.y = y;
@@ -177,7 +178,7 @@ export class BigEars extends Enemy {
   constructor(game: IGame) {
     super(game);
     this.speed = randomBetween(0.05, 0.1);
-    this.verticalSpeed = randomBetween(0.02, 0.1) + this.game.level / 20;
+    this.verticalSpeed = randomBetween(0.02, 0.1) + this.game.level / 100;
     this.width = 68;
     this.height = 120;
     this.maxFrame = 23;

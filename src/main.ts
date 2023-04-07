@@ -106,18 +106,19 @@ window.addEventListener("load", function () {
       game.enemyWave.length !== 0 ? game.explodeAllEnemies() : null;
     }
 
+    if (gameMode === "LEVELTRANSITION") {
+      game.update(delta);
+      if (context) game.render(context);
+      game.levelTransition(delta);
+    }
+
     if (
       gameMode === "PLAYING" ||
       gameMode === "DIETRANSITION" ||
       gameMode === "GAMEOVER"
     ) {
-      if (!introMusic.paused) {
-        introMusic.pause();
-      }
+      if (!introMusic.paused) introMusic.pause();
 
-      // Always run game.update and game.renderw methods,
-      // except when IDLE (gameMode === 'IDLE')
-      // Then we should run the splash screen update and draw methods instead
       game.update(delta);
       if (context) game.render(context);
 
