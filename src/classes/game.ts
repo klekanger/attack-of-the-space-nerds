@@ -14,7 +14,7 @@ import { randomBetween } from "../lib/util";
 const NUM_OF_ENEMY_WAVES = 5;
 const SECONDS_BEFORE_IDLE = 20 * 1000;
 const SECONDS_DIE_TRANSITION = 2 * 1000;
-const GAMESPEED_INCREASE = 0.005;
+const GAMESPEED_INCREASE = 0.002;
 
 export class Game implements IGame {
   private gameMode: GameMode;
@@ -145,7 +145,6 @@ export class Game implements IGame {
       });
 
       if (enemy.canShoot) {
-        // check enemy.shootTimer and if it's time to shoot, then shoot
         if (enemy.shootTimer > 0) {
           enemy.shootTimer -= delta;
         } else {
@@ -153,9 +152,6 @@ export class Game implements IGame {
           this.enemyShoot(enemy);
         }
       }
-
-      // Make the enemies shoot
-      // if (Math.random() * 100 > 99.5 && enemy.canShoot) this.enemyShoot(enemy);
     });
 
     // Remove enemies that have been killed
