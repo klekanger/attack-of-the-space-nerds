@@ -11,7 +11,7 @@ import { UI } from "./ui";
 
 import { randomBetween } from "../lib/util";
 
-const NUM_OF_ENEMY_WAVES = 1;
+const NUM_OF_ENEMY_WAVES = 5;
 const SECONDS_BEFORE_IDLE = 20 * 1000;
 const SECONDS_DIE_TRANSITION = 2 * 1000;
 const GAMESPEED_INCREASE = 0.002;
