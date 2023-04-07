@@ -1,5 +1,9 @@
 import { IChaseMovement } from "../types";
 
+/**
+ * Makes the enemy spaceship move in a sine wave
+ */
+
 export function calculateSineWave({
   yPosition,
   xStart,
@@ -18,6 +22,10 @@ export function calculateSineWave({
 
   return xPosition;
 }
+
+/**
+ * Chase movement - let the enemy spaceship chase the player spaceship
+ */
 
 // Chase movement - let the enemy spaceship chase the player spaceship
 export function chaseMovement({
