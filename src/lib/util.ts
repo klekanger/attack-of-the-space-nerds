@@ -34,33 +34,17 @@ export function isMobile(): boolean {
 }
 
 /**
- * Hides all elements in a  NodeList of HTMLElements
- *
- * @param element A NodeList of HTMLElements
- */
-export function hideAllElements(element: NodeListOf<HTMLElement>) {
-  element.forEach((e) => {
-    e.style.display = "none";
-  });
-}
-
-/**
- * Shows all elements in a NodeList of HTMLElements
- *
- * @param element A NodeList of HTMLElements
- */
-export function showAllElements(element: NodeListOf<HTMLElement>) {
-  element.forEach((e) => {
-    e.style.display = "block";
-  });
-}
-
-/**
  * Checks in localStorage if audio is on or off
  *
  * @returns {boolean} true if audio is on
  */
 export function isAudioEnabled(): boolean {
   const audio = localStorage.getItem("space_nerds_audio");
+
+  if (audio === null) {
+    localStorage.setItem("space_nerds_audio", "on");
+    return true;
+  }
+
   return audio === "on" ? true : false;
 }

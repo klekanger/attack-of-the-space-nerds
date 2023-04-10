@@ -1,59 +1,18 @@
 import "@fortawesome/fontawesome-free/css/all.css";
 import { Game } from "./classes/game";
-import {
-  hideAllElements,
-  isAudioEnabled,
-  isMobile,
-  showAllElements,
-} from "./lib/util";
+import { introScreenHTML } from "./html/intro";
+import { preIntroScreenHTML } from "./html/pre-intro";
+
+import { isAudioEnabled } from "./lib/util";
 import { GameMode } from "./types";
 
-// eslint-disable-next-line import/no-unresolved
+import { setupIntroScreen } from "./setupIntroScreen";
 import startScreenMusic from "/audio/Raining Bits.ogg";
 
-const FA_AUDIO_OFF = `<i class="fa-solid fa-volume-xmark"></i>`;
-const FA_AUDIO_ON = `<i class="fa-solid fa-volume-high"></i>`;
+export const FA_AUDIO_OFF = `<i class="fa-solid fa-volume-xmark"></i>`;
+export const FA_AUDIO_ON = `<i class="fa-solid fa-volume-high"></i>`;
 
 window.addEventListener("load", function () {
-  // If mobile device, replace button text with "Tap to Play"
-  const playButton = document.getElementById("btn-play") as HTMLButtonElement;
-  isMobile()
-    ? (playButton.innerText = "Tap to Play")
-    : (playButton.innerText = "Space to Play");
-
-  // Select elements to hide during game play
-  const htmlToHideDuringPlay: NodeListOf<HTMLElement> =
-    document.querySelectorAll(".hide-during-play");
-
-  // Set up audio and get audio toggle button element from DOM
-  const introMusic = new Audio();
-  introMusic.src = startScreenMusic;
-  introMusic.loop = true;
-
-  const audioToggleButton = document.getElementById(
-    "speaker-symbol"
-  ) as HTMLElement;
-  audioToggleButton.innerHTML = FA_AUDIO_OFF;
-
-  // Check if audio is enabled in localStorage
-  if (isAudioEnabled()) {
-    introMusic.play();
-    audioToggleButton.innerHTML = FA_AUDIO_ON;
-  }
-
-  // Add event listener to audio toggle button
-  audioToggleButton.addEventListener("click", () => {
-    if (audioToggleButton.innerHTML === FA_AUDIO_OFF) {
-      audioToggleButton.innerHTML = FA_AUDIO_ON;
-      localStorage.setItem("space_nerds_audio", "on");
-      introMusic.play();
-    } else {
-      audioToggleButton.innerHTML = FA_AUDIO_OFF;
-      localStorage.setItem("space_nerds_audio", "off");
-      introMusic.pause();
-    }
-  });
-
   // Set up main game canvas
   const canvas = document.getElementById("canvas1") as HTMLCanvasElement;
   const context = canvas.getContext("2d");
@@ -63,12 +22,26 @@ window.addEventListener("load", function () {
   // Create game instance
   // Almost all game logic is contained in the Game class
   const game = new Game(canvas, context);
+  game.setGameMode(GameMode.INTRO); // Start on the pre-intro-screen so that the user can interact with the page to be able to start the music
 
-  playButton.addEventListener("click", () => {
-    game.setGameMode(GameMode.PLAYING);
+  const introPlaceholder = document.getElementById("intro") as HTMLElement;
+  introPlaceholder.innerHTML = preIntroScreenHTML;
+  const readyButton = document.getElementById("btn-ready") as HTMLButtonElement;
+
+  const introMusic = new Audio();
+  introMusic.src = startScreenMusic;
+  introMusic.loop = true;
+
+  readyButton.addEventListener("click", () => {
+    game.setGameMode(GameMode.IDLE);
+    setupIntroScreen({
+      introPlaceholder,
+      introMusic,
+      introScreenHTML,
+      game,
+    });
   });
 
-  let isStartTextVisible = true;
   let previousTimeStamp = 0;
   let delta = 0;
   let totalTime = 0;
@@ -87,6 +60,11 @@ window.addEventListener("load", function () {
 
     const gameMode = game.getGameMode();
 
+    if (gameMode === "INTRO" && context) {
+      game.splashScreen.update(delta);
+      game.splashScreen.draw(context);
+    }
+
     if (gameMode === "IDLE" && context) {
       game.splashScreen.update(delta);
       game.splashScreen.draw(context);
@@ -95,9 +73,13 @@ window.addEventListener("load", function () {
         introMusic.play();
       }
 
-      if (!isStartTextVisible) {
-        showAllElements(htmlToHideDuringPlay);
-        isStartTextVisible = true;
+      if (introPlaceholder.innerHTML === "") {
+        setupIntroScreen({
+          introPlaceholder,
+          introMusic,
+          introScreenHTML,
+          game,
+        });
       }
     }
 
@@ -121,11 +103,6 @@ window.addEventListener("load", function () {
 
       game.update(delta);
       if (context) game.render(context);
-
-      if (isStartTextVisible) {
-        hideAllElements(htmlToHideDuringPlay);
-        isStartTextVisible = false;
-      }
     }
 
     requestAnimationFrame(gameLoop);

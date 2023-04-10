@@ -82,9 +82,7 @@ export class UI implements IUI {
       );
     }
 
-    // Draw transition text when changing levels
-
-    // Dra transition text when life is lost
+    // Draw transition text when life is lost
     if (this.game.getGameMode() === "DIETRANSITION") {
       context.font = `50px '${this.fontFamily}'`;
       context.fillStyle = "rgba(255 255 255 / 0.6)";
