@@ -1,4 +1,5 @@
 export enum GameMode {
+  INTRO = "INTRO",
   IDLE = "IDLE",
   PLAYING = "PLAYING",
   DIETRANSITION = "DIETRANSITION",

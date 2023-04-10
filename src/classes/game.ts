@@ -46,7 +46,7 @@ export class Game implements IGame {
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D | null
   ) {
-    this.gameMode = GameMode.IDLE;
+    this.gameMode = GameMode.INTRO;
 
     this.canvas = canvas;
     this.context = context;
@@ -115,7 +115,6 @@ export class Game implements IGame {
         this.lives--;
         this.enemyWaveCounter += 1;
 
-        console.log("live count: ", this.lives);
         if (this.lives < 1) {
           this.lives = 0;
           this.setGameMode(GameMode.GAMEOVER);
@@ -282,7 +281,7 @@ export class Game implements IGame {
       this.context.save();
 
       this.context.fillStyle = `rgba(215 171 65 / ${alpha})`;
-      this.context.font = "30px Press Start 2P";
+      this.context.font = "60px 'Press Start 2P'";
       this.context.textAlign = "center";
       this.context.fillText(`Level ${this.level}`, this.width / 2, yPos);
 

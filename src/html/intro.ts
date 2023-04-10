@@ -1,0 +1,25 @@
+export const introScreenHTML = `
+<div class="container">
+
+<button aria-label="Toggle audio" id="speaker-symbol" ></i></button>
+
+  <div class="spacer">x</div>
+  
+  
+<div class="title">
+  <div class="title-text">Attack of the</div>
+  <div class="title-text">Space Nerds</div>
+</div>
+<button  id="btn-play"></button>
+
+    <div class="spacer"></div>
+    
+    <div class="credit-text-large">
+      Game by <a href="https://www.lekanger.no">Kurt Lekanger</a>
+    </div>
+    <div class="credit-text">
+      Intro Music by
+      <a href="https://soundcloud.com/gundatsch">Gundatsch</a>
+    </div>
+  </div>
+`;

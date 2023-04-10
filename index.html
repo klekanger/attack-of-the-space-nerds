@@ -19,29 +19,9 @@
     <link rel="stylesheet" href="src/style.css" />
   </head>
   <body>
-    <div class="container">
-      <button
-        aria-label="Toggle audio"
-        id="speaker-symbol"
-        class="hide-during-play"
-      ></button>
-      <canvas id="canvas1"></canvas>
+    <canvas id="canvas1"></canvas>
 
-      <div class="spacer"></div>
-
-      <div class="title hide-during-play">
-        <div class="title-text">Attack of the</div>
-        <div class="title-text">Space Nerds</div>
-      </div>
-      <button class="hide-during-play" id="btn-play"></button>
-      <div class="credit-text-large hide-during-play">
-        Game by <a href="https://www.lekanger.no">Kurt Lekanger</a>
-      </div>
-      <div class="credit-text hide-during-play">
-        Intro Music by
-        <a href="https://soundcloud.com/gundatsch">Gundatsch</a>
-      </div>
-    </div>
+    <div id="intro"></div>
 
     <!-- Main game script-->
     <script type="module" src="/src/main.ts"></script>
