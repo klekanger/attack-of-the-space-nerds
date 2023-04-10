@@ -58,9 +58,18 @@ body {
   text-align: center;
   justify-content: center;
   align-items: center;
-  overflow-y: scroll;
+  overflow-y: auto;
   border: 2rem solid transparent;
   border-radius: 8px;
+}
+
+::-webkit-scrollbar {
+  width: 16px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(117 212 125 / 50%);
+  border-radius: 4px;
 }
 
 #pre-intro-text p {
