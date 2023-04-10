@@ -2,6 +2,7 @@ export const preIntroScreenHTML = `
   <div class="container">
     <div id="pre-intro-text" >
       
+        <h1 class="pre-intro-title">Once upon a time...</h1>
         <p>In a distant galaxy, a group of brave astronauts embarked on a mission to explore the vast reaches of outer space. They travelled in a magnificent spaceship equipped with the latest technology and weapons to protect them from any danger they might encounter. </p>
         <p>As they journeyed through space, they encountered a group of nerds from a distant planet who attacked their ship with bombs, determined to destroy it.</p>
         <p>The battle was fierce and lasted for hours, but in the end, the astronauts were unable to repel the invaders. The nerds destroyed the ship and continued their attack, unleashing their bombs on planets throughout the galaxy.</p>
