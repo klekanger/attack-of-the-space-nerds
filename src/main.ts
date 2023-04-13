@@ -7,7 +7,7 @@ import { isAudioEnabled } from "./lib/util";
 import { GameMode } from "./types";
 
 import { setupIntroScreen } from "./setupIntroScreen";
-import startScreenMusic from "/audio/Raining Bits.ogg";
+import startScreenMusic from "/audio/Raining Bits.mp3";
 
 export const FA_AUDIO_OFF = `<i class="fa-solid fa-volume-xmark"></i>`;
 export const FA_AUDIO_ON = `<i class="fa-solid fa-volume-high"></i>`;
