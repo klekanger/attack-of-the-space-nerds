@@ -28,6 +28,8 @@ window.addEventListener("load", function () {
   introPlaceholder.innerHTML = preIntroScreenHTML;
   const readyButton = document.getElementById("btn-ready") as HTMLButtonElement;
 
+  animateIntroText.call(this);
+
   const introMusic = new Audio();
   introMusic.src = startScreenMusic;
   introMusic.loop = true;
@@ -109,3 +111,18 @@ window.addEventListener("load", function () {
   }
   gameLoop(0);
 });
+
+function animateIntroText(this: Window) {
+  let slideIndex = 1;
+  let slides: NodeListOf<HTMLElement> = document.querySelectorAll(".card");
+  slides[0].style.display = "block";
+
+  this.setInterval(() => {
+    for (let i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+    slides[slideIndex].style.display = "block";
+
+    slideIndex < slides.length - 1 ? slideIndex++ : (slideIndex = 0);
+  }, 6000);
+}
