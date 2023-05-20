@@ -1,16 +1,18 @@
-export const introScreenHTML = `
-<div class="container">
+export const introScreenHTML: string = `
+<div class="container flyin">
 
-<button aria-label="Toggle audio" id="speaker-symbol" ></i></button>
+  <button aria-label="Toggle audio" id="speaker-symbol" ></i></button>
 
   <div class="spacer">x</div>
-  
-  
-<div class="title">
-  <div class="title-text">Attack of the</div>
-  <div class="title-text">Space Nerds</div>
-</div>
-<button  id="btn-play"></button>
+
+  <div class="title">
+    <div class="title-text">Attack of the</div>
+    <div class="title-text">Space Nerds</div>
+    </div>
+
+  <div class="btn-audio-container">
+    <button  id="btn-play"></button>
+  </div>
 
     <div class="spacer"></div>
     

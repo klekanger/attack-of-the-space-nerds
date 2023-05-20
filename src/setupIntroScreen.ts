@@ -1,5 +1,5 @@
 import { Game } from "./classes/game";
-import { isAudioEnabled, isMobile } from "./lib/util";
+import { isMobile } from "./lib/util";
 import { FA_AUDIO_OFF, FA_AUDIO_ON } from "./main";
 import { GameMode } from "./types";
 
@@ -26,8 +26,7 @@ export function setupIntroScreen({
   ) as HTMLElement;
   audioToggleButton.innerHTML = FA_AUDIO_OFF;
 
-  // Check if audio is enabled in localStorage
-  if (isAudioEnabled()) {
+  if (game.getAudioEnabled() === true) {
     introMusic.play();
     audioToggleButton.innerHTML = FA_AUDIO_ON;
   }
