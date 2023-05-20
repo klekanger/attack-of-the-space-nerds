@@ -41,6 +41,7 @@ export class Game implements IGame {
   levelTransitionTimer: number;
   levelTransitionReset: number;
   fps: number;
+  audioEnabled: boolean;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -75,6 +76,7 @@ export class Game implements IGame {
     this.levelTransitionTimer = 2000;
     this.levelTransitionReset = this.levelTransitionTimer;
     this.fps = 0;
+    this.audioEnabled = true;
   }
 
   update(delta: number) {
@@ -298,5 +300,13 @@ export class Game implements IGame {
   setGameMode(newMode: GameMode) {
     console.log(`Current game mode: ${this.gameMode} – changing to ${newMode}`);
     this.gameMode = newMode;
+  }
+
+  getAudioEnabled(): boolean {
+    return this.audioEnabled;
+  }
+
+  setAudioEnabled(newAudioEnabled: boolean) {
+    this.audioEnabled = newAudioEnabled;
   }
 }

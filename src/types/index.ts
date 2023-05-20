@@ -189,6 +189,8 @@ export interface IGame {
   explodePlayer(): void;
   getGameMode(): GameMode;
   setGameMode(newMode: GameMode): void;
+  getAudioEnabled(): boolean;
+  setAudioEnabled(newAudioEnabled: boolean): void;
   levelTransition(delta: number): void;
 }
 

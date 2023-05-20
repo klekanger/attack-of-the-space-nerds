@@ -134,11 +134,11 @@ export class Enemy implements IEnemy {
   }
 
   playHitSound() {
-    this.sfxHit.play();
+    if (this.game.getAudioEnabled()) this.sfxHit.play();
   }
 
   playExplosionSound() {
-    this.sfxExplosion.play();
+    if (this.game.getAudioEnabled()) this.sfxExplosion.play();
   }
 }
 

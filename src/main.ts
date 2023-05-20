@@ -25,17 +25,49 @@ window.addEventListener("load", function () {
   game.setGameMode(GameMode.INTRO); // Start on the pre-intro-screen so that the user can interact with the page to be able to start the music
 
   const introPlaceholder = document.getElementById("intro") as HTMLElement;
+
+  // Show the pre-intro screen with audio/no audio buttons
   introPlaceholder.innerHTML = preIntroScreenHTML;
-  const readyButton = document.getElementById("btn-ready") as HTMLButtonElement;
+  const startWithAudioBtn = document.getElementById(
+    "btn-audio-yes"
+  ) as HTMLButtonElement;
+  const startWithNoAudioBtn = document.getElementById(
+    "btn-audio-no"
+  ) as HTMLButtonElement;
 
-  animateIntroText.call(this);
-
+  // Initialize intro screen music
   const introMusic = new Audio();
   introMusic.src = startScreenMusic;
   introMusic.loop = true;
 
-  readyButton.addEventListener("click", () => {
+  // Event listener for play with AUDIO button
+  startWithAudioBtn.addEventListener("click", () => {
+    const audioToggleButton = document.getElementById(
+      "speaker-symbol"
+    ) as HTMLElement;
+    audioToggleButton.innerHTML = FA_AUDIO_ON;
+    localStorage.setItem("space_nerds_audio", "on");
+
     game.setGameMode(GameMode.IDLE);
+    game.setAudioEnabled(true);
+    setupIntroScreen({
+      introPlaceholder,
+      introMusic,
+      introScreenHTML,
+      game,
+    });
+  });
+
+  // Event listener for play with NO AUDIO button
+  startWithNoAudioBtn.addEventListener("click", () => {
+    const audioToggleButton = document.getElementById(
+      "speaker-symbol"
+    ) as HTMLElement;
+    audioToggleButton.innerHTML = FA_AUDIO_OFF;
+    localStorage.setItem("space_nerds_audio", "off");
+
+    game.setGameMode(GameMode.IDLE);
+    game.setAudioEnabled(false);
     setupIntroScreen({
       introPlaceholder,
       introMusic,
@@ -111,18 +143,3 @@ window.addEventListener("load", function () {
   }
   gameLoop(0);
 });
-
-function animateIntroText(this: Window) {
-  let slideIndex = 1;
-  let slides: NodeListOf<HTMLElement> = document.querySelectorAll(".card");
-  slides[0].style.display = "block";
-
-  this.setInterval(() => {
-    for (let i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
-    }
-    slides[slideIndex].style.display = "block";
-
-    slideIndex < slides.length - 1 ? slideIndex++ : (slideIndex = 0);
-  }, 6000);
-}
