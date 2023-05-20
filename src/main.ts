@@ -3,7 +3,6 @@ import { Game } from "./classes/game";
 import { introScreenHTML } from "./html/intro";
 import { preIntroScreenHTML } from "./html/pre-intro";
 
-import { isAudioEnabled } from "./lib/util";
 import { GameMode } from "./types";
 
 import { setupIntroScreen } from "./setupIntroScreen";
@@ -46,7 +45,7 @@ window.addEventListener("load", function () {
       "speaker-symbol"
     ) as HTMLElement;
     audioToggleButton.innerHTML = FA_AUDIO_ON;
-    localStorage.setItem("space_nerds_audio", "on");
+    game.setAudioEnabled(true);
 
     game.setGameMode(GameMode.IDLE);
     game.setAudioEnabled(true);
@@ -64,7 +63,7 @@ window.addEventListener("load", function () {
       "speaker-symbol"
     ) as HTMLElement;
     audioToggleButton.innerHTML = FA_AUDIO_OFF;
-    localStorage.setItem("space_nerds_audio", "off");
+    game.setAudioEnabled(false);
 
     game.setGameMode(GameMode.IDLE);
     game.setAudioEnabled(false);
@@ -103,7 +102,7 @@ window.addEventListener("load", function () {
       game.splashScreen.update(delta);
       game.splashScreen.draw(context);
 
-      if (introMusic.paused && isAudioEnabled()) {
+      if (introMusic.paused && game.getAudioEnabled() === true) {
         introMusic.play();
       }
 

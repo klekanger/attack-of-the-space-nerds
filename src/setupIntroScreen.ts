@@ -35,17 +35,17 @@ export function setupIntroScreen({
   audioToggleButton.addEventListener("click", () => {
     if (audioToggleButton.innerHTML === FA_AUDIO_OFF) {
       audioToggleButton.innerHTML = FA_AUDIO_ON;
-      localStorage.setItem("space_nerds_audio", "on");
+      game.setAudioEnabled(true);
       introMusic.play();
     } else {
       audioToggleButton.innerHTML = FA_AUDIO_OFF;
-      localStorage.setItem("space_nerds_audio", "off");
+      game.setAudioEnabled(false);
       introMusic.pause();
     }
   });
 
-  playButton.addEventListener("click", () => {
+  playButton.onclick = () => {
     game.setGameMode(GameMode.PLAYING);
     introPlaceholder.innerHTML = "";
-  });
+  };
 }
