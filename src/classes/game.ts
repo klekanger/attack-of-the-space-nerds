@@ -120,7 +120,6 @@ export class Game implements IGame {
         if (this.lives < 1) {
           this.lives = 0;
           this.setGameMode(GameMode.GAMEOVER);
-          this.player.sfxPlayerExplosion.play();
 
           setTimeout(() => {
             console.log("setting game mode to idle");
@@ -254,8 +253,8 @@ export class Game implements IGame {
 
   explodePlayer() {
     this.createParticles(250, this.player);
-
     this.player.canShoot = false;
+    if (this.getAudioEnabled() === true) this.player.sfxPlayerExplosion.play();
 
     // Move the player off screen
     this.player.x = -100;
