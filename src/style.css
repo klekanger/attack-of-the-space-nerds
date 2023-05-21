@@ -20,9 +20,6 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 100%;
-  max-width: var(--canvas-width);
-  max-height: var(--canvas-height);
   margin: auto;
   position: relative;
 }
@@ -34,8 +31,6 @@ body {
   transform: translate(-50%, -50%);
   background: black;
   height: 100%;
-  width: 100%;
-  max-width: var(--canvas-width);
   max-height: var(--canvas-height);
   opacity: 0.8;
 }
@@ -276,6 +271,7 @@ body {
   .title {
     font-size: 25px;
     padding-bottom: 0;
+    border: 1px solid red;
   }
 
   #pre-intro-text {
