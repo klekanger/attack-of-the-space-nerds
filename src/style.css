@@ -22,6 +22,7 @@ body {
   height: 100vh;
   margin: auto;
   position: relative;
+  overflow: hidden;
 }
 
 #canvas1 {
@@ -75,6 +76,10 @@ body {
   margin-bottom: 1rem;
 }
 
+#intro {
+  max-height: 100%;
+}
+
 .ufo {
   font-size: 10rem;
   animation-name: wiggle;
@@ -122,6 +127,13 @@ body {
   animation: color-change 10s infinite;
 }
 
+.title-text {
+  background-color: rgba(10 10 10 / 50%);
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: calc(12px + 2vw);
+}
+
 .pre-intro-title {
   padding-bottom: 0;
 }
@@ -148,19 +160,12 @@ body {
   }
 }
 
-.title-text {
-  background-color: rgba(10 10 10 / 50%);
-  padding: 1rem;
-  border-radius: 8px;
-  font-size: calc(4px + 2vw);
-}
-
 #btn-ready,
 #btn-play,
 #btn-audio-no,
 #btn-audio-yes {
   font-family: "Press Start 2P", cursive;
-  font-size: 30px;
+  font-size: 20px;
   border-radius: 8px;
   background-color: rgba(26 44 42 / 90%);
   color: #eff70b;
@@ -273,7 +278,6 @@ body {
   .title {
     padding-bottom: 0;
     width: 100%;
-    border: 1px solid red;
   }
 
   .title-text {
