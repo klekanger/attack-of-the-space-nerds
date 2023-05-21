@@ -24,7 +24,7 @@ export function setupIntroScreen({
 
   isMobile()
     ? (playButton.innerText = "Tap to Play")
-    : (playButton.innerText = "Space to Play");
+    : (playButton.innerText = "Click to Play");
 
   const audioToggleButton = document.getElementById(
     "speaker-symbol"
@@ -50,7 +50,7 @@ export function setupIntroScreen({
   });
 
   playButton.onclick = () => {
-    game.setGameMode(GameMode.PLAYING);
     introPlaceholder.innerHTML = "";
+    game.setGameMode(GameMode.PLAYING);
   };
 }
