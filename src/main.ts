@@ -5,8 +5,8 @@ import { preIntroScreenHTML } from "./html/pre-intro";
 
 import { GameMode } from "./types";
 
+import startScreenMusic from "./audio/Raining Bits.mp3";
 import { setupIntroScreen } from "./setupIntroScreen";
-import startScreenMusic from "/audio/Raining Bits.mp3";
 
 export const FA_AUDIO_OFF = `<i class="fa-solid fa-volume-xmark"></i>`;
 export const FA_AUDIO_ON = `<i class="fa-solid fa-volume-high"></i>`;
@@ -15,8 +15,9 @@ window.addEventListener("load", function () {
   // Set up main game canvas
   const canvas = document.getElementById("canvas1") as HTMLCanvasElement;
   const context = canvas.getContext("2d");
-  canvas.width = 800;
-  canvas.height = 900;
+  // canvas.width = 960;
+  canvas.height = 1600;
+  canvas.width = canvas.height * (canvas.clientWidth / canvas.clientHeight);
 
   // Create game instance
   // Almost all game logic is contained in the Game class
