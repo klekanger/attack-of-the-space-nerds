@@ -122,7 +122,6 @@ export class Game implements IGame {
           this.setGameMode(GameMode.GAMEOVER);
 
           setTimeout(() => {
-            console.log("setting game mode to idle");
             this.setGameMode(GameMode.IDLE);
           }, SECONDS_BEFORE_IDLE);
         } else {
@@ -297,7 +296,6 @@ export class Game implements IGame {
   }
 
   setGameMode(newMode: GameMode) {
-    console.log(`Current game mode: ${this.gameMode} – changing to ${newMode}`);
     this.gameMode = newMode;
   }
 

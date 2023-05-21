@@ -38,7 +38,6 @@ window.addEventListener("load", function () {
     const container = document.querySelector(".container") as HTMLElement;
 
     if (container) {
-      console.log(canvas.clientHeight, canvas.clientWidth);
       container.style.width = `${canvas.clientWidth}px`;
       container.style.height = `${canvas.clientHeight}px`;
     }
