@@ -15,9 +15,8 @@ window.addEventListener("load", function () {
   // Set up main game canvas
   const canvas = document.getElementById("canvas1") as HTMLCanvasElement;
   const context = canvas.getContext("2d");
-  // canvas.width = 960;
+  canvas.width = 960;
   canvas.height = 1600;
-  canvas.width = canvas.height * (canvas.clientWidth / canvas.clientHeight);
 
   // Create game instance
   // Almost all game logic is contained in the Game class
@@ -28,6 +27,21 @@ window.addEventListener("load", function () {
 
   // Show the pre-intro screen with audio/no audio buttons
   introPlaceholder.innerHTML = preIntroScreenHTML;
+
+  const container = document.querySelector(".container") as HTMLElement;
+  if (container) {
+    container.style.width = `${canvas.clientWidth}px`;
+    container.style.height = `${canvas.clientHeight}px`;
+  }
+
+  this.addEventListener("resize", () => {
+    const container = document.querySelector(".container") as HTMLElement;
+    if (container) {
+      container.style.width = `${canvas.clientWidth}px`;
+      container.style.height = `${canvas.clientHeight}px`;
+    }
+  });
+
   const startWithAudioBtn = document.getElementById(
     "btn-audio-yes"
   ) as HTMLButtonElement;
