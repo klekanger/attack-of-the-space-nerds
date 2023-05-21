@@ -17,9 +17,6 @@ export class Layer implements ILayer {
     this.height = game.height * 2;
     this.x = 0;
     this.y = 0;
-
-    console.log("game width", this.width);
-    console.log("game height", this.height);
   }
 
   update(delta: number) {
