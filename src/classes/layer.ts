@@ -13,10 +13,13 @@ export class Layer implements ILayer {
     this.game = game;
     this.image = image;
     this.speed = speed;
-    this.width = 960;
-    this.height = 3200;
+    this.width = game.width;
+    this.height = game.height * 2;
     this.x = 0;
     this.y = 0;
+
+    console.log("game width", this.width);
+    console.log("game height", this.height);
   }
 
   update(delta: number) {

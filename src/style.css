@@ -1,6 +1,6 @@
 :root {
-  --canvas-width: 800px;
-  --canvas-height: 900px;
+  --canvas-width: 960px;
+  --canvas-height: 1600px;
 }
 
 * {
@@ -21,7 +21,8 @@ body {
   flex-direction: column;
   height: 100vh;
   width: 100%;
-  max-width: 800px;
+  max-width: var(--canvas-width);
+  max-height: var(--canvas-height);
   margin: auto;
   position: relative;
 }
@@ -34,9 +35,9 @@ body {
   background: black;
   height: 100%;
   width: 100%;
-  max-width: 800px;
+  max-width: var(--canvas-width);
+  max-height: var(--canvas-height);
   opacity: 0.8;
-  object-fit: cover;
 }
 
 .spacer {
