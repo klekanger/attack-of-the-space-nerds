@@ -37,6 +37,7 @@ export function chaseMovement({
   delta,
   xMultiply = 4,
   yMultiply = 1,
+  direction = 1,
 }: IChaseMovement) {
   // Calculate the distance between the player and enemy spaceships
   const dx = playerX - enemyX;
@@ -47,8 +48,11 @@ export function chaseMovement({
   const vx = (dx / distance) * speed * xMultiply;
   const vy = (dy / distance) * speed * yMultiply;
 
+  // Add sinus wave to the x position, each enemy has a random direction
+  const sinToAdd = Math.sin(enemyY / 40) * 4 * direction;
+
   // Update the enemy's position based on the velocity
-  enemyX += vx * delta;
+  enemyX += (vx + sinToAdd) * delta;
   enemyY += vy * delta;
 
   // Return the updated position of the enemy spaceship

@@ -76,6 +76,7 @@ export class Enemy implements IEnemy {
         delta: delta / 10,
         xMultiply: 1 + this.game.level,
         yMultiply: 0.5 + this.game.level / 10,
+        direction: this.direction,
       });
       this.x = x;
       this.y = y;
@@ -149,6 +150,7 @@ export class ScaryGeek extends Enemy {
   lives: number;
   score: number;
   image: HTMLImageElement;
+  direction: number;
 
   constructor(game: IGame) {
     super(game);
@@ -164,6 +166,7 @@ export class ScaryGeek extends Enemy {
     this.lives = 2;
     this.score = this.lives;
     this.hitDamage = 0.2;
+    this.direction = Math.random() < 0.5 ? -1 : 1;
   }
 }
 

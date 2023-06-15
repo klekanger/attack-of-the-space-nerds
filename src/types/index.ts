@@ -217,6 +217,7 @@ export interface IEnemy {
   shootInterval: number;
   animationTimer: number;
   animationInterval: number;
+  direction?: number;
 
   update(delta: number): void;
   draw(context: CanvasRenderingContext2D): void;
@@ -250,4 +251,5 @@ export interface IChaseMovement {
   delta: number;
   xMultiply?: number;
   yMultiply?: number;
+  direction?: number;
 }
