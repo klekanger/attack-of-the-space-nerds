@@ -28,14 +28,14 @@ window.addEventListener("load", function () {
   // Show the pre-intro screen with audio/no audio buttons
   introPlaceholder.innerHTML = preIntroScreenHTML;
 
-  const container = document.querySelector(".container") as HTMLElement;
+  const container = document.getElementById("container") as HTMLElement;
   if (container) {
     container.style.width = `${canvas.clientWidth}px`;
     container.style.height = `${canvas.clientHeight}px`;
   }
 
   this.addEventListener("resize", () => {
-    const container = document.querySelector(".container") as HTMLElement;
+    const container = document.getElementById("container") as HTMLElement;
 
     if (container) {
       container.style.width = `${canvas.clientWidth}px`;

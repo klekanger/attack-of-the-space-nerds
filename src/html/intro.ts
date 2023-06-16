@@ -1,5 +1,5 @@
 export const introScreenHTML = `
-<div class="container flyin">
+<div id="container class="flyin">
 
   <button aria-label="Toggle audio" id="speaker-symbol" ></i></button>
 

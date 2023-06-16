@@ -15,7 +15,7 @@ export function setupIntroScreen({
   introScreenHTML: string;
 }) {
   introPlaceholder.innerHTML = introScreenHTML;
-  const container = document.querySelector(".container") as HTMLElement;
+  const container = document.getElementById("container") as HTMLElement;
   if (container) {
     container.style.width = `${game.canvas.clientWidth}px`;
     container.style.height = `${game.canvas.clientHeight}px`;

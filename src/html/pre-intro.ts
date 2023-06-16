@@ -1,5 +1,5 @@
 export const preIntroScreenHTML = `
-  <div class="container">
+  <div id="container">
   
     <button aria-label="Toggle audio" id="speaker-symbol" ></i></button>
     
