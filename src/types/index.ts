@@ -7,6 +7,13 @@ export enum GameMode {
   GAMEOVER = "GAMEOVER",
 }
 
+export interface ISetupIntroScreen {
+  introPlaceholder: HTMLElement;
+  introMusic: HTMLAudioElement;
+  game: IGame;
+  introScreenHTML: string;
+}
+
 export interface IBackground {
   game: IGame;
   layer1: ILayer;

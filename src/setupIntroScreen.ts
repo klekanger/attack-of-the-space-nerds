@@ -1,19 +1,13 @@
-import { Game } from "./classes/game";
 import { isMobile } from "./lib/util";
 import { FA_AUDIO_OFF, FA_AUDIO_ON } from "./main";
-import { GameMode } from "./types";
+import { GameMode, ISetupIntroScreen } from "./types";
 
 export function setupIntroScreen({
   introPlaceholder,
   introMusic,
   game,
   introScreenHTML,
-}: {
-  introPlaceholder: HTMLElement;
-  introMusic: HTMLAudioElement;
-  game: Game;
-  introScreenHTML: string;
-}) {
+}: ISetupIntroScreen) {
   introPlaceholder.innerHTML = introScreenHTML;
   const container = document.getElementById("container") as HTMLElement;
   if (container) {
