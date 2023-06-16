@@ -21,11 +21,11 @@ window.addEventListener("load", function () {
   // Create game instance
   // Almost all game logic is contained in the Game class
   const game = new Game(canvas, context);
-  game.setGameMode(GameMode.INTRO); // Start on the pre-intro-screen so that the user can interact with the page to be able to start the music
-
-  const introPlaceholder = document.getElementById("intro") as HTMLElement;
+  // Start on the pre-intro-screen so that the user can interact with the page to be able to start the music
+  game.setGameMode(GameMode.INTRO);
 
   // Show the pre-intro screen with audio/no audio buttons
+  const introPlaceholder = document.getElementById("intro") as HTMLElement;
   introPlaceholder.innerHTML = preIntroScreenHTML;
 
   const container = document.getElementById("container") as HTMLElement;
@@ -62,7 +62,6 @@ window.addEventListener("load", function () {
     ) as HTMLElement;
     audioToggleButton.innerHTML = FA_AUDIO_ON;
     game.setAudioEnabled(true);
-
     game.setGameMode(GameMode.IDLE);
     game.setAudioEnabled(true);
     setupIntroScreen({
