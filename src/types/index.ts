@@ -177,10 +177,8 @@ export interface IGame {
   enemyTimer: number;
   gameSpeed: number;
   score: number;
-  debug: boolean;
   lives: number;
   level: number;
-  gameTime: number;
   levelTransitionTimer: number;
   levelTransitionReset: number;
   fps: number;
@@ -259,4 +257,10 @@ export interface IChaseMovement {
   xMultiply?: number;
   yMultiply?: number;
   direction?: number;
+}
+
+export interface IcalculateSineWave {
+  yPosition: number;
+  xStart: number;
+  viewportWidth: number;
 }

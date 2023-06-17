@@ -34,10 +34,8 @@ export class Game implements IGame {
   enemyTimer: number;
   gameSpeed: number;
   score: number;
-  debug: boolean;
   lives: number;
   level: number;
-  gameTime: number;
   levelTransitionTimer: number;
   levelTransitionReset: number;
   fps: number;
@@ -66,13 +64,11 @@ export class Game implements IGame {
     this.enemyWave = [];
     this.enemyWaveCounter = NUM_OF_ENEMY_WAVES;
     this.particles = [];
-    this.debug = false;
     this.enemyTimer = 0;
     this.gameSpeed = 0.01;
     this.score = 0;
     this.lives = 3;
     this.level = 1;
-    this.gameTime = 0;
     this.levelTransitionTimer = 2000;
     this.levelTransitionReset = this.levelTransitionTimer;
     this.fps = 0;

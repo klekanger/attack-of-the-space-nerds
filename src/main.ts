@@ -92,7 +92,6 @@ window.addEventListener("load", function () {
 
   let previousTimeStamp = 0;
   let delta = 0;
-  let totalTime = 0;
 
   // *******************
   // Game animation loop
@@ -100,11 +99,6 @@ window.addEventListener("load", function () {
   function gameLoop(timestamp: number) {
     delta = timestamp - previousTimeStamp;
     previousTimeStamp = timestamp;
-    totalTime += delta;
-
-    // Mostly for debugging purposes
-    game.fps = Math.round(1000 / delta);
-    game.gameTime = totalTime / 1000;
 
     const gameMode = game.getGameMode();
 

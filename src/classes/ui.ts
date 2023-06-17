@@ -37,31 +37,6 @@ export class UI implements IUI {
       );
     }
 
-    // Debug mode
-    if (this.game.debug) {
-      context.font = `20px 'Arial'`;
-      context.fillStyle = "#EBF48D";
-      context.fillText(`gameTime: ${this.game.gameTime.toFixed(1)}`, 20, 100);
-      context.fillText(`fps: ${this.game.fps.toFixed(1)}`, 20, 130);
-
-      context.fillRect(120, 115, this.game.fps * 4, 10);
-      context.fillText(
-        `background speed: ${this.game.background.layer1.speed}`,
-        20,
-        150
-      );
-      context.fillText(
-        `shootTimer: ${this.game.player.shootTimer.toFixed(0)}`,
-        20,
-        170
-      );
-      context.fillText(
-        `enemyWaveCounter: ${this.game.enemyWaveCounter.toFixed(0)}`,
-        20,
-        190
-      );
-    }
-
     // Draw game over text on canvas
 
     if (this.game.getGameMode() === "GAMEOVER") {

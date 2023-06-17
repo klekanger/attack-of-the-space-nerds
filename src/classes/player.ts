@@ -96,12 +96,6 @@ export class Player implements IPlayer {
   }
 
   draw(context: CanvasRenderingContext2D) {
-    context.fillStyle = "white";
-    if (this.game.debug) {
-      context.strokeStyle = "white";
-      context.strokeRect(this.x, this.y, this.width, this.height);
-    }
-
     this.projectiles.forEach((projectile) => {
       projectile.draw(context);
     });

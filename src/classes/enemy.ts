@@ -104,21 +104,6 @@ export class Enemy implements IEnemy {
   }
 
   draw(context: CanvasRenderingContext2D) {
-    if (this.game.debug) {
-      context.font = "20px Helvetica";
-
-      context.fillStyle = "#EBF48D";
-      context.fillText(`Lives: ${this.lives.toString()}`, this.x, this.y);
-
-      context.fillText(
-        `this.frame: ${Math.floor(this.frame).toString()}`,
-        this.x,
-        this.y - 30
-      );
-
-      context.strokeRect(this.x, this.y, this.width, this.height);
-    }
-
     if (this.multisprite)
       context.drawImage(
         this.image,
