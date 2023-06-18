@@ -23,51 +23,12 @@ export class InputHandler implements IInputHandler {
     this.setTouchEventListeners();
   }
 
-  startTouch(touches) {
-    /*  this.intervalId = setInterval(() => {
-      const { x } = this.getMousePosition(touches, this.canvas);
-
-      // Check if x has moved less than 10 pixels away from previousMouseX
-      if (Math.abs(x - this.previousMouseX) < 20) {
-        return;
-      }
-
-      /* if (x > this.game.player.x - 10 && x < this.game.player.x + 10) {
-        this.previousMouseX = x;
-        this.game.keys = [" "];
-      } else  
-
-      if (x <= this.game.player.x - 10) {
-        this.game.keys = ["ArrowLeft", " "];
-      } else if (x >= this.game.player.x + 10) {
-        this.game.keys = ["ArrowRight", " "];
-      }
-
-      this.previousMouseX = x;
-    }, 100); */
-
-    if (touches.clientX < this.game.player.x) {
-      this.game.keys = ["ArrowLeft", " "];
-    }
-    if (touches.clientX > this.game.player.x) {
-      this.game.keys = ["ArrowRight", " "];
-    }
-  }
-
-  endTouch() {
-    console.log("end touch");
-  }
+  endTouch() {}
 
   // Add touch event listeners
   setTouchEventListeners() {
     this.canvas.addEventListener("touchstart", (e) => {
       e.preventDefault();
-
-      // this.startTouch(e.touches[0]);
-
-      //      const { x } = this.getMousePosition(e.touches[0], this.canvas);
-
-      console.log(e.touches[0].clientX, this.game.player.x);
 
       if (e.touches[0].clientX < this.game.player.x) {
         this.game.keys = ["ArrowLeft", " "];
@@ -75,30 +36,12 @@ export class InputHandler implements IInputHandler {
       if (e.touches[0].clientX > this.game.player.x) {
         this.game.keys = ["ArrowRight", " "];
       }
-
-      /*     if (x < this.game.player.x) {
-        this.game.keys = ["ArrowLeft", " "];
-      } else if (x > this.game.player.x) {
-        this.game.keys = ["ArrowRight", " "];
-      }
- */
     });
 
     this.canvas.addEventListener("touchend", (e) => {
       e.preventDefault();
       this.game.keys = [];
       this.endTouch();
-    });
-
-    this.canvas.addEventListener("touchmove", (e) => {
-      /* e.preventDefault();
-      const { x } = this.getMousePosition(e.touches[0], this.canvas);
-
-      if (x < this.game.player.x) {
-        this.game.keys = ["ArrowLeft", " "];
-      } else if (x > this.game.player.x) {
-        this.game.keys = ["ArrowRight", " "];
-      } */
     });
 
     this.canvas.addEventListener("touchcancel", (e) => {
