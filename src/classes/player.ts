@@ -96,12 +96,6 @@ export class Player implements IPlayer {
   }
 
   draw(context: CanvasRenderingContext2D) {
-    context.fillStyle = "white";
-    if (this.game.debug) {
-      context.strokeStyle = "white";
-      context.strokeRect(this.x, this.y, this.width, this.height);
-    }
-
     this.projectiles.forEach((projectile) => {
       projectile.draw(context);
     });
@@ -115,6 +109,6 @@ export class Player implements IPlayer {
     this.projectiles.push(
       new PlayerProjectile(this.game, this.x - 5 + this.width / 2)
     );
-    if (this.game.getAudioEnabled()) this.sfxShoot.play();
+    if (this.game.isAudioEnabled) this.sfxShoot.play();
   }
 }

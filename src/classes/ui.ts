@@ -37,34 +37,9 @@ export class UI implements IUI {
       );
     }
 
-    // Debug mode
-    if (this.game.debug) {
-      context.font = `20px 'Arial'`;
-      context.fillStyle = "#EBF48D";
-      context.fillText(`gameTime: ${this.game.gameTime.toFixed(1)}`, 20, 100);
-      context.fillText(`fps: ${this.game.fps.toFixed(1)}`, 20, 130);
-
-      context.fillRect(120, 115, this.game.fps * 4, 10);
-      context.fillText(
-        `background speed: ${this.game.background.layer1.speed}`,
-        20,
-        150
-      );
-      context.fillText(
-        `shootTimer: ${this.game.player.shootTimer.toFixed(0)}`,
-        20,
-        170
-      );
-      context.fillText(
-        `enemyWaveCounter: ${this.game.enemyWaveCounter.toFixed(0)}`,
-        20,
-        190
-      );
-    }
-
     // Draw game over text on canvas
 
-    if (this.game.getGameMode() === "GAMEOVER") {
+    if (this.game.getGameMode === "GAMEOVER") {
       context.font = `50px '${this.fontFamily}'`;
       context.fillStyle = "rgba(255 255 255 / 0.6)";
       context.textAlign = "center";
@@ -83,7 +58,7 @@ export class UI implements IUI {
     }
 
     // Draw transition text when life is lost
-    if (this.game.getGameMode() === "DIETRANSITION") {
+    if (this.game.getGameMode === "DIETRANSITION") {
       context.font = `50px '${this.fontFamily}'`;
       context.fillStyle = "rgba(255 255 255 / 0.6)";
       context.textAlign = "center";

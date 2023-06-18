@@ -7,6 +7,13 @@ export enum GameMode {
   GAMEOVER = "GAMEOVER",
 }
 
+export interface ISetupIntroScreen {
+  introPlaceholder: HTMLElement;
+  introMusic: HTMLAudioElement;
+  introScreenHTML: string;
+  game: IGame;
+}
+
 export interface IBackground {
   game: IGame;
   layer1: ILayer;
@@ -170,10 +177,8 @@ export interface IGame {
   enemyTimer: number;
   gameSpeed: number;
   score: number;
-  debug: boolean;
   lives: number;
   level: number;
-  gameTime: number;
   levelTransitionTimer: number;
   levelTransitionReset: number;
   fps: number;
@@ -187,10 +192,10 @@ export interface IGame {
   initGame(fullReset: boolean): void;
   explodeAllEnemies(): void;
   explodePlayer(): void;
-  getGameMode(): GameMode;
-  setGameMode(newMode: GameMode): void;
-  getAudioEnabled(): boolean;
-  setAudioEnabled(newAudioEnabled: boolean): void;
+  getGameMode: GameMode;
+  setGameMode: GameMode;
+  isAudioEnabled: boolean;
+  setAudioEnabled: boolean;
   levelTransition(delta: number): void;
 }
 
@@ -252,4 +257,10 @@ export interface IChaseMovement {
   xMultiply?: number;
   yMultiply?: number;
   direction?: number;
+}
+
+export interface IcalculateSineWave {
+  yPosition: number;
+  xStart: number;
+  viewportWidth: number;
 }
