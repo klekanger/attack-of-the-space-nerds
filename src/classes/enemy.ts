@@ -51,7 +51,7 @@ export class Enemy implements IEnemy {
     this.shootTimer = randomBetween(1000, 5000);
     this.shootInterval = this.shootTimer;
     this.animationTimer = 0;
-    this.animationInterval = 100 / game.fps;
+    this.animationInterval = 200 / game.fps;
   }
 
   // ***************************************

@@ -99,6 +99,7 @@ window.addEventListener("load", function () {
   function gameLoop(timestamp: number) {
     delta = timestamp - previousTimeStamp;
     previousTimeStamp = timestamp;
+    game.fps = Math.round(1000 / delta);
 
     const gameMode = game.getGameMode;
 
