@@ -109,6 +109,6 @@ export class Player implements IPlayer {
     this.projectiles.push(
       new PlayerProjectile(this.game, this.x - 5 + this.width / 2)
     );
-    if (this.game.getAudioEnabled()) this.sfxShoot.play();
+    if (this.game.isAudioEnabled) this.sfxShoot.play();
   }
 }

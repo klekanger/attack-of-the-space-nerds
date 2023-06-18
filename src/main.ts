@@ -22,7 +22,7 @@ window.addEventListener("load", function () {
   // Almost all game logic is contained in the Game class
   const game = new Game(canvas, context);
   // Start on the pre-intro-screen so that the user can interact with the page to be able to start the music
-  game.setGameMode(GameMode.INTRO);
+  game.setGameMode = GameMode.INTRO;
 
   // Show the pre-intro screen with audio/no audio buttons
   const introPlaceholder = document.getElementById("intro") as HTMLElement;
@@ -61,9 +61,9 @@ window.addEventListener("load", function () {
       "speaker-symbol"
     ) as HTMLElement;
     audioToggleButton.innerHTML = FA_AUDIO_ON;
-    game.setAudioEnabled(true);
-    game.setGameMode(GameMode.IDLE);
-    game.setAudioEnabled(true);
+    game.setAudioEnabled = true;
+    game.setGameMode = GameMode.IDLE;
+    game.setAudioEnabled = true;
     setupIntroScreen({
       introPlaceholder,
       introMusic,
@@ -78,10 +78,10 @@ window.addEventListener("load", function () {
       "speaker-symbol"
     ) as HTMLElement;
     audioToggleButton.innerHTML = FA_AUDIO_OFF;
-    game.setAudioEnabled(false);
+    game.setAudioEnabled = false;
 
-    game.setGameMode(GameMode.IDLE);
-    game.setAudioEnabled(false);
+    game.setGameMode = GameMode.IDLE;
+    game.setAudioEnabled = false;
     setupIntroScreen({
       introPlaceholder,
       introMusic,
@@ -100,7 +100,7 @@ window.addEventListener("load", function () {
     delta = timestamp - previousTimeStamp;
     previousTimeStamp = timestamp;
 
-    const gameMode = game.getGameMode();
+    const gameMode = game.getGameMode;
 
     if (gameMode === "INTRO" && context) {
       game.splashScreen.update(delta);
@@ -111,7 +111,7 @@ window.addEventListener("load", function () {
       game.splashScreen.update(delta);
       game.splashScreen.draw(context);
 
-      if (introMusic.paused && game.getAudioEnabled() === true) {
+      if (introMusic.paused && game.isAudioEnabled === true) {
         introMusic.play();
       }
 

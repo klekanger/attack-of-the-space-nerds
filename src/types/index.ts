@@ -10,8 +10,8 @@ export enum GameMode {
 export interface ISetupIntroScreen {
   introPlaceholder: HTMLElement;
   introMusic: HTMLAudioElement;
-  game: IGame;
   introScreenHTML: string;
+  game: IGame;
 }
 
 export interface IBackground {
@@ -192,10 +192,10 @@ export interface IGame {
   initGame(fullReset: boolean): void;
   explodeAllEnemies(): void;
   explodePlayer(): void;
-  getGameMode(): GameMode;
-  setGameMode(newMode: GameMode): void;
-  getAudioEnabled(): boolean;
-  setAudioEnabled(newAudioEnabled: boolean): void;
+  getGameMode: GameMode;
+  setGameMode: GameMode;
+  isAudioEnabled: boolean;
+  setAudioEnabled: boolean;
   levelTransition(delta: number): void;
 }
 

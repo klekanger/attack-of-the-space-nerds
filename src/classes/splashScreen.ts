@@ -88,7 +88,7 @@ export class SplashScreen implements ISplashScreen {
     }
 
     if (this.hasPressInsideTextBoundingBox()) {
-      this.game.setGameMode(GameMode.PLAYING);
+      this.game.setGameMode = GameMode.PLAYING;
     }
   }
 

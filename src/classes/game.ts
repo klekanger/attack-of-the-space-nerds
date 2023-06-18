@@ -17,7 +17,7 @@ const SECONDS_DIE_TRANSITION = 2 * 1000;
 const GAMESPEED_INCREASE = 0.002;
 
 export class Game implements IGame {
-  private gameMode: GameMode;
+  gameMode: GameMode;
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D | null;
   width: number;
@@ -97,9 +97,9 @@ export class Game implements IGame {
 
         // set gameMode to level transition for 2 seconds
         // and then back to playing
-        this.setGameMode(GameMode.LEVELTRANSITION);
+        this.setGameMode = GameMode.LEVELTRANSITION;
         setTimeout(() => {
-          this.setGameMode(GameMode.PLAYING);
+          this.setGameMode = GameMode.PLAYING;
         }, 2000);
       }
     }
@@ -115,18 +115,18 @@ export class Game implements IGame {
 
         if (this.lives < 1) {
           this.lives = 0;
-          this.setGameMode(GameMode.GAMEOVER);
+          this.setGameMode = GameMode.GAMEOVER;
 
           setTimeout(() => {
-            this.setGameMode(GameMode.IDLE);
+            this.setGameMode = GameMode.IDLE;
           }, SECONDS_BEFORE_IDLE);
         } else {
           // set the game mode to die transition for 2 seconds
           // and then back to playing
-          this.setGameMode(GameMode.DIETRANSITION);
+          this.setGameMode = GameMode.DIETRANSITION;
 
           setTimeout(() => {
-            this.setGameMode(GameMode.PLAYING);
+            this.setGameMode = GameMode.PLAYING;
           }, SECONDS_DIE_TRANSITION);
         }
 
@@ -229,7 +229,7 @@ export class Game implements IGame {
       this.score = 0;
       this.lives = 3;
       this.level = 1;
-      this.setGameMode(GameMode.PLAYING);
+      this.setGameMode = GameMode.PLAYING;
     }
 
     this.enemyWave = [];
@@ -249,7 +249,7 @@ export class Game implements IGame {
   explodePlayer() {
     this.createParticles(250, this.player);
     this.player.canShoot = false;
-    if (this.getAudioEnabled() === true) this.player.sfxPlayerExplosion.play();
+    if (this.isAudioEnabled === true) this.player.sfxPlayerExplosion.play();
 
     // Move the player off screen
     this.player.x = -100;
@@ -287,19 +287,19 @@ export class Game implements IGame {
     }
   }
 
-  getGameMode(): GameMode {
+  get getGameMode(): GameMode {
     return this.gameMode;
   }
 
-  setGameMode(newMode: GameMode) {
+  set setGameMode(newMode: GameMode) {
     this.gameMode = newMode;
   }
 
-  getAudioEnabled(): boolean {
+  get isAudioEnabled(): boolean {
     return this.audioEnabled;
   }
 
-  setAudioEnabled(newAudioEnabled: boolean) {
+  set setAudioEnabled(newAudioEnabled: boolean) {
     this.audioEnabled = newAudioEnabled;
   }
 }

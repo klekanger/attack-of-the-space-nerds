@@ -111,7 +111,7 @@ export class InputHandler implements IInputHandler {
   // Add keyboard event listeners
   setKeyboardEventListeners() {
     window.addEventListener("keydown", (e) => {
-      if (e.key === "p" && this.game.getGameMode() !== GameMode.PLAYING) {
+      if (e.key === "p" && this.game.getGameMode !== GameMode.PLAYING) {
         // Resets game and changes game mode to PLAYING
         this.game.initGame(true);
       } else if (

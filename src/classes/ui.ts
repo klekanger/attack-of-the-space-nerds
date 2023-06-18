@@ -39,7 +39,7 @@ export class UI implements IUI {
 
     // Draw game over text on canvas
 
-    if (this.game.getGameMode() === "GAMEOVER") {
+    if (this.game.getGameMode === "GAMEOVER") {
       context.font = `50px '${this.fontFamily}'`;
       context.fillStyle = "rgba(255 255 255 / 0.6)";
       context.textAlign = "center";
@@ -58,7 +58,7 @@ export class UI implements IUI {
     }
 
     // Draw transition text when life is lost
-    if (this.game.getGameMode() === "DIETRANSITION") {
+    if (this.game.getGameMode === "DIETRANSITION") {
       context.font = `50px '${this.fontFamily}'`;
       context.fillStyle = "rgba(255 255 255 / 0.6)";
       context.textAlign = "center";

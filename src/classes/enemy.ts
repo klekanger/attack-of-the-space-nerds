@@ -120,11 +120,11 @@ export class Enemy implements IEnemy {
   }
 
   playHitSound() {
-    if (this.game.getAudioEnabled()) this.sfxHit.play();
+    if (this.game.isAudioEnabled) this.sfxHit.play();
   }
 
   playExplosionSound() {
-    if (this.game.getAudioEnabled()) this.sfxExplosion.play();
+    if (this.game.isAudioEnabled) this.sfxExplosion.play();
   }
 }
 
