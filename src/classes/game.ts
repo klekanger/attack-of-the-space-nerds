@@ -17,7 +17,9 @@ const SECONDS_DIE_TRANSITION = 2 * 1000;
 const GAMESPEED_INCREASE = 0.002;
 
 export class Game implements IGame {
-  gameMode: GameMode;
+  #gameMode: GameMode;
+  #audioEnabled: boolean;
+
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D | null;
   width: number;
@@ -39,13 +41,13 @@ export class Game implements IGame {
   levelTransitionTimer: number;
   levelTransitionReset: number;
   fps: number;
-  audioEnabled: boolean;
 
   constructor(
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D | null
   ) {
-    this.gameMode = GameMode.INTRO;
+    this.#gameMode = GameMode.INTRO;
+    this.#audioEnabled = true;
 
     this.canvas = canvas;
     this.context = context;
@@ -72,7 +74,6 @@ export class Game implements IGame {
     this.levelTransitionTimer = 2000;
     this.levelTransitionReset = this.levelTransitionTimer;
     this.fps = 0;
-    this.audioEnabled = true;
   }
 
   update(delta: number) {
@@ -86,7 +87,7 @@ export class Game implements IGame {
     );
 
     // Add enemies to the game and detect collisions
-    if (this.enemyWave.length === 0 && this.gameMode === "PLAYING") {
+    if (this.enemyWave.length === 0 && this.#gameMode === "PLAYING") {
       if (this.enemyWaveCounter > 0) {
         this.addEnemyWave();
         this.enemyWaveCounter--;
@@ -288,18 +289,18 @@ export class Game implements IGame {
   }
 
   get getGameMode(): GameMode {
-    return this.gameMode;
+    return this.#gameMode;
   }
 
   set setGameMode(newMode: GameMode) {
-    this.gameMode = newMode;
+    this.#gameMode = newMode;
   }
 
   get isAudioEnabled(): boolean {
-    return this.audioEnabled;
+    return this.#audioEnabled;
   }
 
   set setAudioEnabled(newAudioEnabled: boolean) {
-    this.audioEnabled = newAudioEnabled;
+    this.#audioEnabled = newAudioEnabled;
   }
 }

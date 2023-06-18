@@ -165,11 +165,14 @@ export interface IGame {
   context: CanvasRenderingContext2D | null;
   width: number;
   height: number;
+
   background: IBackground;
   splashScreen: ISplashScreen;
+  ui: IUI;
+
   player: IPlayer;
   inputHandler: IInputHandler;
-  ui: IUI;
+
   keys: string[];
   enemyWave: IEnemy[];
   enemyWaveCounter: number;
