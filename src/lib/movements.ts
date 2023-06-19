@@ -1,4 +1,4 @@
-import { IcalculateSineWave, IChaseMovement } from "../types";
+import type { IcalculateSineWave, IChaseMovement } from '../types';
 
 /**
  * Makes the enemy spaceship move in a sine wave
@@ -8,9 +8,9 @@ export function calculateSineWave({
   xStart,
   viewportWidth,
 }: IcalculateSineWave) {
-  const amplitude = viewportWidth / 2; // adjust this to change the height of the wave
-  const frequency = 0.01; // adjust this to change the frequency of the wave
-  const phase = xStart; // adjust this to change the starting phase of the wave
+  const amplitude = viewportWidth / 2; // Adjust this to change the height of the wave
+  const frequency = 0.01; // Adjust this to change the frequency of the wave
+  const phase = xStart; // Adjust this to change the starting phase of the wave
 
   const xPosition =
     Math.sin(yPosition * frequency + phase) * amplitude + viewportWidth / 2; // 400 is the horizontal center of the screen

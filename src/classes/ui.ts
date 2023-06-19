@@ -1,18 +1,16 @@
-import playerImage from "../artwork/player.png";
-import { IGame, IUI } from "../types";
+import playerImage from '../artwork/player.png';
+import type { IGame, IUi } from '../types';
 
-export class UI implements IUI {
-  game: IGame;
+export class Ui implements IUi {
   fontSize: number;
   fontFamily: string;
   textColor: string;
   playerImage: HTMLImageElement;
 
-  constructor(game: IGame) {
-    this.game = game;
+  constructor(private readonly game: IGame) {
     this.fontSize = 25;
-    this.fontFamily = "Press Start 2P";
-    this.textColor = "rgba(215 225 230 / 1)";
+    this.fontFamily = 'Press Start 2P';
+    this.textColor = 'rgba(215 225 230 / 1)';
     this.playerImage = new Image();
     this.playerImage.src = playerImage;
   }
@@ -22,7 +20,7 @@ export class UI implements IUI {
 
     context.fillStyle = this.textColor;
     context.font = `${this.fontSize}px '${this.fontFamily}'`;
-    context.textAlign = "left";
+    context.textAlign = 'left';
 
     context.fillText(`Score: ${this.game.score}`, 20, 40);
     context.fillText(`Level: ${this.game.level}`, 20, 80);
@@ -39,37 +37,37 @@ export class UI implements IUI {
 
     // Draw game over text on canvas
 
-    if (this.game.getGameMode === "GAMEOVER") {
+    if (this.game.gameMode === 'GAMEOVER') {
       context.font = `50px '${this.fontFamily}'`;
-      context.fillStyle = "rgba(255 255 255 / 0.6)";
-      context.textAlign = "center";
+      context.fillStyle = 'rgba(255 255 255 / 0.6)';
+      context.textAlign = 'center';
       context.fillText(
-        "Game Over",
+        'Game Over',
         this.game.width / 2,
         this.game.height / 2 - 60
       );
       context.font = `20px '${this.fontFamily}'`;
-      context.fillStyle = "rgba(156	125	1	/ 0.6)";
+      context.fillStyle = 'rgba(156	125	1	/ 0.6)';
       context.fillText(
-        "Press P to play again",
+        'Press P to play again',
         this.game.width / 2,
         this.game.height / 2
       );
     }
 
     // Draw transition text when life is lost
-    if (this.game.getGameMode === "DIETRANSITION") {
+    if (this.game.gameMode === 'DIETRANSITION') {
       context.font = `50px '${this.fontFamily}'`;
-      context.fillStyle = "rgba(255 255 255 / 0.6)";
-      context.textAlign = "center";
+      context.fillStyle = 'rgba(255 255 255 / 0.6)';
+      context.textAlign = 'center';
       context.fillText(
-        "Life lost",
+        'Life lost',
         this.game.width / 2,
         this.game.height / 2 - 60
       );
       context.font = `20px '${this.fontFamily}'`;
-      context.fillStyle = "rgba(156	125	1	/ 0.6)";
-      context.fillText("Try again", this.game.width / 2, this.game.height / 2);
+      context.fillStyle = 'rgba(156	125	1	/ 0.6)';
+      context.fillText('Try again', this.game.width / 2, this.game.height / 2);
     }
 
     context.restore();

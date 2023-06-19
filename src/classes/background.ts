@@ -1,20 +1,16 @@
-import { IBackground, IGame } from "../types";
-import { Layer } from "./layer";
-
-import backgroundImageLayer2 from "../artwork/foreground-stars.webp";
-import backgroundImageLayer1 from "../artwork/GalaxyUno.webp";
+import backgroundImageLayer2 from '../artwork/foreground-stars.webp';
+import backgroundImageLayer1 from '../artwork/GalaxyUno.webp';
+import type { IBackground, IGame } from '../types';
+import { Layer } from './layer';
 
 export class Background implements IBackground {
-  game: IGame;
   layer1: Layer;
   layer2: Layer;
   image1: HTMLImageElement;
   image2: HTMLImageElement;
   layers: Layer[];
 
-  constructor(game: IGame) {
-    this.game = game;
-
+  constructor(private readonly game: IGame) {
     this.image1 = new Image();
     this.image1.src = backgroundImageLayer1;
     this.image2 = new Image();
@@ -25,6 +21,8 @@ export class Background implements IBackground {
   }
 
   update(delta: number) {
-    this.layers.forEach((layer) => layer.update(delta));
+    for (const layer of this.layers) {
+      layer.update(delta);
+    }
   }
 }

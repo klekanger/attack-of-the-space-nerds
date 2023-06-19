@@ -3,3 +3,6 @@ dist/
 .prettierrc.js
 .eslintrc.js
 env.d.ts
+vite-env.d.ts
+vite.config.js
+sfx.ts

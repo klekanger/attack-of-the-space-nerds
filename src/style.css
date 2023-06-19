@@ -43,7 +43,7 @@ body {
 
 #pre-intro-text {
   padding: 0;
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   font-weight: 400;
   font-size: 30px;
   line-height: 1.75;
@@ -112,7 +112,7 @@ body {
 
 .title {
   flex: 1;
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   font-weight: 400;
   line-height: 1.75;
   width: fit-content;
@@ -164,7 +164,7 @@ body {
 #btn-play,
 #btn-audio-no,
 #btn-audio-yes {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   font-size: 20px;
   border-radius: 8px;
   background-color: rgba(26 44 42 / 90%);
@@ -212,7 +212,7 @@ body {
 
 .credit-text,
 .credit-text > a {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   color: #ccf851;
   opacity: 0.7;
   z-index: 10;
@@ -225,7 +225,7 @@ body {
 
 .credit-text-large,
 .credit-text-large > a {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Press Start 2P', cursive;
   font-size: 15px;
   color: #f8f8f8;
   opacity: 0.7;

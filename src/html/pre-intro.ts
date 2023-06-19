@@ -1,4 +1,4 @@
-export const preIntroScreenHTML = `
+export const preIntroScreenHtml = `
   <div id="container">
   
     <button aria-label="Toggle audio" id="speaker-symbol" ></i></button>
