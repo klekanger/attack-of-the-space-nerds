@@ -1,8 +1,7 @@
-import { GameMode, IGame, ISplashScreen } from "../types";
+import { GameMode, type IGame, type ISplashScreen } from '../types';
 
 export class SplashScreen implements ISplashScreen {
-  game: IGame;
-  context: CanvasRenderingContext2D | null;
+  context: CanvasRenderingContext2D | undefined;
   width: number;
   height: number;
   zoom: number;
@@ -21,6 +20,7 @@ export class SplashScreen implements ISplashScreen {
     width: number;
     height: number;
   };
+
   font: string;
   highlightText: boolean;
   mouseX: number;
@@ -28,19 +28,18 @@ export class SplashScreen implements ISplashScreen {
   isMouseDown: boolean;
   isHoveringPressToPlay: boolean;
 
-  constructor(game: IGame) {
-    this.game = game;
+  constructor(private readonly game: IGame) {
     this.context = game.context;
     this.width = game.width;
     this.height = game.height;
     this.zoom = 1.1;
-    this.zoomDirection = 0.00001;
+    this.zoomDirection = 0.000_01;
     this.splashImage = new Image();
-    this.backgroundColor = "rgba(0 0 0 / 0.7)";
-    this.textColor1 = "rgba(215 225 230 / 1)";
-    this.textColor2 = "rgba(95 131 127 / 1)";
-    this.textColor3 = "rgba(251 235 78 / 1)";
-    this.textPressToPlay = "Space to start";
+    this.backgroundColor = 'rgba(0 0 0 / 0.7)';
+    this.textColor1 = 'rgba(215 225 230 / 1)';
+    this.textColor2 = 'rgba(95 131 127 / 1)';
+    this.textColor3 = 'rgba(251 235 78 / 1)';
+    this.textPressToPlay = 'Space to start';
     this.font = '50px "Press Start 2P"';
     if (this.context) this.context.font = this.font;
     this.pressToPlayTextLength = this.width;
@@ -65,7 +64,7 @@ export class SplashScreen implements ISplashScreen {
       this.zoomDirection *= -1;
     }
 
-    // double check that this.zoom is between 1 and 1.5
+    // Double check that this.zoom is between 1 and 1.5
     if (this.zoom > 1.5) {
       this.zoom = 1.5;
     } else if (this.zoom < 1) {
@@ -88,7 +87,7 @@ export class SplashScreen implements ISplashScreen {
     }
 
     if (this.hasPressInsideTextBoundingBox()) {
-      this.game.setGameMode = GameMode.PLAYING;
+      this.game.gameMode = GameMode.PLAYING;
     }
   }
 

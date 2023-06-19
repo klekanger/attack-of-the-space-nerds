@@ -14,11 +14,11 @@ export function randomBetween(min: number, max: number): number {
 /**
  * Makes a number random positive or negative
  *
- * @param {number} num Number to make positive or negative
+ * @param {number} number_ Number to make positive or negative
  * @returns {number} A negative or positive version of `num`
  */
-export function makeRandomPositiveOrNegative(num: number): number {
-  return num * (Math.round(Math.random()) * 2 - 1);
+export function makeRandomPositiveOrNegative(number_: number): number {
+  return number_ * (Math.round(Math.random()) * 2 - 1);
 }
 
 /**
@@ -28,23 +28,7 @@ export function makeRandomPositiveOrNegative(num: number): number {
  *
  */
 export function isMobile(): boolean {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+  return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
     navigator.userAgent
   );
-}
-
-/**
- * Checks in localStorage if audio is on or off
- *
- * @returns {boolean} true if audio is on
- */
-export function isAudioEnabled(): boolean {
-  const audio = localStorage.getItem("space_nerds_audio");
-
-  if (audio === null) {
-    localStorage.setItem("space_nerds_audio", "on");
-    return true;
-  }
-
-  return audio === "on" ? true : false;
 }

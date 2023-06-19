@@ -1,15 +1,14 @@
-import splashImage from "../artwork/attack-of-the-space-nerds-splash-screen.webp";
-import { GameMode, IGame } from "../types";
-import { Background } from "./background";
-import { BigEars, Enemy, EnemyBomb, ScaryGeek } from "./enemy";
-import { InputHandler } from "./inputHandler";
-import { Particle } from "./particle";
-import { Player } from "./player";
-import { Projectile } from "./projectile";
-import { SplashScreen } from "./splashScreen";
-import { UI } from "./ui";
-
-import { randomBetween } from "../lib/util";
+import splashImage from '../artwork/attack-of-the-space-nerds-splash-screen.webp';
+import { randomBetween } from '../lib/util';
+import { GameMode, type IGame } from '../types';
+import { Background } from './background';
+import { BigEars, EnemyBomb, ScaryGeek, type Enemy } from './enemy';
+import { InputHandler } from './input-handler';
+import { Particle } from './particle';
+import { Player } from './player';
+import { type Projectile } from './projectile';
+import { SplashScreen } from './splash-screen';
+import { Ui } from './ui';
 
 const NUM_OF_ENEMY_WAVES = 5;
 const SECONDS_BEFORE_IDLE = 20 * 1000;
@@ -17,16 +16,15 @@ const SECONDS_DIE_TRANSITION = 2 * 1000;
 const GAMESPEED_INCREASE = 0.002;
 
 export class Game implements IGame {
-  gameMode: GameMode;
   canvas: HTMLCanvasElement;
-  context: CanvasRenderingContext2D | null;
+  context: CanvasRenderingContext2D | undefined;
   width: number;
   height: number;
   background: Background;
   splashScreen: SplashScreen;
   player: Player;
   inputHandler: InputHandler;
-  ui: UI;
+  ui: Ui;
   keys: string[];
   enemyWave: Enemy[];
   enemyWaveCounter: number;
@@ -39,13 +37,15 @@ export class Game implements IGame {
   levelTransitionTimer: number;
   levelTransitionReset: number;
   fps: number;
-  audioEnabled: boolean;
+  #gameMode: GameMode;
+  #audioEnabled: boolean;
 
   constructor(
     canvas: HTMLCanvasElement,
-    context: CanvasRenderingContext2D | null
+    context: CanvasRenderingContext2D | undefined
   ) {
-    this.gameMode = GameMode.INTRO;
+    this.#gameMode = GameMode.INTRO;
+    this.#audioEnabled = true;
 
     this.canvas = canvas;
     this.context = context;
@@ -55,7 +55,7 @@ export class Game implements IGame {
     this.background = new Background(this);
     this.splashScreen = new SplashScreen(this);
     this.splashScreen.setSplashScreenImage(splashImage);
-    this.ui = new UI(this);
+    this.ui = new Ui(this);
 
     this.player = new Player(this);
     this.inputHandler = new InputHandler(this);
@@ -72,7 +72,6 @@ export class Game implements IGame {
     this.levelTransitionTimer = 2000;
     this.levelTransitionReset = this.levelTransitionTimer;
     this.fps = 0;
-    this.audioEnabled = true;
   }
 
   update(delta: number) {
@@ -80,13 +79,16 @@ export class Game implements IGame {
     this.player.update(delta);
 
     // Run update method on all particles, and remove those we don't need anymore
-    this.particles.forEach((particle) => particle.update());
+    for (const particle of this.particles) {
+      particle.update();
+    }
+
     this.particles = this.particles.filter(
       (particle) => !particle.markedForDeletion
     );
 
     // Add enemies to the game and detect collisions
-    if (this.enemyWave.length === 0 && this.gameMode === "PLAYING") {
+    if (this.enemyWave.length === 0 && this.#gameMode === 'PLAYING') {
       if (this.enemyWaveCounter > 0) {
         this.addEnemyWave();
         this.enemyWaveCounter--;
@@ -95,16 +97,16 @@ export class Game implements IGame {
         this.enemyWaveCounter = NUM_OF_ENEMY_WAVES;
         this.gameSpeed += GAMESPEED_INCREASE;
 
-        // set gameMode to level transition for 2 seconds
+        // Set gameMode to level transition for 2 seconds
         // and then back to playing
-        this.setGameMode = GameMode.LEVELTRANSITION;
+        this.gameMode = GameMode.LEVELTRANSITION;
         setTimeout(() => {
-          this.setGameMode = GameMode.PLAYING;
+          this.gameMode = GameMode.PLAYING;
         }, 2000);
       }
     }
 
-    this.enemyWave.forEach((enemy) => {
+    for (const enemy of this.enemyWave) {
       enemy.update(delta);
 
       if (this.detectCollision(this.player, enemy)) {
@@ -115,18 +117,18 @@ export class Game implements IGame {
 
         if (this.lives < 1) {
           this.lives = 0;
-          this.setGameMode = GameMode.GAMEOVER;
+          this.gameMode = GameMode.GAMEOVER;
 
           setTimeout(() => {
-            this.setGameMode = GameMode.IDLE;
+            this.gameMode = GameMode.IDLE;
           }, SECONDS_BEFORE_IDLE);
         } else {
-          // set the game mode to die transition for 2 seconds
+          // Set the game mode to die transition for 2 seconds
           // and then back to playing
-          this.setGameMode = GameMode.DIETRANSITION;
+          this.gameMode = GameMode.DIETRANSITION;
 
           setTimeout(() => {
-            this.setGameMode = GameMode.PLAYING;
+            this.gameMode = GameMode.PLAYING;
           }, SECONDS_DIE_TRANSITION);
         }
 
@@ -134,7 +136,8 @@ export class Game implements IGame {
       }
 
       // Detect projectile hits vs enemies
-      this.player.projectiles.forEach((projectile) => {
+
+      for (const projectile of this.player.projectiles) {
         if (this.detectCollision(projectile, enemy)) {
           enemy.playHitSound();
           this.createParticles(enemy.lives * 10, enemy); // Projectile collided with enemy
@@ -146,9 +149,10 @@ export class Game implements IGame {
             enemy.markedForDeletion = true;
             enemy.playExplosionSound();
           }
+
           projectile.markedForDeletion = true;
         }
-      });
+      }
 
       if (enemy.canShoot) {
         if (enemy.shootTimer > 0) {
@@ -158,7 +162,7 @@ export class Game implements IGame {
           this.enemyShoot(enemy);
         }
       }
-    });
+    }
 
     // Remove enemies that have been killed
     this.enemyWave = this.enemyWave.filter((enemy) => !enemy.markedForDeletion);
@@ -166,32 +170,37 @@ export class Game implements IGame {
 
   // Draw background, player, enemies, particles, etc.
   render(context: CanvasRenderingContext2D) {
-    this.background.layer1.draw(context); // background stars and galaxies
+    this.background.layer1.draw(context); // Background stars and galaxies
     context.save();
     context.globalAlpha = 0.4;
-    this.background.layer2.draw(context); // foreground star field
+    this.background.layer2.draw(context); // Foreground star field
     context.restore();
 
     this.player.draw(context);
-    this.particles.forEach((particle) => particle.draw(context));
+
+    for (const particle of this.particles) {
+      particle.draw(context);
+    }
 
     // Draw the bombs before the other enemies, so that the bombs appear underneath the enemies
-    this.enemyWave.forEach((enemy) => {
+
+    for (const enemy of this.enemyWave) {
       if (!enemy.canShoot) enemy.draw(context);
-    });
-    this.enemyWave.forEach((enemy) => {
+    }
+
+    for (const enemy of this.enemyWave) {
       if (enemy.canShoot) enemy.draw(context);
-    });
+    }
 
     // Draw score, lives, etc.
     this.ui.draw(context);
   }
 
   addEnemyWave() {
-    const enemyCount = Math.floor(randomBetween(1, this.level + 5)); // random number of enemies
+    const enemyCount = Math.floor(randomBetween(1, this.level + 5)); // Random number of enemies
 
     for (let i = 0; i < enemyCount; i++) {
-      // random number of ScaryGFeek and BigEars enemies
+      // Random number of ScaryGFeek and BigEars enemies
       if (Math.random() * 100 > 50) this.enemyWave.push(new ScaryGeek(this));
       else this.enemyWave.push(new BigEars(this));
     }
@@ -229,7 +238,7 @@ export class Game implements IGame {
       this.score = 0;
       this.lives = 3;
       this.level = 1;
-      this.setGameMode = GameMode.PLAYING;
+      this.gameMode = GameMode.PLAYING;
     }
 
     this.enemyWave = [];
@@ -240,22 +249,22 @@ export class Game implements IGame {
   }
 
   explodeAllEnemies() {
-    this.enemyWave.forEach((enemy) => {
+    for (const enemy of this.enemyWave) {
       enemy.markedForDeletion = true;
       this.createParticles(250, enemy);
-    });
+    }
   }
 
   explodePlayer() {
     this.createParticles(250, this.player);
     this.player.canShoot = false;
-    if (this.isAudioEnabled === true) this.player.sfxPlayerExplosion.play();
+    if (this.audioEnabled) this.player.sfxPlayerExplosion.play();
 
     // Move the player off screen
     this.player.x = -100;
     this.player.y = -100;
 
-    // move the player back to the center of the screen after 2 seconds
+    // Move the player back to the center of the screen after 2 seconds
     setTimeout(() => {
       this.player.x = this.width / 2 - this.player.width / 2;
       this.player.y = this.height - this.player.height - 10;
@@ -278,7 +287,7 @@ export class Game implements IGame {
 
       this.context.fillStyle = `rgba(215 171 65 / ${alpha})`;
       this.context.font = "60px 'Press Start 2P'";
-      this.context.textAlign = "center";
+      this.context.textAlign = 'center';
       this.context.fillText(`Level ${this.level}`, this.width / 2, yPos);
 
       this.context.restore();
@@ -287,19 +296,19 @@ export class Game implements IGame {
     }
   }
 
-  get getGameMode(): GameMode {
-    return this.gameMode;
+  get gameMode(): GameMode {
+    return this.#gameMode;
   }
 
-  set setGameMode(newMode: GameMode) {
-    this.gameMode = newMode;
+  set gameMode(newMode: GameMode) {
+    this.#gameMode = newMode;
   }
 
-  get isAudioEnabled(): boolean {
-    return this.audioEnabled;
+  get audioEnabled(): boolean {
+    return this.#audioEnabled;
   }
 
-  set setAudioEnabled(newAudioEnabled: boolean) {
-    this.audioEnabled = newAudioEnabled;
+  set audioEnabled(newAudioEnabled: boolean) {
+    this.#audioEnabled = newAudioEnabled;
   }
 }

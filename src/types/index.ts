@@ -1,21 +1,20 @@
 export enum GameMode {
-  INTRO = "INTRO",
-  IDLE = "IDLE",
-  PLAYING = "PLAYING",
-  DIETRANSITION = "DIETRANSITION",
-  LEVELTRANSITION = "LEVELTRANSITION",
-  GAMEOVER = "GAMEOVER",
+  INTRO = 'INTRO',
+  IDLE = 'IDLE',
+  PLAYING = 'PLAYING',
+  DIETRANSITION = 'DIETRANSITION',
+  LEVELTRANSITION = 'LEVELTRANSITION',
+  GAMEOVER = 'GAMEOVER',
 }
 
-export interface ISetupIntroScreen {
+export type ISetupIntroScreen = {
   introPlaceholder: HTMLElement;
   introMusic: HTMLAudioElement;
-  introScreenHTML: string;
+  introScreenHtml: string;
   game: IGame;
-}
+};
 
-export interface IBackground {
-  game: IGame;
+export type IBackground = {
   layer1: ILayer;
   layer2: ILayer;
   image1: HTMLImageElement;
@@ -23,12 +22,9 @@ export interface IBackground {
   layers: ILayer[];
 
   update(delta: number): void;
-}
+};
 
-export interface ILayer {
-  game: IGame;
-  image: HTMLImageElement;
-  speed: number;
+export type ILayer = {
   width: number;
   height: number;
   x: number;
@@ -36,11 +32,10 @@ export interface ILayer {
 
   update(delta: number): void;
   draw(context: CanvasRenderingContext2D): void;
-}
+};
 
-export interface ISplashScreen {
-  game: IGame;
-  context: CanvasRenderingContext2D | null;
+export type ISplashScreen = {
+  context: CanvasRenderingContext2D | undefined;
   width: number;
   height: number;
   zoom: number;
@@ -70,10 +65,9 @@ export interface ISplashScreen {
   draw(context: CanvasRenderingContext2D): void;
   setSplashScreenImage(image: string): void;
   hasPressInsideTextBoundingBox(): boolean;
-}
+};
 
-export interface IPlayer {
-  game: IGame;
+export type IPlayer = {
   width: number;
   height: number;
   xOffset: number;
@@ -83,7 +77,7 @@ export interface IPlayer {
   maxSpeed: number;
   playerImages: HTMLImageElement[];
   imageToDraw: HTMLImageElement;
-  projectiles: Required<IProjectile>[];
+  projectiles: Array<Required<IProjectile>>;
   shootTimer: number;
   canShoot: boolean;
   shotsPerSecond: number;
@@ -93,28 +87,23 @@ export interface IPlayer {
   update(delta: number): void;
   draw(context: CanvasRenderingContext2D): void;
   shoot(): void;
-}
+};
 
-export interface IProjectile {
-  game: IGame;
-  x: number;
+export type IProjectile = {
   y: number;
   width: number;
   height: number;
   speed: number;
-  direction: "up" | "down";
-  selectDirection: {
-    [key: string]: number;
-  };
+  direction: 'up' | 'down';
+  selectDirection: Record<string, number>;
   markedForDeletion: boolean;
   image: HTMLImageElement;
 
   update(delta: number): void;
   draw(context: CanvasRenderingContext2D): void;
-}
+};
 
-export interface IParticle {
-  game: IGame;
+export type IParticle = {
   x: number;
   y: number;
   radius: number;
@@ -122,7 +111,7 @@ export interface IParticle {
   direction: number;
   markedForDeletion: boolean;
   color: string;
-  colorPalette: { r: number; g: number; b: number }[];
+  colorPalette: Array<{ r: number; g: number; b: number }>;
   currentAlpha: number;
 
   update(): void;
@@ -133,10 +122,9 @@ export interface IParticle {
   ): string;
   randomColor(): { r: number; g: number; b: number };
   draw(context: CanvasRenderingContext2D): void;
-}
+};
 
-export interface IInputHandler {
-  game: IGame;
+export type IInputHandler = {
   canvas: HTMLCanvasElement;
   mouseX: number;
   mouseY: number;
@@ -148,28 +136,30 @@ export interface IInputHandler {
     event: MouseEvent,
     canvas: HTMLCanvasElement
   ): { x: number; y: number };
-}
+};
 
-export interface IUI {
-  game: IGame;
+export type IUi = {
   fontSize: number;
   fontFamily: string;
   textColor: string;
   playerImage: HTMLImageElement;
 
   draw(context: CanvasRenderingContext2D): void;
-}
+};
 
-export interface IGame {
+export type IGame = {
   canvas: HTMLCanvasElement;
-  context: CanvasRenderingContext2D | null;
+  context: CanvasRenderingContext2D | undefined;
   width: number;
   height: number;
+
   background: IBackground;
   splashScreen: ISplashScreen;
+  ui: IUi;
+
   player: IPlayer;
   inputHandler: IInputHandler;
-  ui: IUI;
+
   keys: string[];
   enemyWave: IEnemy[];
   enemyWaveCounter: number;
@@ -182,7 +172,8 @@ export interface IGame {
   levelTransitionTimer: number;
   levelTransitionReset: number;
   fps: number;
-
+  gameMode: GameMode;
+  audioEnabled: boolean;
   update(delta: number): void;
   render(context: CanvasRenderingContext2D): void;
   addEnemyWave(): void;
@@ -192,15 +183,10 @@ export interface IGame {
   initGame(fullReset: boolean): void;
   explodeAllEnemies(): void;
   explodePlayer(): void;
-  getGameMode: GameMode;
-  setGameMode: GameMode;
-  isAudioEnabled: boolean;
-  setAudioEnabled: boolean;
   levelTransition(delta: number): void;
-}
+};
 
-export interface IEnemy {
-  game: IGame;
+export type IEnemy = {
   markedForDeletion: boolean;
   image: HTMLImageElement;
   x: number;
@@ -228,26 +214,26 @@ export interface IEnemy {
   draw(context: CanvasRenderingContext2D): void;
   playHitSound(): void;
   playExplosionSound(): void;
-}
+};
 
-// interfaces for all sfxtypes
-export interface IShoot {
+// Interfaces for all sfxtypes
+export type IShoot = {
   play(): void;
-}
+};
 
-export interface IHit {
+export type IHit = {
   play(): void;
-}
+};
 
-export interface IExplosion1 {
+export type IExplosion1 = {
   play(): void;
-}
+};
 
-export interface IPlayerExplosion {
+export type IPlayerExplosion = {
   play(): void;
-}
+};
 
-export interface IChaseMovement {
+export type IChaseMovement = {
   playerX: number;
   playerY: number;
   enemyX: number;
@@ -257,10 +243,10 @@ export interface IChaseMovement {
   xMultiply?: number;
   yMultiply?: number;
   direction?: number;
-}
+};
 
-export interface IcalculateSineWave {
+export type IcalculateSineWave = {
   yPosition: number;
   xStart: number;
   viewportWidth: number;
-}
+};

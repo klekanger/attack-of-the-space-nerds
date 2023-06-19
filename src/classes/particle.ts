@@ -1,8 +1,7 @@
-import { randomBetween } from "../lib/util";
-import { IGame, IParticle } from "../types";
+import { randomBetween } from '../lib/util';
+import type { IGame, IParticle } from '../types';
 
 export class Particle implements IParticle {
-  game: IGame;
   x: number;
   y: number;
   radius: number;
@@ -10,22 +9,21 @@ export class Particle implements IParticle {
   direction: number;
   markedForDeletion: boolean;
   color: string;
-  colorPalette: { r: number; g: number; b: number }[];
+  colorPalette: Array<{ r: number; g: number; b: number }>;
   currentAlpha: number;
 
-  constructor(game: IGame, x: number, y: number) {
-    this.game = game;
+  constructor(private readonly game: IGame, x: number, y: number) {
     this.x = x || Math.round(Math.random() * game.width);
     this.y = y || Math.round(Math.random() * game.height);
     this.radius = Math.ceil(Math.random() * 10);
-    this.speed = Math.pow(Math.ceil(Math.random() * 40) + 10, 0.7) * 0.5;
+    this.speed = (Math.ceil(Math.random() * 40) + 10) ** 0.7 * 0.5;
     this.direction = Math.round(Math.random() * 360);
     this.markedForDeletion = false;
     this.colorPalette = [
-      { r: 36, g: 18, b: 42 }, // darkPRPL
-      { r: 78, g: 36, b: 42 }, // rockDust
-      { r: 252, g: 178, b: 96 }, // solorFlare
-      { r: 253, g: 238, b: 152 }, // totesASun
+      { r: 36, g: 18, b: 42 },
+      { r: 78, g: 36, b: 42 },
+      { r: 252, g: 178, b: 96 },
+      { r: 253, g: 238, b: 152 },
     ];
     this.color = this.colorVariation(this.randomColor());
     this.currentAlpha = 1;
@@ -40,6 +38,7 @@ export class Particle implements IParticle {
     ) {
       this.markedForDeletion = true;
     }
+
     this.updateParticleModel(this);
   }
 

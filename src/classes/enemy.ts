@@ -1,18 +1,16 @@
-import bigEarsImage from "../artwork/bigEars.png";
-import scaryGeekImage from "../artwork/scaryGeek.png";
-import { IEnemy, IGame } from "../types";
-import { Explosion1, Hit } from "./sfx";
-
-import enemyShotImage from "../artwork/laserGreenShot.png";
-import { calculateSineWave, chaseMovement } from "../lib/movements";
-import { randomBetween } from "../lib/util";
+import bigEarsImage from '../artwork/bigEars.png';
+import enemyShotImage from '../artwork/laserGreenShot.png';
+import scaryGeekImage from '../artwork/scaryGeek.png';
+import { calculateSineWave, chaseMovement } from '../lib/movements';
+import { randomBetween } from '../lib/util';
+import type { IEnemy, IGame } from '../types';
+import { Explosion1, Hit } from './sfx';
 
 // **************************************
 // Main enemy class that all enemies
 // are based on
 // **************************************
 export class Enemy implements IEnemy {
-  game: IGame;
   markedForDeletion: boolean;
   image!: HTMLImageElement;
   x: number;
@@ -35,8 +33,7 @@ export class Enemy implements IEnemy {
   animationTimer: number;
   animationInterval: number;
 
-  constructor(game: IGame) {
-    this.game = game;
+  constructor(protected readonly game: IGame) {
     this.width = 98;
     this.height = 50;
     this.x = randomBetween(0, this.game.width * 0.8);
@@ -51,7 +48,7 @@ export class Enemy implements IEnemy {
     this.shootTimer = randomBetween(1000, 5000);
     this.shootInterval = this.shootTimer;
     this.animationTimer = 0;
-    this.animationInterval = 100 / game.fps;
+    this.animationInterval = 200 / game.fps;
   }
 
   // ***************************************
@@ -83,7 +80,7 @@ export class Enemy implements IEnemy {
     }
 
     if (this instanceof BigEars) {
-      this.y = this.y + (this.verticalSpeed + this.game.gameSpeed) * delta;
+      this.y += (this.verticalSpeed + this.game.gameSpeed) * delta;
       this.x = calculateSineWave({
         yPosition: this.y,
         xStart: this.xStart,
@@ -94,7 +91,7 @@ export class Enemy implements IEnemy {
     // Out of bounds, mark for deletion
     if (this.y > this.game.height) this.markedForDeletion = true;
 
-    // increase frame to animate the enemies
+    // Increase frame to animate the enemies
     if (this.animationTimer > this.animationInterval) {
       this.frame = (this.frame + 1) % this.maxFrame;
       this.animationTimer = 0;
@@ -120,11 +117,11 @@ export class Enemy implements IEnemy {
   }
 
   playHitSound() {
-    if (this.game.isAudioEnabled) this.sfxHit.play();
+    if (this.game.audioEnabled) this.sfxHit.play();
   }
 
   playExplosionSound() {
-    if (this.game.isAudioEnabled) this.sfxExplosion.play();
+    if (this.game.audioEnabled) this.sfxExplosion.play();
   }
 }
 
@@ -209,19 +206,13 @@ export class EnemyBomb extends Enemy {
 
   // We'll override the update method for enemy bombs, as they will move and behave differently
   update(delta: number): void {
-    this.y = this.y + this.verticalSpeed * delta;
+    this.y += this.verticalSpeed * delta;
 
     if (this.y > this.game.height) this.markedForDeletion = true;
 
     // Sprite animation
-
-    if (this.frame < this.maxFrame) {
-      this.frame = (this.frame + 1) * delta;
-    } else {
-      this.frame = 0;
-    }
+    this.frame < this.maxFrame
+      ? (this.frame = (this.frame + 1) * delta)
+      : (this.frame = 0);
   }
 }
-
-// TODO
-// Need better sinus waves for the enemies, or other movement patterns

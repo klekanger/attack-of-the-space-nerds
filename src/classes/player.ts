@@ -1,12 +1,11 @@
-import playerImage from "../artwork/player.png";
-import playerImageLeft from "../artwork/playerLeft.png";
-import playerImageRight from "../artwork/playerRight.png";
-import { IGame, IPlayer } from "../types";
-import { PlayerProjectile } from "./projectile";
-import { PlayerExplosion, Shoot } from "./sfx";
+import playerImage from '../artwork/player.png';
+import playerImageLeft from '../artwork/playerLeft.png';
+import playerImageRight from '../artwork/playerRight.png';
+import type { IGame, IPlayer } from '../types';
+import { PlayerProjectile } from './projectile';
+import { PlayerExplosion, Shoot } from './sfx';
 
 export class Player implements IPlayer {
-  game: IGame;
   width: number;
   height: number;
   xOffset: number;
@@ -23,8 +22,7 @@ export class Player implements IPlayer {
   sfxShoot: Shoot;
   sfxPlayerExplosion: PlayerExplosion;
 
-  constructor(game: IGame) {
-    this.game = game;
+  constructor(protected readonly game: IGame) {
     this.width = 99;
     this.height = 75;
     this.xOffset = 4.5;
@@ -47,15 +45,15 @@ export class Player implements IPlayer {
 
   update(delta: number) {
     // Handle horizontal spaceship movement
-    if (this.game.keys.includes("ArrowLeft") || this.game.keys.includes("a")) {
+    if (this.game.keys.includes('ArrowLeft') || this.game.keys.includes('a')) {
       this.speedX = -this.maxSpeed;
       this.imageToDraw = this.playerImages[0];
       this.width = 90;
       this.height = 77;
       this.xOffset = 4.5;
     } else if (
-      this.game.keys.includes("ArrowRight") ||
-      this.game.keys.includes("d")
+      this.game.keys.includes('ArrowRight') ||
+      this.game.keys.includes('d')
     ) {
       this.speedX = this.maxSpeed;
       this.imageToDraw = this.playerImages[2];
@@ -74,7 +72,7 @@ export class Player implements IPlayer {
     if (delta) this.shootTimer += delta;
 
     if (
-      this.game.keys.includes(" ") &&
+      this.game.keys.includes(' ') &&
       this.shootTimer > 1000 / this.shotsPerSecond
     ) {
       this.game.player.shoot();
@@ -82,9 +80,10 @@ export class Player implements IPlayer {
       this.shootTimer = 0;
     }
 
-    this.projectiles.forEach((projectile) => {
+    for (const projectile of this.projectiles) {
       projectile.update(delta);
-    });
+    }
+
     this.projectiles = this.projectiles.filter(
       (projectile) => !projectile.markedForDeletion
     );
@@ -96,9 +95,9 @@ export class Player implements IPlayer {
   }
 
   draw(context: CanvasRenderingContext2D) {
-    this.projectiles.forEach((projectile) => {
+    for (const projectile of this.projectiles) {
       projectile.draw(context);
-    });
+    }
 
     context.drawImage(this.imageToDraw, this.x + this.xOffset, this.y);
   }
@@ -109,6 +108,6 @@ export class Player implements IPlayer {
     this.projectiles.push(
       new PlayerProjectile(this.game, this.x - 5 + this.width / 2)
     );
-    if (this.game.isAudioEnabled) this.sfxShoot.play();
+    if (this.game.audioEnabled) this.sfxShoot.play();
   }
 }
