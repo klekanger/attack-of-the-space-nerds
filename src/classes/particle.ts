@@ -30,6 +30,8 @@ export class Particle implements IParticle {
   }
 
   update() {
+    // Check if particle is still within the canvas
+    // If not, mark it for deletion
     if (
       this.x < 0 ||
       this.x > this.game.width ||
@@ -42,6 +44,9 @@ export class Particle implements IParticle {
     this.updateParticleModel(this);
   }
 
+  /**
+   * Update the particles x and y coordinates based on its direction and speed
+   */
   updateParticleModel(particle: IParticle) {
     const angle = 180 - (this.direction + 90);
 
@@ -95,5 +100,3 @@ export class Particle implements IParticle {
     context.globalAlpha = 1;
   }
 }
-
-// https://codepen.io/deanwagman/pen/EjLBdQ?editors=1011

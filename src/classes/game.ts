@@ -36,6 +36,7 @@ export class Game implements IGame {
   levelTransitionTimer: number;
   levelTransitionReset: number;
   fps: number;
+
   #gameMode: GameMode;
   #audioEnabled: boolean;
 
@@ -43,22 +44,16 @@ export class Game implements IGame {
     canvas: HTMLCanvasElement,
     context: CanvasRenderingContext2D | undefined
   ) {
-    this.#gameMode = GameMode.INTRO;
-    this.#audioEnabled = true;
-
     this.canvas = canvas;
     this.context = context;
     this.width = canvas.width;
     this.height = canvas.height;
-
     this.background = new Background(this);
     this.splashScreen = new SplashScreen(this);
-    this.splashScreen.setSplashScreenImage(splashImage);
+    this.splashScreen.setSplashScreenImage = splashImage;
     this.ui = new Ui(this);
-
     this.player = new Player(this);
     this.inputHandler = new InputHandler(this);
-
     this.keys = [];
     this.enemyWave = [];
     this.enemyWaveCounter = NUM_OF_ENEMY_WAVES;
@@ -70,8 +65,16 @@ export class Game implements IGame {
     this.levelTransitionTimer = 2000;
     this.levelTransitionReset = this.levelTransitionTimer;
     this.fps = 0;
+
+    this.#gameMode = GameMode.INTRO;
+    this.#audioEnabled = true;
   }
 
+  /**
+   * Game update method.
+   * All game logic goes here. Updates on every frame.
+   * @param delta { number } - Time since last frame
+   */
   update(delta: number) {
     this.background.update(delta);
     this.player.update(delta);
@@ -121,7 +124,8 @@ export class Game implements IGame {
             this.gameMode = GameMode.IDLE;
           }, SECONDS_BEFORE_IDLE);
         } else {
-          // Set the game mode to die transition for 2 seconds
+          // Not completely dead yet...
+          // Set the game mode to die transition for ? seconds
           // and then back to playing
           this.gameMode = GameMode.DIETRANSITION;
 
@@ -134,7 +138,6 @@ export class Game implements IGame {
       }
 
       // Detect projectile hits vs enemies
-
       for (const projectile of this.player.projectiles) {
         if (this.detectCollision(projectile, enemy)) {
           enemy.playHitSound();
@@ -166,7 +169,11 @@ export class Game implements IGame {
     this.enemyWave = this.enemyWave.filter((enemy) => !enemy.markedForDeletion);
   }
 
-  // Draw background, player, enemies, particles, etc.
+  /**
+   * Game render method.
+   * Draws background, player, enemies, particles, etc.
+   * @param context { CanvasRenderingContext2D } - The canvas context
+   */
   render(context: CanvasRenderingContext2D) {
     this.background.layer1.draw(context); // Background stars and galaxies
     context.save();
@@ -181,19 +188,22 @@ export class Game implements IGame {
     }
 
     // Draw the bombs before the other enemies, so that the bombs appear underneath the enemies
-
     for (const enemy of this.enemyWave) {
-      if (!enemy.canShoot) enemy.draw(context);
+      if (!enemy.canShoot) enemy.draw(context); // Bombs are the only ones that can't shoot. Draw them first.
     }
 
     for (const enemy of this.enemyWave) {
-      if (enemy.canShoot) enemy.draw(context);
+      if (enemy.canShoot) enemy.draw(context); // Then the enemies on top of the bombs
     }
 
     // Draw score, lives, etc.
     this.ui.draw(context);
   }
 
+  /**
+   * Adds a random number of enemies to the game.
+   * The max number of enemies is based on the current level.
+   */
   addEnemyWave() {
     const enemyCount = Math.floor(randomBetween(1, this.level + 5)); // Random number of enemies
 
@@ -204,12 +214,23 @@ export class Game implements IGame {
     }
   }
 
+  /**
+   * Pushes a new EnemyBomb to the enemyWave array, at the position of the enemy that is shooting.
+   *
+   * @param enemy { Enemy } - The enemy that is shooting
+   */
   enemyShoot(enemy: Enemy) {
     this.enemyWave.push(
       new EnemyBomb(this, enemy.x, enemy.y + enemy.height / 2)
     );
   }
 
+  /**
+   * Creates a nice explosion of particles when an enemy is hit.
+   *
+   * @param particleCount { number } - The number of particles to create
+   * @param enemyToBlowUp { Enemy | Player } - The enemy or player to blow up
+   */
   createParticles(particleCount: number, enemyToBlowUp: Enemy | Player) {
     for (let i = 0; i < particleCount; i++) {
       this.particles.push(
@@ -222,6 +243,14 @@ export class Game implements IGame {
     }
   }
 
+  /**
+   * Detects collision between Player or Projectile and Enemy
+   * by checking the bounding boxes of the two objects.
+   *
+   * @param rect1 { Player | Projectile } - The player or projectile
+   * @param rect2 { Enemy } - The enemy
+   * @returns { boolean } - True if collision detected, false otherwise
+   */
   detectCollision(rect1: Player | Projectile, rect2: Enemy): boolean {
     return (
       rect1.x < rect2.x + rect2.width &&
@@ -231,6 +260,11 @@ export class Game implements IGame {
     );
   }
 
+  /**
+   * Game class. Method initializes the game.
+   *
+   * @param fullReset - If true, resets the game completely, including score, lives and level.If false, only resets the player and enemies.
+   */
   initGame(fullReset = false) {
     if (fullReset) {
       this.score = 0;
@@ -262,7 +296,7 @@ export class Game implements IGame {
     this.player.x = -100;
     this.player.y = -100;
 
-    // Move the player back to the center of the screen after 2 seconds
+    // Move the player back to the start position after 2 seconds
     setTimeout(() => {
       this.player.x = this.width / 2 - this.player.width / 2;
       this.player.y = this.height - this.player.height - 10;
@@ -271,7 +305,11 @@ export class Game implements IGame {
     }, 2000);
   }
 
-  // Show the level transition text
+  /**
+   * Show the level transition text (Level 1, Level 2, etc.)
+   *
+   * @param delta { number } - Time since last frame
+   */
   levelTransition(delta: number) {
     if (!this.context) return;
 

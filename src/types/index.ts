@@ -63,7 +63,6 @@ export type ISplashScreen = {
 
   update(delta: number): void;
   draw(context: CanvasRenderingContext2D): void;
-  setSplashScreenImage(image: string): void;
   hasPressInsideTextBoundingBox(): boolean;
 };
 

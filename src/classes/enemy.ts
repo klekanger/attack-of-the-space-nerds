@@ -49,10 +49,12 @@ export class Enemy implements IEnemy {
     this.animationInterval = 200 / game.fps;
   }
 
-  // ***************************************
-  // update method
-  // Game logic that runs on every frame
-  // ***************************************
+  /**
+   * Enemy update method.
+   * Logic that runs on every frame.
+   *
+   * @param delta { number } - Time since last frame
+   */
   update(delta: number) {
     if (this.x <= 0 || this.x >= this.game.width - this.width) {
       this.speed = -this.speed;
@@ -98,6 +100,12 @@ export class Enemy implements IEnemy {
     }
   }
 
+  /**
+   * Enemy draw method.
+   * Draws the enemy on the canvas.
+   *
+   * @param context { CanvasRenderingContext2D } - canvas context
+   */
   draw(context: CanvasRenderingContext2D) {
     if (this.multisprite)
       context.drawImage(
@@ -177,7 +185,6 @@ export class BigEars extends Enemy {
 // **************************************
 // Enemy Bombs
 // **************************************
-
 export class EnemyBomb extends Enemy {
   lives: number;
   score: number;

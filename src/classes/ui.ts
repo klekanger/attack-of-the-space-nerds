@@ -15,6 +15,12 @@ export class Ui implements IUi {
     this.playerImage.src = playerImage;
   }
 
+  /**
+   * Draw the UI on the canvas. Score, level and lives.
+   *
+   * @param context { CanvasRenderingContext2D } - The canvas rendering context
+   */
+
   draw(context: CanvasRenderingContext2D) {
     context.save();
 
@@ -25,6 +31,7 @@ export class Ui implements IUi {
     context.fillText(`Score: ${this.game.score}`, 20, 40);
     context.fillText(`Level: ${this.game.level}`, 20, 80);
 
+    // Draw miniatures of player ship on canvas, representing lives left
     for (let i = 0; i < this.game.lives; i++) {
       context.drawImage(
         this.playerImage,
@@ -35,8 +42,7 @@ export class Ui implements IUi {
       );
     }
 
-    // Draw game over text on canvas
-
+    // Draw "Game Over" text on canvas
     if (this.game.gameMode === 'GAMEOVER') {
       context.font = `50px '${this.fontFamily}'`;
       context.fillStyle = 'rgba(255 255 255 / 0.6)';

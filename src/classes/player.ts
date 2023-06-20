@@ -43,6 +43,13 @@ export class Player implements IPlayer {
     this.sfxPlayerExplosion = new PlayerExplosion();
   }
 
+  /**
+   * Player update method.
+   * Updates the player's position and handles shooting.
+   * Runs on every frame.
+   *
+   * @param delta { number } - Time since last frame
+   */
   update(delta: number) {
     // Handle horizontal spaceship movement
     if (this.game.keys.includes('ArrowLeft') || this.game.keys.includes('a')) {
@@ -94,11 +101,18 @@ export class Player implements IPlayer {
       this.x = this.game.width - this.width - 5;
   }
 
+  /**
+   * Player draw method.
+   * Draws the player to the canvas. Runs on every frame.
+   *
+   * @param context { CanvasRenderingContext2D } - Canvas context
+   */
   draw(context: CanvasRenderingContext2D) {
     for (const projectile of this.projectiles) {
       projectile.draw(context);
     }
 
+    // Draws the player ship to the canvas
     context.drawImage(this.imageToDraw, this.x + this.xOffset, this.y);
   }
 
