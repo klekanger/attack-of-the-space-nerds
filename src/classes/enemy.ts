@@ -71,8 +71,8 @@ export class Enemy implements IEnemy {
         enemyY: this.y,
         speed: 2,
         delta: delta / 10,
-        xMultiply: 1 + this.game.level,
-        yMultiply: 0.5 + this.game.level / 10,
+        xMultiply: 1 + this.game.level + this.game.gameSpeed,
+        yMultiply: 0.5 + this.game.level / 10 + this.game.gameSpeed,
         direction: this.direction,
       });
       this.x = x;
