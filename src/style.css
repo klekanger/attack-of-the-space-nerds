@@ -23,6 +23,7 @@ body {
   margin: auto;
   position: relative;
   overflow: hidden;
+  border: 1px solid red;
 }
 
 #canvas1 {
