@@ -30,15 +30,6 @@ window.addEventListener('load', function () {
     container.style.height = `${canvas.clientHeight}px`;
   }
 
-  this.addEventListener('resize', () => {
-    const container: HTMLElement = document.querySelector('#container')!;
-
-    if (container) {
-      container.style.width = `${canvas.clientWidth}px`;
-      container.style.height = `${canvas.clientHeight}px`;
-    }
-  });
-
   const startWithAudioBtn: HTMLButtonElement =
     document.querySelector('#btn-audio-yes')!;
   const startWithNoAudioBtn: HTMLButtonElement =
@@ -123,7 +114,7 @@ window.addEventListener('load', function () {
 
     if (gameMode === 'DIETRANSITION' || gameMode === 'GAMEOVER') {
       // Clears all enemies and particles
-      game.enemyWave.length === 0 ? null : game.explodeAllEnemies();
+      if (game.enemyWave.length > 0) game.explodeAllEnemies();
     }
 
     if (gameMode === 'LEVELTRANSITION') {

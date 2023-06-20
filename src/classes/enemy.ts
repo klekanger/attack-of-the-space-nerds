@@ -26,7 +26,6 @@ export class Enemy implements IEnemy {
   lives!: number;
   sfxHit: Hit;
   sfxExplosion: Explosion1;
-  hitDamage: number;
   canShoot: boolean;
   shootTimer: number;
   shootInterval: number;
@@ -43,7 +42,6 @@ export class Enemy implements IEnemy {
     this.markedForDeletion = false;
     this.sfxHit = new Hit();
     this.sfxExplosion = new Explosion1();
-    this.hitDamage = 1;
     this.canShoot = true;
     this.shootTimer = randomBetween(1000, 5000);
     this.shootInterval = this.shootTimer;
@@ -51,10 +49,12 @@ export class Enemy implements IEnemy {
     this.animationInterval = 200 / game.fps;
   }
 
-  // ***************************************
-  // update method
-  // Game logic that runs on every frame
-  // ***************************************
+  /**
+   * Enemy update method.
+   * Logic that runs on every frame.
+   *
+   * @param delta { number } - Time since last frame
+   */
   update(delta: number) {
     if (this.x <= 0 || this.x >= this.game.width - this.width) {
       this.speed = -this.speed;
@@ -71,8 +71,8 @@ export class Enemy implements IEnemy {
         enemyY: this.y,
         speed: 2,
         delta: delta / 10,
-        xMultiply: 1 + this.game.level,
-        yMultiply: 0.5 + this.game.level / 10,
+        xMultiply: 1 + this.game.level + this.game.gameSpeed,
+        yMultiply: 0.5 + this.game.level / 10 + this.game.gameSpeed,
         direction: this.direction,
       });
       this.x = x;
@@ -88,7 +88,7 @@ export class Enemy implements IEnemy {
       });
     }
 
-    // Out of bounds, mark for deletion
+    // Reached bottom of screen, mark for deletion
     if (this.y > this.game.height) this.markedForDeletion = true;
 
     // Increase frame to animate the enemies
@@ -100,6 +100,12 @@ export class Enemy implements IEnemy {
     }
   }
 
+  /**
+   * Enemy draw method.
+   * Draws the enemy on the canvas.
+   *
+   * @param context { CanvasRenderingContext2D } - canvas context
+   */
   draw(context: CanvasRenderingContext2D) {
     if (this.multisprite)
       context.drawImage(
@@ -145,9 +151,8 @@ export class ScaryGeek extends Enemy {
     this.multisprite = true;
     this.image = new Image();
     this.image.src = scaryGeekImage;
-    this.lives = 2;
+    this.lives = 3;
     this.score = this.lives;
-    this.hitDamage = 0.2;
     this.direction = Math.random() < 0.5 ? -1 : 1;
   }
 }
@@ -173,7 +178,6 @@ export class BigEars extends Enemy {
     this.image.src = bigEarsImage;
     this.lives = 2;
     this.score = this.lives;
-    this.hitDamage = 0.2;
     this.canShoot = false;
   }
 }
@@ -181,7 +185,6 @@ export class BigEars extends Enemy {
 // **************************************
 // Enemy Bombs
 // **************************************
-
 export class EnemyBomb extends Enemy {
   lives: number;
   score: number;
@@ -207,12 +210,9 @@ export class EnemyBomb extends Enemy {
   // We'll override the update method for enemy bombs, as they will move and behave differently
   update(delta: number): void {
     this.y += this.verticalSpeed * delta;
-
     if (this.y > this.game.height) this.markedForDeletion = true;
 
     // Sprite animation
-    this.frame < this.maxFrame
-      ? (this.frame = (this.frame + 1) * delta)
-      : (this.frame = 0);
+    this.frame = this.frame < this.maxFrame ? (this.frame + 1) * delta : 0;
   }
 }

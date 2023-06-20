@@ -30,6 +30,8 @@ export class Particle implements IParticle {
   }
 
   update() {
+    // Check if particle is still within the canvas
+    // If not, mark it for deletion
     if (
       this.x < 0 ||
       this.x > this.game.width ||
@@ -42,21 +44,29 @@ export class Particle implements IParticle {
     this.updateParticleModel(this);
   }
 
+  /**
+   * Update the particles x and y coordinates based on its direction and speed
+   */
   updateParticleModel(particle: IParticle) {
     const angle = 180 - (this.direction + 90);
 
-    particle.direction > 0 && particle.direction < 180
-      ? (particle.x +=
-          (particle.speed * Math.sin(particle.direction)) /
-          Math.sin(particle.speed))
-      : (particle.x -=
-          (particle.speed * Math.sin(particle.direction)) /
-          Math.sin(particle.speed));
-    particle.direction > 90 && particle.direction < 270
-      ? (particle.y +=
-          (particle.speed * Math.sin(angle)) / Math.sin(particle.speed))
-      : (particle.y -=
-          (particle.speed * Math.sin(angle)) / Math.sin(particle.speed));
+    if (particle.direction > 0 && particle.direction < 180) {
+      particle.x +=
+        (particle.speed * Math.sin(particle.direction)) /
+        Math.sin(particle.speed);
+    } else {
+      particle.x -=
+        (particle.speed * Math.sin(particle.direction)) /
+        Math.sin(particle.speed);
+    }
+
+    if (particle.direction > 90 && particle.direction < 270) {
+      particle.y +=
+        (particle.speed * Math.sin(angle)) / Math.sin(particle.speed);
+    } else {
+      particle.y -=
+        (particle.speed * Math.sin(angle)) / Math.sin(particle.speed);
+    }
 
     if (this.currentAlpha > 0) {
       this.currentAlpha = Math.max(this.currentAlpha - 0.01, 0);
@@ -90,5 +100,3 @@ export class Particle implements IParticle {
     context.globalAlpha = 1;
   }
 }
-
-// https://codepen.io/deanwagman/pen/EjLBdQ?editors=1011

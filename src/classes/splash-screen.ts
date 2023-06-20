@@ -109,7 +109,7 @@ export class SplashScreen implements ISplashScreen {
   }
 
   // Setter for splashscreen image
-  setSplashScreenImage(image: string) {
+  set setSplashScreenImage(image: string) {
     this.splashImage.src = image;
   }
 
