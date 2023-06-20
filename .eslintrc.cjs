@@ -23,12 +23,5 @@ module.exports = {
     // avoid circular dependencies
     'import/no-cycle': 'error',
     '@typescript-eslint/no-explicit-any': 'error',
-    '@typescript-eslint/naming-convention': [
-      'error',
-      {
-        selector: 'variable',
-        format: ['camelCase', 'UPPER_CASE'],
-      },
-    ],
   },
 };

@@ -45,18 +45,23 @@ export class Particle implements IParticle {
   updateParticleModel(particle: IParticle) {
     const angle = 180 - (this.direction + 90);
 
-    particle.direction > 0 && particle.direction < 180
-      ? (particle.x +=
-          (particle.speed * Math.sin(particle.direction)) /
-          Math.sin(particle.speed))
-      : (particle.x -=
-          (particle.speed * Math.sin(particle.direction)) /
-          Math.sin(particle.speed));
-    particle.direction > 90 && particle.direction < 270
-      ? (particle.y +=
-          (particle.speed * Math.sin(angle)) / Math.sin(particle.speed))
-      : (particle.y -=
-          (particle.speed * Math.sin(angle)) / Math.sin(particle.speed));
+    if (particle.direction > 0 && particle.direction < 180) {
+      particle.x +=
+        (particle.speed * Math.sin(particle.direction)) /
+        Math.sin(particle.speed);
+    } else {
+      particle.x -=
+        (particle.speed * Math.sin(particle.direction)) /
+        Math.sin(particle.speed);
+    }
+
+    if (particle.direction > 90 && particle.direction < 270) {
+      particle.y +=
+        (particle.speed * Math.sin(angle)) / Math.sin(particle.speed);
+    } else {
+      particle.y -=
+        (particle.speed * Math.sin(angle)) / Math.sin(particle.speed);
+    }
 
     if (this.currentAlpha > 0) {
       this.currentAlpha = Math.max(this.currentAlpha - 0.01, 0);

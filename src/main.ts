@@ -123,7 +123,8 @@ window.addEventListener('load', function () {
 
     if (gameMode === 'DIETRANSITION' || gameMode === 'GAMEOVER') {
       // Clears all enemies and particles
-      game.enemyWave.length === 0 ? null : game.explodeAllEnemies();
+      if (game.enemyWave.length > 0) game.explodeAllEnemies();
+      else return;
     }
 
     if (gameMode === 'LEVELTRANSITION') {

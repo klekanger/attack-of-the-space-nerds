@@ -86,7 +86,7 @@ export class Enemy implements IEnemy {
       });
     }
 
-    // Out of bounds, mark for deletion
+    // Reached bottom of screen, mark for deletion
     if (this.y > this.game.height) this.markedForDeletion = true;
 
     // Increase frame to animate the enemies
@@ -203,12 +203,9 @@ export class EnemyBomb extends Enemy {
   // We'll override the update method for enemy bombs, as they will move and behave differently
   update(delta: number): void {
     this.y += this.verticalSpeed * delta;
-
     if (this.y > this.game.height) this.markedForDeletion = true;
 
     // Sprite animation
-    this.frame < this.maxFrame
-      ? (this.frame = (this.frame + 1) * delta)
-      : (this.frame = 0);
+    this.frame = this.frame < this.maxFrame ? (this.frame + 1) * delta : 0;
   }
 }

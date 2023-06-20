@@ -29,9 +29,7 @@ export function setupIntroScreen({
 
   const playButton: HTMLButtonElement = document.querySelector('#btn-play')!;
 
-  isMobile()
-    ? (playButton.textContent = 'Tap to Play')
-    : (playButton.textContent = 'Click to Play');
+  playButton.textContent = isMobile() ? 'Tap to Play' : 'Click to Play';
 
   const audioToggleButton: HTMLButtonElement =
     document.querySelector('#speaker-symbol')!;
