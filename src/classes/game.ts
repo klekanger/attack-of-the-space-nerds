@@ -29,7 +29,6 @@ export class Game implements IGame {
   enemyWave: Enemy[];
   enemyWaveCounter: number;
   particles: Particle[];
-  enemyTimer: number;
   gameSpeed: number;
   score: number;
   lives: number;
@@ -64,7 +63,6 @@ export class Game implements IGame {
     this.enemyWave = [];
     this.enemyWaveCounter = NUM_OF_ENEMY_WAVES;
     this.particles = [];
-    this.enemyTimer = 0;
     this.gameSpeed = 0.01;
     this.score = 0;
     this.lives = 3;

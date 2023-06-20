@@ -164,7 +164,6 @@ export type IGame = {
   enemyWave: IEnemy[];
   enemyWaveCounter: number;
   particles: IParticle[];
-  enemyTimer: number;
   gameSpeed: number;
   score: number;
   lives: number;
@@ -202,7 +201,6 @@ export type IEnemy = {
   lives: number;
   sfxHit: IHit;
   sfxExplosion: IExplosion1;
-  hitDamage: number;
   canShoot: boolean;
   shootTimer: number;
   shootInterval: number;

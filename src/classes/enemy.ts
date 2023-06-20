@@ -26,7 +26,6 @@ export class Enemy implements IEnemy {
   lives!: number;
   sfxHit: Hit;
   sfxExplosion: Explosion1;
-  hitDamage: number;
   canShoot: boolean;
   shootTimer: number;
   shootInterval: number;
@@ -43,7 +42,6 @@ export class Enemy implements IEnemy {
     this.markedForDeletion = false;
     this.sfxHit = new Hit();
     this.sfxExplosion = new Explosion1();
-    this.hitDamage = 1;
     this.canShoot = true;
     this.shootTimer = randomBetween(1000, 5000);
     this.shootInterval = this.shootTimer;
@@ -145,9 +143,8 @@ export class ScaryGeek extends Enemy {
     this.multisprite = true;
     this.image = new Image();
     this.image.src = scaryGeekImage;
-    this.lives = 2;
+    this.lives = 3;
     this.score = this.lives;
-    this.hitDamage = 0.2;
     this.direction = Math.random() < 0.5 ? -1 : 1;
   }
 }
@@ -173,7 +170,6 @@ export class BigEars extends Enemy {
     this.image.src = bigEarsImage;
     this.lives = 2;
     this.score = this.lives;
-    this.hitDamage = 0.2;
     this.canShoot = false;
   }
 }

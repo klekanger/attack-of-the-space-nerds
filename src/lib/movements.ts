@@ -41,8 +41,6 @@ export function chaseMovement({
   const vx = (dx / distance) * speed * xMultiply;
   const vy = (dy / distance) * speed * yMultiply;
 
-  console.log(vx, vy);
-
   // Add sinus wave to the x position, each enemy has a random direction
   const sinToAdd = Math.sin(enemyY / 40) * 4 * direction;
 
