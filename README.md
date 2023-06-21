@@ -10,6 +10,8 @@ I chose to make everything in TypeScript to learn some new concepts and to pract
 
 The game works best on desktop computers, I'm planning to add some better touch controls for mobile phones.
 
+![Screenshot from Attack of the Space Nerds](./spacenerds-screenshots.jpg)
+
 ## How the game is built
 
 - `./src/main.ts` Initializes the game, the intro screens, sound etc. Starts the game animation loop which is called on every frame using requestAnimationFrame().
