@@ -8,7 +8,7 @@ _Work in progress..._
 
 ---
 
-**You can try current version of the game by pressing [this link](https://spacenerds.lekanger.no)**
+**You can try current version of the game by pressing [this link](https://attack-of-the-space-nerds.netlify.app/)**
 
 ---
 
