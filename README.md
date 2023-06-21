@@ -14,6 +14,18 @@ The game works best on desktop computers, I'm planning to add some better touch 
 
 ## How the game is built
 
+I chose to make most of the stuff in this game as classes, as I think this is the easiest thing to do when making a game. If I want to add a new enemy, bullet, explosion or anything else – then i can just instantiate a new object based on the class. For example, push new enemies into an array like this (makes the enemies shoot):
+
+```TypeScript
+  enemyShoot(enemy: Enemy) {
+    this.enemyWave.push(
+      new EnemyBomb(this, enemy.x, enemy.y + enemy.height / 2)
+    );
+  }
+```
+
+**Project structure**
+
 - `./src/main.ts` Initializes the game, the intro screens, sound etc. Starts the game animation loop which is called on every frame using requestAnimationFrame().
 - `./src/classes/game.ts` The main `Game` class that keeps track of everything (player, enemies, bullets, score, lives, etc.). All other classes are instantiated from the `Game` class. For instance: in the constructor of the `Game` class we have `this.player = new Player(this)`, and in the `Player` class we have everytning concerning the player ship (space ship image, update and draw methods, etc).
 - Most of the classes have a `draw()` or `render()` method for drawing graphics to the HTML canvas. Runs on every frame.
@@ -26,7 +38,7 @@ The game works best on desktop computers, I'm planning to add some better touch 
 
 For the explisions, I made some quite nice particle effects.
 
-I made a ´Particle´ class that takes the Game object and a x and y position as parameters. When for instance an enemy is hit, we can instantiate a new particle - or a bunch of particles - at the exact position of the enemy. Each particle has a random color, size and direction.
+I made a `Particle` class that takes the Game object and a x and y position as parameters. When for instance an enemy is hit, we can instantiate a new particle - or a bunch of particles - at the exact position of the enemy. Each particle has a random color, size and direction.
 
 All the particles on the canvas is stored in a field on the `Game` class: `particles: Particle[]`. In the `Game` class (update method) we loop over the particles array and run the Particle.update method on each particle to move the particles, and then in the `Game` class render method we run the Particle.draw method to draw the particles on the screen.
 
@@ -36,7 +48,7 @@ When the particles moves off the screen, we mark them for deletion and remove th
 
 The game still needs a lot of work. It should probably be more difficult, by adding more enemies and a lot more action. And the enemy ship controls should work better on mobile screens. I've only added some rudimentary touch controls.
 
-Resizing of the browser window during game play does not work, I need to fix this.
+Resizing of the browser window during game play messes things up. I need to fix this.
 
 ---
 
