@@ -14,7 +14,7 @@ The game works best on desktop computers, I'm planning to add some better touch 
 
 ## How the game is built
 
-I chose to make most of the stuff in this game as classes, as I think this is the easiest thing to do when making a game. If I want to add a new enemy, bullet, explosion or anything else – then i can just instantiate a new object based on the class. For example, push new enemies into an array like this (makes the enemies shoot):
+I chose to make most of the stuff in this game as classes, as I think this is the easiest thing to do when making a game. If I want to add a new enemy, bullet, explosion or anything else – then i can just create a new object based on the class. For example, push new enemies into an array like this (makes the enemies shoot):
 
 ```TypeScript
   enemyShoot(enemy: Enemy) {
