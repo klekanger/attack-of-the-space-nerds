@@ -3,7 +3,7 @@ export const introScreenHtml = `
 
   <button aria-label="Toggle audio" id="speaker-symbol" ></i></button>
 
-  <div class="spacer">x</div>
+  <div class="spacer"></div>
 
   <div class="title">
     <div class="title-text">Attack of the</div>
