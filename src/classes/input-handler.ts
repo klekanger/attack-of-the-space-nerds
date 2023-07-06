@@ -26,17 +26,18 @@ export class InputHandler implements IInputHandler {
     this.canvas.addEventListener('touchstart', (event) => {
       event.preventDefault();
 
-      if (event.touches[0].clientX < this.game.player.x) {
-        this.game.keys = ['ArrowLeft', ' '];
-      }
+      const { x } = this.getMousePosition(event.touches[0], this.canvas);
 
-      if (event.touches[0].clientX > this.game.player.x) {
+      if (x < this.game.player.x) {
+        this.game.keys = ['ArrowLeft', ' '];
+      } else if (x > this.game.player.x) {
         this.game.keys = ['ArrowRight', ' '];
       }
     });
 
     this.canvas.addEventListener('touchend', (event) => {
       event.preventDefault();
+
       this.game.keys = [];
     });
 
@@ -88,13 +89,13 @@ export class InputHandler implements IInputHandler {
     });
   }
 
-  getMousePosition(event: MouseEvent, canvas: HTMLCanvasElement) {
+  getMousePosition(event: MouseEvent | TouchInit, canvas: HTMLCanvasElement) {
     const canvasRect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / canvasRect.width;
     const scaleY = canvas.height / canvasRect.height;
 
-    const x = (event.clientX - canvasRect.left) * scaleX;
-    const y = (event.clientY - canvasRect.top) * scaleY;
+    const x = ((event.clientX || 0) - canvasRect.left) * scaleX;
+    const y = ((event.clientY || 0) - canvasRect.top) * scaleY;
 
     return { x, y };
   }

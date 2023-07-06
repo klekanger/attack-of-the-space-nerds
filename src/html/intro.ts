@@ -15,6 +15,7 @@ export const introScreenHtml = `
   </div>
 
     <div class="spacer"></div>
+    <div class="credit-text">The game works best on desktop</div>
     
     <div class="credit-text-large">
       Game by <a href="https://www.lekanger.no">Kurt Lekanger</a>
