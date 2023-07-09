@@ -174,7 +174,7 @@ export class Game implements IGame {
    * Draws background, player, enemies, particles, etc.
    * @param context { CanvasRenderingContext2D } - The canvas context
    */
-  render(context: CanvasRenderingContext2D) {
+  draw(context: CanvasRenderingContext2D) {
     this.background.layer1.draw(context); // Background stars and galaxies
     context.save();
     context.globalAlpha = 0.4;

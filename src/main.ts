@@ -119,7 +119,7 @@ window.addEventListener('load', function () {
 
     if (gameMode === 'LEVELTRANSITION') {
       game.update(delta);
-      if (context) game.render(context);
+      if (context) game.draw(context);
       game.levelTransition(delta);
     }
 
@@ -132,7 +132,7 @@ window.addEventListener('load', function () {
       if (!introMusic.paused) introMusic.pause();
 
       game.update(delta);
-      if (context) game.render(context);
+      if (context) game.draw(context);
     }
 
     // Call gameLoop again on the next frame

@@ -173,7 +173,7 @@ export type IGame = {
   gameMode: GameMode;
   audioEnabled: boolean;
   update(delta: number): void;
-  render(context: CanvasRenderingContext2D): void;
+  draw(context: CanvasRenderingContext2D): void;
   addEnemyWave(): void;
   enemyShoot(enemy: IEnemy): void;
   createParticles(particleCount: number, enemyToBlowUp: IEnemy | IPlayer): void;
