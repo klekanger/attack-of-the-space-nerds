@@ -10,7 +10,9 @@ I chose to make everything in TypeScript to learn some new concepts and to pract
 
 The game works best on desktop computers, I'm planning to add some better touch controls for mobile phones.
 
-![Screenshot from Attack of the Space Nerds](./spacenerds-screenshots.jpg)
+**Click the image below to see a video of the game:**
+
+![See a video of Attack of the Space Nerds](https://img.youtube.com/vi/BWdzz0aC6hQ/maxresdefault.jpg)(https://youtu.be/BWdzz0aC6hQ)
 
 ## How the game is built
 
